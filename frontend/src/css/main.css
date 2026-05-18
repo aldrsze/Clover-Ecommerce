@@ -506,3 +506,27 @@ footer {
   transition-delay: 0.2s;
 }
 
+/* =============================================================================
+   PAGE TRANSITIONS
+   ============================================================================= */
+.page-transition {
+  animation: pageFadeIn 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  will-change: opacity, transform, filter;
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@keyframes pageFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px); /* Increased distance */
+    filter: blur(4px); /* Adds a subtle blur reveal */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}

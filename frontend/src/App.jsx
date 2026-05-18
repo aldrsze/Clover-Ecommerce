@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Products from './pages/products'; // Uses matching lowercase products filename
+import Products from './pages/products';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -25,11 +25,16 @@ export default function App() {
     <div className="app-wrapper">
       <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
       
-      {currentPage === 'home' ? (
-        <Home setCurrentPage={setCurrentPage} />
-      ) : (
-        <Products addToCart={addToCart} />
-      )}
+      {/* The key={currentPage} forces React to mount a fresh div on every page switch.
+        This automatically retriggers the CSS animation we will add next. 
+      */}
+      <div key={currentPage} className="page-transition">
+        {currentPage === 'home' ? (
+          <Home setCurrentPage={setCurrentPage} />
+        ) : (
+          <Products addToCart={addToCart} />
+        )}
+      </div>
       
       <Footer setCurrentPage={setCurrentPage} />
     </div>
