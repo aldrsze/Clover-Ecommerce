@@ -25,6 +25,22 @@ async function main() {
         category: "cold-beverages", 
         preferences: ["sweet"] 
       },
+      {
+        id: "bev-javachip-javakula",
+        name: "Javachip Javakula",
+        price: 460.0,
+        image: "images/JAVACHIP-JAVAKULA-removebg.png",
+        category: "cold-beverages",
+        preferences: ["sweet"]
+      },
+      {
+        id: "bev-strawberry-milkshake",
+        name: "Strawberry Milkshake",
+        price: 365.0,
+        image: "images/Strawberry-Milkshake-600x600-removebg.png",
+        category: "cold-beverages",
+        preferences: ["sweet"]
+      },
       { 
         id: "breakfast-big-breakfast", 
         name: "The Big Breakfast", 
@@ -33,6 +49,22 @@ async function main() {
         category: "breakfast", 
         preferences: ["savory", "meat"] 
       },
+      {
+        id: "breakfast-ham-cheese-omelette",
+        name: "Ham & Cheese Omelette",
+        price: 260.0,
+        image: "images/Ham-Cheese-Omelette-600x600.jpg",
+        category: "breakfast",
+        preferences: ["savory", "meat"]
+      },
+      {
+        id: "breakfast-pancakes",
+        name: "Classic Pancakes",
+        price: 245.0,
+        image: "images/PANCAKES-600x600.jpg",
+        category: "breakfast",
+        preferences: ["sweet"]
+      },
       { 
         id: "sandwich-smoked-salmon", 
         name: "Smoked Salmon Sandwich", 
@@ -40,6 +72,54 @@ async function main() {
         image: "images/SALMON.jpg", 
         category: "sandwiches", 
         preferences: ["savory", "seafood"] 
+      },
+      {
+        id: "sandwich-margherita-flatbread",
+        name: "Margherita Flatbread",
+        price: 320.0,
+        image: "images/Margherita-Flatbread-600x600.jpg",
+        category: "sandwiches",
+        preferences: ["savory"]
+      },
+      {
+        id: "sandwich-quattro-flatbread",
+        name: "Quattro Flatbread",
+        price: 350.0,
+        image: "images/QUATTRO.jpg",
+        category: "sandwiches",
+        preferences: ["savory", "meat"]
+      },
+      {
+        id: "pastry-blueberry-cheesecake",
+        name: "Blueberry Cheesecake",
+        price: 230.0,
+        image: "images/Blueberry-Cheesecake-600x600.jpg",
+        category: "pastries",
+        preferences: ["sweet"]
+      },
+      {
+        id: "pastry-nutella-croissant",
+        name: "Nutella Croissant",
+        price: 190.0,
+        image: "images/Nutella-Croissant-600x600.jpg",
+        category: "pastries",
+        preferences: ["sweet"]
+      },
+      {
+        id: "pastry-classic-cinnamon-roll",
+        name: "Classic Cinnamon Roll",
+        price: 175.0,
+        image: "images/CLASSIC-CINNAMON-ROLL.jpg",
+        category: "pastries",
+        preferences: ["sweet"]
+      },
+      {
+        id: "pastry-torched-classic-cheesecake",
+        name: "Torched Classic Cheesecake",
+        price: 255.0,
+        image: "images/Torched-Classic-Cheesecake-3-600x600.jpg",
+        category: "pastries",
+        preferences: ["sweet"]
       }
     ]
   });

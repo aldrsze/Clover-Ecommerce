@@ -78,7 +78,7 @@ export default function Home({ setCurrentPage }) {
               <div className="product-info">
                 <h3>The Big Breakfast</h3>
                 <p>Our signature morning plate with farm-fresh eggs and artisanal toast.</p>
-                <span className="price">₱18.50</span>
+                <span className="price">₱295.00</span>
                 <button onClick={() => setCurrentPage('products')} className="btn-secondary" style={{ border: 'none', cursor: 'pointer', display: 'block', width: '100%', marginTop: '10px' }}>View Details</button>
               </div>
             </article>
@@ -91,7 +91,7 @@ export default function Home({ setCurrentPage }) {
               <div className="product-info">
                 <h3>Blueberry Cheesecake</h3>
                 <p>Creamy NY-style cheesecake topped with wild mountain blueberries.</p>
-                <span className="price">₱9.00</span>
+                <span className="price">₱230.00</span>
                 <button onClick={() => setCurrentPage('products')} className="btn-secondary" style={{ border: 'none', cursor: 'pointer', display: 'block', width: '100%', marginTop: '10px' }}>View Details</button>
               </div>
             </article>
@@ -104,7 +104,7 @@ export default function Home({ setCurrentPage }) {
               <div className="product-info">
                 <h3>White Chocolate Mocha</h3>
                 <p>Premium espresso swirled with velvet white chocolate over ice.</p>
-                <span className="price">₱7.50</span>
+                <span className="price">₱450.00</span>
                 <button onClick={() => setCurrentPage('products')} className="btn-secondary" style={{ border: 'none', cursor: 'pointer', display: 'block', width: '100%', marginTop: '10px' }}>View Details</button>
               </div>
             </article>

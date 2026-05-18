@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
 
 // Preference label map for display chips
 const PREF_LABELS = {
@@ -23,6 +23,30 @@ export default function Products({ addToCart }) {
   const [activeCategory, setActiveCategory] = useState('');
   // Track cards that just had an item added for the ✓ feedback flash
   const [addedCards, setAddedCards]       = useState({});
+
+  useLayoutEffect(() => {
+    // 1. Temporarily disable CSS smooth scrolling so the jump is instant
+    document.documentElement.style.scrollBehavior = 'auto';
+    
+    // 2. Force scroll to top
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // 3. Clear any leftover #hash in the URL that might pull the page down
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+
+    // 4. Wait a tiny fraction of a second for React to finish drawing the page, 
+    // force it to the top one more time, and restore smooth scrolling.
+    const scrollTimeout = setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.style.scrollBehavior = '';
+    }, 50);
+
+    return () => clearTimeout(scrollTimeout);
+  }, []);
 
   useEffect(() => {
     fetch('http://localhost:5000/api/products')
@@ -97,7 +121,7 @@ export default function Products({ addToCart }) {
 
   // ── LOADING STATE ────────────────────────────────────────────────────────
   if (loading) return (
-    <div className="container">
+    <div className="container" style={{ minHeight: '100vh', paddingTop: '100px' }}>
       <div className="products-loading">
         <div className="loader-ring" />
         <p>Loading Clover Menu</p>
@@ -106,7 +130,7 @@ export default function Products({ addToCart }) {
   );
 
   return (
-    <div className="container" style={{ marginTop: '30px' }}>
+    <div className="container" style={{ marginTop: '30px', width: '100%', maxWidth: '1100px' }}>
       <div className="product-page-layout">
 
         {/* ── SIDEBAR ──────────────────────────────────────────────────── */}
@@ -153,17 +177,26 @@ export default function Products({ addToCart }) {
 
           {/* Promo banner */}
           <div className="promo-banner">
-            <h4>Featured Dessert</h4>
+            <div className="promo-badge">Specials</div>
             <div className="promo-img-wrap">
               <img
                 src="/images/Torched-Classic-Cheesecake-3-600x600.jpg"
                 alt="Torched Classic Cheesecake"
               />
             </div>
-            <p>Try our new Torched Classic Cheesecake!</p>
-            <a href="#pastries" onClick={e => handleScrollToSection(e, 'pastries')}>
-              Order Now
-            </a>
+            
+            <div className="promo-content">
+              <h4>Featured Dessert</h4>
+              <p className="promo-title">Torched Classic Cheesecake</p>
+              <p className="promo-desc">Rich, creamy, and torched to perfection.</p>
+              <button 
+                className="btn-secondary promo-btn"
+                onClick={e => handleScrollToSection(e, 'pastries')}
+              >
+                View in Pastries
+              </button>
+            </div>
+            
           </div>
 
         </aside>

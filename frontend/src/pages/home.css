@@ -169,7 +169,7 @@
 
 .call-to-action {
   text-align: center;
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-sm) 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -180,6 +180,11 @@
   color: var(--text);
   font-weight: 300;
   line-height: 1.4;
+}
+
+/* Add space above the Learn More button */
+.call-to-action .btn-primary {
+  margin-bottom: 3rem; /* Increase or decrease this value (e.g., 3rem, 40px) to adjust the space */
 }
 
 /* =============================================================================
@@ -197,7 +202,7 @@
 
 /* Featured Products & Grids */
 .featured-products {
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-sm) 0;
   margin-bottom: var(--spacing-lg);
   border-bottom: 1px solid var(--border);
 }

@@ -78,7 +78,7 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .container {
@@ -403,42 +403,74 @@ footer {
   padding-left: 6px;
 }
 
+/* ── SOCIAL BOXES LAYOUT ── */
 .social-icons {
   display: flex;
-  gap: 1.5rem;
+  gap: 0.75rem;
 }
 
 .social-icons a {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: var(--transition);
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  box-sizing: border-box;
+  padding: 0 !important;
+  
+  /* Minimalist monochrome outline container frame */
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  
+  cursor: pointer;
+  transition: border-color 0.25s ease, 
+              background-color 0.25s ease, 
+              transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.social-icons a {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: color 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-              background 0.25s ease, padding 0.25s ease;
-  display: inline-block;
-  padding: 0.4rem 0.6rem;
-  border: 1px solid transparent;
+/* Ensure the SVG shapes inside are perfectly scaled and match the muted text style */
+.social-icons a svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--text-muted);
+  transition: fill 0.25s ease, transform 0.25s ease;
 }
 
-.social-icons a:hover {
-  color: var(--bg);
-  background: var(--accent);
-  border-color: var(--accent);
-  transform: translateY(-4px) scale(1.08);
+/* ── PRECISE HIGH-END BRAND HOVER INTERACTIONS ── */
+
+/* 1. Facebook Hover Treatment */
+.social-icons a.facebook:hover {
+  border-color: #0866FF !important;
+  background-color: rgba(8, 102, 255, 0.05); /* Ultra soft blue tint backdrop */
+  transform: translateY(-4px);
+}
+.social-icons a.facebook:hover svg {
+  fill: #0866FF !important; /* Turns the official brand blue */
+  transform: scale(1.05);
 }
 
+/* 2. Instagram Hover Treatment */
+.social-icons a.instagram:hover {
+  border-color: #FF0069 !important;
+  background-color: rgba(255, 0, 105, 0.05); /* Ultra soft pink tint backdrop */
+  transform: translateY(-4px);
+}
+.social-icons a.instagram:hover svg {
+  fill: #FF0069 !important; /* Turns the official brand pink-magenta */
+  transform: scale(1.05);
+}
+
+/* 3. X (Twitter) Hover Treatment */
+.social-icons a.x-twitter:hover {
+  border-color: var(--text) !important; /* Matches your core theme text black/light rules */
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+}
+.social-icons a.x-twitter:hover svg {
+  fill: var(--text) !important; /* Sharp pure contrast pop color */
+  transform: scale(1.05);
+}
 .footer-bottom {
   text-align: center;
   padding-top: var(--spacing-lg);
