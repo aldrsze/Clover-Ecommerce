@@ -1,0 +1,508 @@
+/* =============================================================================
+   TABLE OF CONTENTS
+   — quick Ctrl+F reference for each section block below
+   ─────────────────────────────────────────────────────────────────────────────
+   CSS CUSTOM PROPERTIES (Design Tokens / Variables)
+   RESET & BASE STYLES
+   TYPOGRAPHY — Global headings, paragraphs, section headers
+   HEADER & NAVIGATION — Sticky header, nav links, underline animation
+   BUTTONS — .btn-primary, .btn-secondary, shimmer sweep effect
+   FOOTER — Grid layout, links, social icons, footer bottom bar
+   ANIMATIONS & SCROLL REVEALS — Keyframes, .animate-on-scroll
+   ============================================================================= */
+
+
+/* =============================================================================
+   CSS CUSTOM PROPERTIES  (Design Tokens / Variables)
+   — Used by: every component across all pages.
+   — Change values here to update the theme site-wide.
+   — Palette: Modern Minimalist Monochrome (black/white/grey).
+   ============================================================================= */
+:root {
+  /* Modern Minimalist Monochrome Palette */
+  --bg: #ffffff;
+  --bg-offset: #f9f9f9;
+  --card: #ffffff;
+  --card-hover: #ffffff;
+  --text: #000000;
+  --text-muted: #666666;
+  --accent: #000000; /* Primary action color */
+  --border: #e5e5e5;
+  --border-strong: #000000;
+  
+  --radius: 4px; /* Sharper edges for a more modern, minimal look */
+  --radius-sm: 2px;
+  
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow: 0 4px 6px rgba(0,0,0,0.02);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.03);
+  
+  --container: 1100px;
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 6rem;
+  
+  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* =============================================================================
+   RESET & BASE STYLES
+   — Used by: every page — resets browser defaults and sets global box model.
+   — html: enables smooth scroll + reserves offset for the sticky header height.
+   — body: sets global font, background, text color, and line-height.
+   — .container: the centered max-width wrapper used in every section.
+   ============================================================================= */
+
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Adjust based on sticky header height */
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+}
+
+
+/* =============================================================================
+   TYPOGRAPHY — Global headings, paragraphs, section headers
+   — Used by: all pages.
+   — h1–h4: shared bold/uppercase base style.
+   — .section-header and the list of h2 selectors: small-caps eyebrow label
+     used as the title above every major section (featured products, about, etc.)
+   — p: default muted color and size for body copy.
+   ============================================================================= */
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+}
+
+/* Elegant Section Header Style */
+.section-header, 
+.featured-products h2, 
+.product-category h2,
+.about-us h2,
+.contact-form-section h2,
+.contact-info h2,
+.call-to-action h2 {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  opacity: 0.4;
+  text-transform: uppercase;
+}
+
+p {
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-sm);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* =============================================================================
+   HEADER & NAVIGATION
+   — Used by: all pages — the sticky frosted-glass bar at the top.
+   — header: sticky, z-index 100, frosted glass via backdrop-filter.
+   — header h1: brand name text fallback (if not using logo image).
+   — nav ul / nav a: horizontal link list with uppercase label style.
+   — nav a opacity/letter-spacing: dim-to-bright + subtle letter-spacing expand on hover.
+   — nav a::before / ::after: two-layer animated underline —
+       ::before = light grey track that reveals first,
+       ::after  = solid accent fill that sweeps in slightly after.
+   ============================================================================= */
+
+/* Header & Navigation */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 0;
+  transition: var(--transition);
+}
+
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0;
+  letter-spacing: 0.15em;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+nav ul {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.45;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: opacity 0.3s ease, letter-spacing 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+nav a:hover,
+nav a.is-active {
+  opacity: 1;
+  letter-spacing: 0.18em;
+}
+
+/* Two-layer underline: full track + sliding fill */
+nav a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--border);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.05s;
+}
+
+/* Ensure the two-layer sliding underline stays fully expanded when the link is active */
+nav a:hover::before,
+nav a:hover::after,
+nav a.is-active::before,
+nav a.is-active::after {
+  transform: scaleX(1);
+}
+
+
+/* =============================================================================
+   BUTTONS
+   — Used by: all pages — .btn-primary, .btn-secondary, product card buttons,
+     contact form submit button.
+   — Shared base: flex-centered, uppercase, small letter-spaced label.
+   — .btn-primary / .product-card button / .contact-form button:
+       solid black fill, white text, shimmer sweep on hover via ::before pseudo.
+   — ::before shimmer: diagonal light stripe that slides left-to-right on hover.
+   — Hover state: lifts with translateY + slight scale + deep shadow.
+   — Active state: partial lift-back for a press-down feel.
+   — .btn-secondary: transparent/ghost variant, no shimmer sweep.
+       Hover fills bg-offset and darkens border.
+   ============================================================================= */
+
+/* Buttons */
+.btn-primary, .btn-secondary, .product-card button, .contact-form button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--accent);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease,
+              background 0.35s ease,
+              color 0.35s ease,
+              border-color 0.35s ease;
+}
+
+/* Shimmer sweep pseudo-element */
+.btn-primary::before, .product-card button::before, .contact-form button::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.55s ease;
+  pointer-events: none;
+}
+
+.btn-primary:hover::before, .product-card button:hover::before, .contact-form button:hover::before {
+  left: 130%;
+}
+
+.btn-primary, .product-card button, .contact-form button {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover, .product-card button:hover, .contact-form button:hover {
+  background: #222;
+  color: white;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+.btn-primary:active, .product-card button:active, .contact-form button:active {
+  transform: translateY(-1px) scale(0.99);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary::before {
+  content: none; /* no fill sweep on secondary */
+}
+
+.btn-secondary:hover {
+  border-color: var(--text);
+  color: var(--text);
+  background: var(--bg-offset);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.btn-secondary:active {
+  transform: translateY(-1px) scale(0.99);
+  background: var(--bg-offset);
+}
+
+
+
+
+/* =============================================================================
+    FOOTER
+   — Used by: all pages.
+   — footer: offset background, top border, generous padding.
+   — .footer-content: 4-column grid (brand column wider, 3 link columns equal).
+   — .footer-section h3: small-caps column heading.
+   — .footer-section a: muted link that indents + darkens on hover.
+   — .social-icons: flex row of text-based social links.
+   — .social-icons a: inverts to filled accent background on hover with lift.
+   — .footer-bottom: centered copyright bar separated by a top border.
+   ============================================================================= */
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  padding: var(--spacing-xl) 0 var(--spacing-lg);
+  margin-top: var(--spacing-xl);
+  background: var(--bg-offset);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.footer-section h3 {
+  font-size: 0.7rem;
+  font-weight: 800;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0.8;
+}
+
+.footer-section p {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  max-width: 280px;
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section li {
+  margin-bottom: 0.75rem;
+}
+
+.footer-section a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.footer-section a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: color 0.25s ease, padding-left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.footer-section a:hover {
+  color: var(--text);
+  padding-left: 6px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.social-icons a {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: var(--transition);
+}
+
+.social-icons a {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 0.25s ease, padding 0.25s ease;
+  display: inline-block;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid transparent;
+}
+
+.social-icons a:hover {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-4px) scale(1.08);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+/* =============================================================================
+    ANIMATIONS & SCROLL REVEALS
+   — Used by: all pages — JS (main.js IntersectionObserver) toggles .is-visible.
+   — .animate-on-scroll: base transition; starts visible by default for robustness.
+   — @supports block: only hides elements if CSS transitions are supported,
+     preventing a flash-of-hidden-content if JS fails to run.
+   — .animate-on-scroll:not(.is-visible): hidden + translateY starting state.
+   — .fade-in-left / .fade-in-right: both collapse to a simple Y-fade
+     (large side-slides were removed to avoid clipping at page edges).
+   — .animate-on-scroll.is-visible: fully visible + no transform; !important
+     overrides any directional transform set by variant classes.
+   — .about-text-side.is-visible: 0.2s delay so the text reveals after the visual.
+   — @keyframes float / pulse: shared keyframes also used by hero and about sections.
+   ============================================================================= */
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+}
+
+/* Animations & Scroll Reveals */
+.animate-on-scroll {
+  opacity: 1; /* Default visible for robustness */
+  transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Only hide if JS is supported and running */
+@supports (transition: opacity 1s) {
+  .animate-on-scroll:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  
+  /* Removed large side-slides that were getting clipped by boundaries */
+  .fade-in-left:not(.is-visible),
+  .fade-in-right:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translate(0, 0) scale(1) !important;
+}
+
+.about-text-side.is-visible {
+  transition-delay: 0.2s;
+}
+

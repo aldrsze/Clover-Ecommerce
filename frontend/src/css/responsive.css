@@ -1,0 +1,522 @@
+/* =============================================================================
+   RESPONSIVE.CSS — Mobile-first breakpoints
+   Breakpoints:
+     @1024px  Tablets landscape — collapse multi-column layouts
+     @768px   Tablets portrait  — stack header, tighten spacing
+     @480px   Mobile            — single column, full-width buttons
+   ============================================================================= */
+
+
+/* =============================================================================
+   @1024px — TABLETS LANDSCAPE
+   ============================================================================= */
+@media (max-width: 1024px) {
+
+  :root {
+    --spacing-xl: 3.5rem;
+    --spacing-lg: 2.5rem;
+  }
+
+  /* ── Hero ── */
+  .hero-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-md);
+    width: 100%;
+  }
+
+  .hero-text-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    text-align: center;
+    width: 100%;
+    margin: 0 auto var(--spacing-sm) auto !important;
+    display: block;
+  }
+
+  .hero-subtitle {
+    margin: 0 auto var(--spacing-lg) auto !important;
+    max-width: 500px;
+    text-align: center;
+    width: 100%;
+    display: block;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+  }
+
+  .hero-actions a {
+    min-width: 180px;
+  }
+
+  .hero-image-side {
+    height: 500px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Centered and Symmetrical Composition */
+  .comp-item.main { 
+    width: 55%; 
+    left: 50%; 
+    top: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 10;
+  }
+  .comp-item.sub-1 { 
+    width: 42%; 
+    left: 75%; 
+    top: 35%; 
+    transform: translate(-50%, -50%); 
+    z-index: 5;
+  }
+  .comp-item.sub-2 { 
+    width: 40%; 
+    left: 25%; 
+    top: 65%; 
+    transform: translate(-50%, -50%); 
+    z-index: 5;
+  }
+
+  /* Disable disruptive hover transforms on touch devices */
+  .hero-composition:hover .comp-item.sub-1,
+  .hero-composition:hover .comp-item.sub-2,
+  .hero-composition:hover .comp-item.main {
+    transform: translate(-50%, -50%);
+  }
+
+  .hero-decorative-bg {
+    width: 70%;
+    opacity: 0.3;
+  }
+
+  /* ── Featured grid → 2 columns ── */
+  .featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  /* ── Products page ── */
+  .product-page-layout {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-md);
+  }
+
+  .sidebar {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .filter-group {
+    margin-bottom: 0;
+    flex: 1 1 180px;
+  }
+
+  .promo-banner {
+    display: none;
+  }
+
+  /* ── About ── */
+  .about-content-wrapper {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: var(--spacing-md);
+  }
+
+  .text-composition { height: 150px; }
+  .animated-clover-text { font-size: 3.5rem; }
+
+  .about-text-side {
+    text-align: left;
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .about-text-side h2 { text-align: left; }
+
+  /* ── Contact ── */
+  .contact-section {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+
+  .contact-text-side {
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact-text-side h2 { text-align: center; }
+
+  .contact-info-list {
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
+/* =============================================================================
+   @768px — TABLETS PORTRAIT
+   ============================================================================= */
+@media (max-width: 768px) {
+
+  :root {
+    --spacing-xl: 3rem;
+    --spacing-lg: 2rem;
+    --spacing-md: 1.5rem;
+  }
+
+  /* ── Header ── */
+  header { padding: 1rem 0; }
+
+  header .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  nav ul {
+    gap: 1.25rem;
+    justify-content: center;
+  }
+
+  /* ── Hero ── */
+  .hero-title { font-size: clamp(2rem, 10vw, 3rem); }
+  .hero-image-side { height: 450px; }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  /* ── Featured → single column ── */
+  .featured-grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin: 0 auto;
+    gap: var(--spacing-md);
+    align-items: stretch;
+  }
+
+  .featured-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .featured-card .product-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .featured-card p {
+    flex-grow: 1;
+  }
+
+  /* ── About ── */
+  .animated-clover-text { font-size: 3rem; }
+  .text-composition { height: 120px; }
+
+  /* ── Contact ── */
+  .contact-info-list {
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── Footer ── */
+  footer {
+    padding: var(--spacing-xl) 0 var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    text-align: center;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-section:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .footer-section p { 
+    max-width: 100%; 
+    margin: 0 auto var(--spacing-sm);
+  }
+
+  .footer-section ul {
+    padding: 0;
+  }
+}
+
+
+/* =============================================================================
+   @480px — MOBILE
+   ============================================================================= */
+@media (max-width: 480px) {
+
+  :root {
+    --spacing-xl: 2.5rem;
+    --spacing-lg: 1.75rem;
+    --spacing-md: 1.25rem;
+  }
+
+  html {
+    overflow-x: hidden;
+  }
+
+  .container { padding: 0 1rem; }
+
+  /* ── Header ── */
+  header { padding: 0.875rem 0; }
+
+  nav ul {
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a { font-size: 0.75rem; }
+
+  /* ── Hero ── */
+  .hero-title {
+    font-size: clamp(1.75rem, 11vw, 2.5rem);
+    letter-spacing: -0.03em;
+    text-align: center;
+    width: 100%;
+  }
+
+  .hero-subtitle { 
+    font-size: 1rem; 
+    text-align: center;
+    width: 100%;
+  }
+  .hero-image-side { height: 420px; }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 var(--spacing-sm);
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary {
+    width: 100%;
+    max-width: none;
+    text-align: center;
+  }
+
+  /* ── CTA strip ── */
+  .call-to-action p { font-size: 1.1rem; }
+
+  /* ── Featured → full width ── */
+  .featured-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    gap: var(--spacing-sm);
+  }
+
+  /* ── Product grid → 2 columns ── */
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+    align-items: stretch;
+  }
+
+  .product-card { 
+    padding: var(--spacing-sm); 
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .product-card h3 { font-size: 0.9rem; }
+  
+  .product-card .price { 
+    font-size: 0.95rem; 
+    margin-top: auto;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .product-card button {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.7rem;
+  }
+
+  .main-product-catalog { padding: var(--spacing-md) 0; }
+
+  /* ── About ── */
+  .animated-clover-text { font-size: 2.5rem; }
+  .text-composition { height: 100px; }
+  .lead-text { font-size: 1rem; }
+
+  /* ── Contact ── */
+  .contact-info-list { 
+    grid-template-columns: 1fr; 
+    text-align: center;
+    width: 100%;
+  }
+  
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-lead { 
+    font-size: 1rem; 
+    text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contact-form-side { 
+    padding: var(--spacing-sm); 
+    text-align: left; /* Ensure form text/labels are left-aligned */
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .form-group {
+    text-align: left;
+    width: 100%;
+  }
+
+  .form-group label {
+    display: block;
+    text-align: left;
+  }
+
+  .contact-form button,
+  .boutique-contact-form button { width: 100%; }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-section:first-child { grid-column: auto; }
+
+  .social-icons {
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ── Buttons ── */
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+
+/* =============================================================================
+   @360px — SMALL MOBILE (floor)
+   ============================================================================= */
+@media (max-width: 360px) {
+
+  :root {
+    --spacing-xl: 2rem;
+    --spacing-lg: 1.25rem;
+  }
+
+  .container { padding: 0 0.75rem; }
+
+  .hero-title { font-size: 1.75rem; }
+  .hero-image-side { height: 380px; }
+
+  nav ul { gap: 0.5rem; }
+  nav a { font-size: 0.7rem; }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .product-card { padding: 0.625rem; }
+
+  .animated-clover-text { font-size: 2rem; }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.7rem;
+  }
+}

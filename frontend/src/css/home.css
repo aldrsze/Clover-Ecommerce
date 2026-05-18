@@ -1,0 +1,309 @@
+/* =============================================================================
+   HOME PAGE — Hero section, image composition, CTA strip
+   — Used by: index.html (home page) only.
+   — .home-page-content: zero padding wrapper for the page body.
+   — .hero-section: full-width two-column section at the top of the home page.
+   — .hero-content-wrapper: CSS Grid — text left, image right.
+   — .hero-title: large clamp-sized headline with italic/light span variant.
+   — .hero-subtitle: supporting description text under the headline.
+   — .hero-actions: flex row holding the CTA buttons.
+   — .hero-image-side / .hero-composition: positioned container for layered product images.
+   — .comp-item.main/sub-1/sub-2: three overlapping product image layers with
+     rotation and z-index; sub items gently drift on composition hover.
+   — .hero-decorative-bg: blurred circular background behind the composition.
+   — .floating-img / .floating-img-alt: continuous float animations with stagger.
+   — @keyframes float / float-alt: vertical float loop used by hero images.
+   — .call-to-action: centered strip between hero and featured products.
+   ============================================================================= */
+
+/* Home Page */
+.home-page-content {
+  padding: 0;
+}
+
+.hero-section {
+  text-align: center;
+  padding: var(--spacing-md) var(--spacing-xl) 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--spacing-lg);
+}
+
+.hero-content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+  text-align: left;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+  margin-bottom: var(--spacing-md);
+  text-transform: none;
+}
+
+.hero-title span {
+  display: block;
+  opacity: 0.5;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  max-width: 500px;
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+/* Hero Composition */
+.hero-image-side {
+  position: relative;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-composition {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.comp-item {
+  position: absolute;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease;
+}
+
+/* Gentle parallax drift — sub items float slightly toward center on hover */
+.hero-composition:hover .comp-item.sub-1 {
+  transform: translateY(-10px) translateX(-4px);
+  opacity: 1;
+}
+
+.hero-composition:hover .comp-item.sub-2 {
+  transform: translateY(-8px) translateX(4px);
+  opacity: 0.8;
+}
+
+.hero-composition:hover .comp-item.main {
+  transform: translate(-50%, -52%);
+}
+
+.comp-item.main {
+  z-index: 3;
+  width: 70%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.comp-item.sub-1 {
+  z-index: 2;
+  width: 50%;
+  top: 5%;
+  right: 5%;
+  rotate: 20deg;
+  opacity: 0.8;
+}
+
+.comp-item.sub-2 {
+  z-index: 1;
+  width: 45%;
+  bottom: 2%;
+  left: 12%;
+  rotate: -30deg;
+  opacity: 0.6;
+}
+
+.comp-item img {
+  width: 100%;
+  height: auto;
+}
+
+.hero-decorative-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  aspect-ratio: 1;
+  background: var(--bg-offset);
+  border-radius: 50%;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* Specific Animations for Hero */
+.floating-img {
+  animation: float 6s ease-in-out infinite;
+}
+
+.floating-img-alt {
+  animation: float-alt 7s ease-in-out infinite;
+}
+
+/* Stagger delays for hero items */
+.comp-item.sub-1 .floating-img-alt { animation-delay: 0.5s; }
+.comp-item.sub-2 .floating-img { animation-delay: 1s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-25px); }
+}
+
+@keyframes float-alt {
+  0%, 100% { transform: translateY(0) rotate(2deg); }
+  50% { transform: translateY(-30px) rotate(-2deg); }
+}
+
+.call-to-action {
+  text-align: center;
+  padding: var(--spacing-xl) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.call-to-action p {
+  max-width: 600px;
+  margin: 0 auto var(--spacing-md);
+  font-size: 1.5rem;
+  color: var(--text);
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+/* =============================================================================
+   FEATURED PRODUCTS — Homepage featured grid and cards
+   — Used by: index.html (home page) — the 3-column product showcase.
+   — .featured-products: section wrapper with bottom border.
+   — .featured-grid: 3-column equal CSS Grid.
+   — .featured-card: bordered flex column card; lifts + accent border on hover.
+   — .product-tag: absolute "Featured" / category badge pinned top-left of card.
+   — .product-image-container: square aspect-ratio image box with overflow hidden.
+   — .featured-card img: zooms in on card hover.
+   — .product-info: flex-grows to fill card height so price/button sit at bottom.
+   — .featured-card .btn-secondary: full-width ghost button; inverts to filled on hover.
+   ============================================================================= */
+
+/* Featured Products & Grids */
+.featured-products {
+  padding: var(--spacing-xl) 0;
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border);
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  align-items: stretch;
+}
+
+.featured-card {
+  background: var(--card);
+  padding: var(--spacing-md);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+
+.featured-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-10px) scale(1.01);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.10), 0 8px 16px rgba(0,0,0,0.06);
+}
+
+.product-tag {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 5;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  background: var(--accent);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  opacity: 0.9;
+}
+
+.product-image-container {
+  width: 100%;
+  aspect-ratio: 1;
+  margin-bottom: var(--spacing-md);
+  overflow: hidden;
+  background: var(--bg-offset);
+}
+
+.featured-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  margin-bottom: 0;
+  transform-origin: center;
+}
+
+.featured-card:hover img {
+  transform: scale(1.08);
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.featured-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  font-weight: 800;
+}
+
+.featured-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.featured-card .price {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: var(--spacing-md);
+  display: block;
+}
+
+.featured-card .btn-secondary {
+  align-self: flex-start;
+  width: 100%;
+  border-color: var(--border);
+}
+
+.featured-card:hover .btn-secondary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}

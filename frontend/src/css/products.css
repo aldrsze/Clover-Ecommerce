@@ -1,0 +1,140 @@
+/* =============================================================================
+    PRODUCTS PAGE LAYOUT — Sidebar + catalog grid (products.html)
+   — Used by: products.html only.
+   — .product-page-layout: outer 2-column grid — sidebar (200px) + catalog (1fr).
+   — .sidebar: sticky column that follows scroll; top offset clears the header.
+   — .main-product-catalog: the right-column scrollable catalog area.
+   ============================================================================= */
+
+/* Products Page Layout */
+.product-page-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+}
+
+.sidebar {
+  position: sticky;
+  top: 6rem;
+  height: fit-content;
+}
+
+/* Custom styles for product page */
+.main-product-catalog {
+    padding: var(--spacing-xl) var(--spacing-sm); /* Adjusted padding */
+}
+
+/* =============================================================================
+   09. PRODUCT CATALOG — Category sections, product grid, product cards
+   — Used by: products.html (catalog page) AND home page featured section.
+   — .product-category: full-width section per category (cakes, pastries, etc.)
+       padded top/bottom with a bottom border divider; last child has no border.
+   — .product-grid: auto-fill grid; card minimum 250px wide.
+   — .product-card: bordered flex-column card, centered content.
+   — .product-card::after: 2px accent line that sweeps in from left on hover.
+   — .product-card:hover: lifts with shadow + accent border.
+   — .product-card img: square aspect-ratio, zooms on hover.
+   — .product-card .description: min-height keeps cards uniform height.
+   — .product-card .price: bold price label above the Add-to-Cart button.
+   ============================================================================= */
+
+.product-category {
+  padding: var(--spacing-xl) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.product-category:first-child {
+  padding-top: 0;
+}
+
+.product-category:last-child {
+  border-bottom: none;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.product-card {
+  background: var(--card);
+  padding: var(--spacing-md);
+  transition: transform 0.4s cubic-bezier(0.34, 1.36, 0.64, 1),
+              box-shadow 0.4s ease,
+              border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle top-edge accent line that sweeps in on hover */
+.product-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card:hover::after {
+  transform: scaleX(1);
+}
+
+.product-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.09), 0 6px 12px rgba(0,0,0,0.05);
+}
+
+.product-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  filter: none;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  margin-bottom: var(--spacing-md);
+  transform-origin: center;
+}
+
+.product-card:hover img {
+  transform: scale(1.06);
+}
+
+.product-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.product-card .description {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.4;
+  min-height: 2.8em;
+}
+
+.product-card .price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: auto; /* Pushes price and button to the bottom */
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 0.05em;
+}
+
+.product-card button {
+  width: 100%;
+}
+

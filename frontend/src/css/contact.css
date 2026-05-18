@@ -1,0 +1,148 @@
+/* =============================================================================
+    CONTACT — Two-column layout, info list, boutique form
+   — Used by: index.html — the combined Contact section near the bottom.
+   — .contact-section: 2-column grid (info left, form right).
+   — .contact-text-side: left column, left-aligned heading and info.
+   — .contact-lead: large light-weight intro paragraph.
+   — .contact-info-list: 2-column grid of label+value pairs (address, hours, etc.)
+   — .info-item strong / p: small-caps label above the value text.
+   — .contact-form-side: right column, offset background card with border.
+   — .boutique-contact-form: stacked form fields using CSS Grid gap.
+   — .form-group: flex column for label + input/textarea pairs.
+   — inputs / textarea: borderless except bottom line; transparent background.
+   — .form-group::after: animated accent underline that grows in on :focus-within.
+   — placeholders: light grey, low weight for a minimal editorial feel.
+   ============================================================================= */
+
+/* Combined Sections Spacing */
+.contact-section {
+  padding: var(--spacing-xl) 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--spacing-xl);
+  align-items: start;
+}
+
+.contact-text-side {
+  text-align: left;
+}
+
+.contact-text-side h2 {
+  text-align: left;
+  margin-bottom: var(--spacing-md);
+}
+
+.contact-lead {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--text);
+  font-weight: 300;
+  margin-bottom: var(--spacing-lg);
+  max-width: 400px;
+}
+
+.contact-info-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg) var(--spacing-md);
+}
+
+.info-item strong {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.info-item p {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0;
+}
+
+/* Boutique Form Styling */
+.contact-form-side {
+  background: var(--bg-offset);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--border);
+}
+
+.boutique-contact-form {
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+.boutique-contact-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.boutique-contact-form label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.boutique-contact-form input,
+.boutique-contact-form textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 0;
+  border-radius: 0;
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--text);
+  transition: var(--transition);
+  resize: none;
+  width: 100%;
+  display: block;
+  appearance: none;
+}
+
+.boutique-contact-form textarea {
+  min-height: 0;
+  vertical-align: top;
+} 
+
+.boutique-contact-form input:focus,
+.boutique-contact-form textarea:focus {
+  outline: none;
+  border-bottom-color: var(--text);
+  transform: none;
+}
+
+/* Animated fill line on focus */
+.boutique-contact-form .form-group {
+  position: relative;
+}
+
+.boutique-contact-form .form-group::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.boutique-contact-form .form-group:focus-within::after {
+  transform: scaleX(1);
+}
+
+.boutique-contact-form input::placeholder,
+.boutique-contact-form textarea::placeholder {
+  color: #ccc;
+  font-weight: 300;
+  opacity: 1;
+}

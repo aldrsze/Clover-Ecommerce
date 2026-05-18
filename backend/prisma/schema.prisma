@@ -1,0 +1,51 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  CUSTOMER
+  EMPLOYEE
+  ADMIN
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  passwordHash String
+  name         String
+  role         Role          @default(CUSTOMER)
+  transactions Transaction[]
+}
+
+model Product {
+  id          String   @id // matches e.g. "bev-iced-white-chocolate-mocha"
+  name        String
+  price       Float    // Decimal tracking for actual monetary figures
+  image       String   // Relative URL path to images folder
+  category    String   // "cold-beverages", "breakfast", etc.
+  preferences String[] // Array tags like ["savory", "meat"]
+  stock       Int      @default(100)
+}
+
+model Transaction {
+  id          String            @id @default(uuid())
+  totalAmount Float
+  status      String            @default("PENDING") // PENDING, PREPARING, COMPLETED
+  createdAt   DateTime          @default(now())
+  employeeId  String?           // Track which employee handled the sale
+  employee    User?             @relation(fields: [employeeId], references: [id])
+  items       TransactionItem[]
+}
+
+model TransactionItem {
+  id            String      @id @default(uuid())
+  transactionId String
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  productId     String
+  quantity      Int
+  pricePaid     Float       // Snapshot of product price at checkout time
+}

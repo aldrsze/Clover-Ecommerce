@@ -1,0 +1,141 @@
+/* =============================================================================
+    SIDEBAR — Filter groups, category navigation links, checkboxes, promo banner
+   — Used by: products.html — the left sticky panel.
+   — .filter-group: each labeled group (Categories / Preferences) with bottom padding.
+   — .filter-group h3: small-caps eyebrow label for each group, dimmed opacity.
+   — .filter-group ul / li: unstyled list of links or checkbox rows.
+   — .filter-group a: category anchor links — muted, transitions to bold + indent on hover.
+   — .filter-group a.is-active: set by JS (initializeSidebarActiveLink) on the
+     currently visible category; shows a left accent border + indent.
+   — .filter-group form div / label: checkbox row layout with gap.
+   — input[type="checkbox"]: custom accent-color, sized 14px.
+   — .promo-banner: featured product card at the bottom of the sidebar;
+       hidden on tablet and below (see responsive section).
+   — .promo-banner:hover: lifts with shadow + accent border.
+   — .promo-banner img: zooms gently on hover.
+   ============================================================================= */
+
+.filter-group {
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-sm);
+}
+
+.filter-group h3 {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: var(--spacing-md);
+  color: var(--text);
+  opacity: 0.4;
+}
+
+.filter-group ul {
+  list-style: none;
+}
+
+.filter-group li {
+  margin-bottom: 0.75rem;
+}
+
+.filter-group a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.25s ease,
+              padding-left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              letter-spacing 0.3s ease;
+  display: block;
+}
+
+.filter-group a:hover {
+  color: var(--text);
+  padding-left: 4px;
+  letter-spacing: 0.08em;
+}
+
+.filter-group a.is-active {
+  color: var(--text);
+  padding-left: 8px;
+  border-left: 2px solid var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.filter-group form div {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.filter-group label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+/* Custom Checkbox Style */
+input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+/* Promo Banner In Sidebar */
+.promo-banner {
+  border: 1px solid var(--border);
+  padding: var(--spacing-md);
+  text-align: center;
+  margin-top: var(--spacing-xl);
+  transition: border-color 0.3s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.36, 0.64, 1);
+  overflow: hidden;
+}
+
+.promo-banner:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+}
+
+.promo-banner img {
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.promo-banner:hover img {
+  transform: scale(1.05);
+}
+
+.promo-banner h4 {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+}
+
+.promo-banner img {
+  width: 100%;
+  filter: none;
+  margin-bottom: var(--spacing-sm);
+  transform-origin: center;
+}
+
+.promo-banner p {
+  font-size: 0.75rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.promo-banner a {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: underline;
+  text-transform: uppercase;
+}

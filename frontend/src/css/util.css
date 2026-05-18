@@ -1,0 +1,26 @@
+/* =============================================================================
+    UTILITIES — Custom scrollbar, focus ring / accessibility
+   — Used by: all pages — global utility rules.
+   — ::-webkit-scrollbar*: thin 6px black scrollbar (Webkit/Blink browsers only).
+   — :focus-visible: single-pixel accent outline for keyboard navigation;
+     only shows on keyboard focus, not mouse click (modern browsers).
+   ============================================================================= */
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+/* Accessibility */
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 4px;
+}
