@@ -116,9 +116,44 @@ export default function Home({ setCurrentPage }) {
           <div className="section-logo-divider">
             <img src="/images/clover-logo.png" alt="Clover Logo" className="brand-logo-img-small" />
           </div>
-          <h2>Experience the Clover Difference</h2>
-          <p>Quality ingredients, delightful flavors, and a cozy atmosphere. What are you waiting for?</p>
-          <a href="#about" onClick={(e) => handleNavClick(e, 'about')} className="btn-primary">Learn More About Us</a>
+          <div className="cta-panel animate-on-scroll">
+            
+            {/* ── FLOATING BRAND LOGO BACKGROUND EFFECT ── */}
+            <div className="cta-floating-bg">
+              <div className="bg-clover item-1">
+                <img src="/images/clover-logo.png" alt="" aria-hidden="true" />
+              </div>
+              <div className="bg-clover item-2">
+                <img src="/images/clover-logo.png" alt="" aria-hidden="true" />
+              </div>
+              <div className="bg-clover item-3">
+                <img src="/images/clover-logo.png" alt="" aria-hidden="true" />
+              </div>
+              <div className="bg-clover item-4">
+                <img src="/images/clover-logo.png" alt="" aria-hidden="true" />
+              </div>
+              <div className="bg-clover item-5">
+                <img src="/images/clover-logo.png" alt="" aria-hidden="true" />
+              </div>
+            </div>
+
+            <div className="cta-copy">
+              <span className="cta-eyebrow">Your next favorite stop</span>
+              <h2>Experience the <br />Clover Difference</h2>
+              <p className="cta-description">
+                Quality ingredients, bold flavors, and a cozy atmosphere built for slow mornings and easy catch-ups.
+              </p>
+              <div className="cta-meta-badge">
+                <span className="pulse-dot"></span>
+                <p className="cta-meta">Open daily — 7:00 AM to 9:00 PM</p>
+              </div>
+            </div>
+            
+            <div className="cta-actions">
+              <button onClick={() => setCurrentPage('products')} className="btn-primary" style={{ border: 'none', cursor: 'pointer' }}>Browse Menu</button>
+              <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="btn-secondary">Plan Your Visit</a>
+            </div>
+          </div>
         </section>
 
         {/* ABOUT US SECTION — Fully Restored Text & Values */}
