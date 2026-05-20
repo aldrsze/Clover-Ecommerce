@@ -51,7 +51,7 @@ export default function App() {
 
   return (
     <div className={`app-wrapper ${isAdmin ? 'admin-mode' : ''}`}>
-      {!isAdmin && <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />}
+      {!isAdmin && <Header currentPage={currentPage} setCurrentPage={setCurrentPage} cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} />}
       
       {isAdmin ? (
         <AdminRoot />

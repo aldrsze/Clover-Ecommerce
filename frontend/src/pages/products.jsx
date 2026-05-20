@@ -115,19 +115,23 @@ export default function Products({ addToCart }) {
 
   const totalVisible = filteredProducts.length;
 
-  // ── LOADING STATE ────────────────────────────────────────────────────────
-  if (loading) return (
-    <div className="container" style={{ minHeight: '100vh', paddingTop: '100px' }}>
-      <div className="products-loading">
-        <div className="loader-ring" />
-        <p>Loading Clover Menu</p>
-      </div>
-    </div>
-  );
-
   return (
-    <div className="container" style={{ marginTop: '30px', width: '100%', maxWidth: '1100px' }}>
-      <div className="product-page-layout">
+    <>
+      {/* High-end Panel Loader (Initial only) */}
+      {loading && products.length === 0 && (
+        <div className="products-panel-loader">
+          <div className="loader-bar-wrap">
+            <div className="loader-bar-fill" />
+          </div>
+          <p>Curating the Collection</p>
+        </div>
+      )}
+
+      <div 
+        className={`container products-entrance-container ${!loading ? 'is-loaded' : ''}`} 
+        style={{ marginTop: '30px', width: '100%', maxWidth: '1100px' }}
+      >
+        <div className="product-page-layout">
 
         {/* ── SIDEBAR ──────────────────────────────────────────────────── */}
         <aside className="sidebar">
@@ -147,7 +151,7 @@ export default function Products({ addToCart }) {
                       onClick={e => handleScrollToSection(e, cat)}
                     >
                       <span>{catObj.label}</span>
-                      <span className="nav-count">{count}</span>
+                      <span className="nav-count">{loading ? '...' : count}</span>
                     </a>
                   </li>
                 );
@@ -202,29 +206,73 @@ export default function Products({ addToCart }) {
         {/* ── CATALOG ──────────────────────────────────────────────────── */}
         <main className="main-product-catalog">
 
-          {/* Results + active filter chips */}
-          <div className="catalog-summary-bar">
-            <p className="result-count" style={{ margin: 0 }}>
-              <span>{totalVisible}</span> item{totalVisible !== 1 ? 's' : ''} available
-            </p>
-
-            {selectedPrefs.length > 0 && (
-              <div className="active-filters">
-                {selectedPrefs.map(p => (
-                  <button key={p} className="filter-chip" onClick={() => removePref(p)}>
-                    {PREF_LABEL[p] || p}
-                    <span className="chip-x" aria-hidden="true">×</span>
-                  </button>
-                ))}
+          {/* Main Content Header / Premium Catalog Hero */}
+          <header className="catalog-header-main">
+            <div className="catalog-hero-strip">
+              <div className="hero-text-content">
+                <span className="catalog-eyebrow">The Collection</span>
+                <h1>Artisan Excellence <br /><span>Globally Sourced</span></h1>
+                <p className="catalog-description">
+                  A curated selection of the world's finest coffee beans, premium pastries, 
+                  and savory creations, meticulously crafted for those who appreciate the art of fine flavors.
+                </p>
               </div>
-            )}
-          </div>
+              <div className="hero-visual-accent">
+                <div className="hero-gallery-mosaic">
+                  <div className="mosaic-item item-1 animate-entrance" style={{ animationDelay: '0s' }}>
+                    <img src="/images/BIG-BREAKFAST-3.jpg" alt="Artisan Breakfast" loading="eager" />
+                    <div className="mosaic-overlay"></div>
+                  </div>
+                  <div className="mosaic-item item-2 animate-entrance" style={{ animationDelay: '0.1s' }}>
+                    <img src="/images/Margherita-Flatbread-600x600-removebg.png" alt="Savory Flatbread" loading="eager" />
+                  </div>
+                  <div className="mosaic-item item-3 animate-entrance" style={{ animationDelay: '0.15s' }}>
+                    <img src="/images/Nutella-Croissant-600x600.jpg" alt="Handcrafted Pastries" loading="eager" />
+                  </div>
+                  <div className="mosaic-item item-4 animate-entrance" style={{ animationDelay: '0.2s' }}>
+                    <img src="/images/QUATTRO-removebg.png" alt="Premium Selections" loading="eager" />
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          {/* Category sections */}
-          {totalVisible > 0 ? (
+            <div className="catalog-controls">
+              <div className="catalog-info-area">
+                <p className="result-count">
+                  {loading ? 'Discovering flavors...' : (
+                    <>Showing <span>{totalVisible}</span> curated items</>
+                  )}
+                </p>
+              </div>
+
+              {selectedPrefs.length > 0 && (
+                <div className="active-filters">
+                  <span className="filter-label">Refined by:</span>
+                  <div className="filter-chips-wrap">
+                    {selectedPrefs.map(p => (
+                      <button key={p} className="filter-chip" onClick={() => removePref(p)}>
+                        {PREF_LABEL[p] || p}
+                        <span className="chip-x" aria-hidden="true">×</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </header>
+
+          {/* Category sections or Loading Spinner */}
+          {loading ? (
+            <div className="products-loading-inline">
+              <div className="loader-ring" />
+              <p>Refreshing Menu</p>
+            </div>
+          ) : totalVisible > 0 ? (
             MENU_CATEGORIES.map(catObj => {
               const category = catObj.value;
-              const items = filteredProducts.filter(p => p.category === category);
+              const items = filteredProducts.filter(p => 
+                p.category?.toLowerCase() === category.toLowerCase()
+              );
               if (items.length === 0) return null;
 
               return (
@@ -304,5 +352,6 @@ export default function Products({ addToCart }) {
         </main>
       </div>
     </div>
+    </>
   );
 }

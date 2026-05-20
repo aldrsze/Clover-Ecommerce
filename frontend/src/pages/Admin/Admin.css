@@ -414,61 +414,73 @@
 /* Main Content */
 .main-content {
   flex: 1;
-  padding: 24px 32px; /* Standardized top padding at 24px */
-  width: 100%;
-  overflow-y: auto; /* Allow main content to scroll independently */
+  height: 100vh; /* Explicit height */
+  overflow-y: auto;
+  overflow-x: hidden;
   background-color: var(--admin-bg);
-  position: relative; /* For absolute positioning of actions */
+  position: relative;
+  scrollbar-width: thin;
+  display: block; /* Ensure it's a block container for sticky children */
 }
 
 .main-header-actions {
-  position: absolute;
-  top: 24px;
+  position: fixed; 
+  top: 20px;
   right: 32px;
-  z-index: 999; /* Higher z-index to stay on top */
+  z-index: 1100; /* Above everything */
   display: flex;
   align-items: center;
   gap: 16px;
-  pointer-events: auto; /* Ensure it remains clickable */
 }
 
-.main-header-actions .notification-trigger {
-  background: white;
-  border: 1px solid var(--admin-border);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+.view-container {
+  width: 100%;
+  display: block; /* Changed from flex to block for better sticky support */
+  position: relative;
 }
 
-.main-header-actions .notification-trigger:hover {
-  background-color: var(--admin-secondary);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+.sticky-header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #ffffff; /* Solid white background */
+  border-bottom: 1px solid var(--admin-border);
+  padding: 24px 32px 16px;
+  margin-bottom: 0;
 }
 
 .page-header {
-  margin-bottom: 24px; /* Reduced space */
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Center align items for better look */
+  align-items: center;
+}
+
+/* Content Area */
+.view-content {
+  padding: 32px;
 }
 
 .page-header-info h1 {
-  font-size: 20px; /* More compact header */
+  font-size: 18px;
   font-weight: 700;
   margin: 0;
   letter-spacing: -0.5px;
   color: var(--admin-text);
-  text-transform: uppercase; /* More professional feel */
+  text-transform: none; /* Removed uppercase for more modern feel */
 }
 
 .page-header-info p {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--admin-muted);
   margin: 4px 0 0;
 }
 
 /* Typography */
 h2 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   margin: 0 0 12px;
   color: var(--admin-text);
@@ -483,7 +495,7 @@ h2 {
 .divider {
   height: 1px;
   background-color: var(--admin-border);
-  margin: 32px 0;
+  margin: 24px 0;
   border: none;
 }
 
@@ -491,20 +503,26 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
   gap: 16px;
+  margin-top: 8px;
 }
 
 .search-container {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 12px;
+  padding: 8px 12px;
   border: 1px solid var(--admin-border);
-  border-radius: 6px;
+  border-radius: 8px;
   flex: 1;
   max-width: 320px;
   background-color: #fff;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.search-container:focus-within {
+  border-color: var(--admin-text);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
 }
 
 .search-container input {
@@ -520,6 +538,11 @@ h2 {
   color: var(--admin-muted);
 }
 
+/* Content Area */
+.view-content {
+  padding: 0 32px 32px;
+}
+
 .action-buttons {
   display: flex;
   align-items: center;
@@ -530,33 +553,34 @@ h2 {
   background-color: var(--admin-primary);
   color: #fff;
   border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
+  padding: 10px 16px;
+  border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: background-color 150ms ease;
+  gap: 8px;
+  transition: all 150ms ease;
 }
 
 .btn-primary:hover {
   background-color: #333;
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
   background-color: #fff;
   color: var(--admin-text);
   border: 1px solid var(--admin-border);
-  padding: 8px 14px;
-  border-radius: 6px;
+  padding: 10px 16px;
+  border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   transition: all 150ms ease;
 }
 
@@ -568,7 +592,7 @@ h2 {
 .btn-text {
   background: none;
   border: none;
-  padding: 4px;
+  padding: 6px;
   font-size: 14px;
   font-weight: 600;
   color: var(--admin-text);
@@ -576,7 +600,7 @@ h2 {
   transition: all 150ms ease;
   display: flex;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .btn-text:hover {
@@ -586,20 +610,22 @@ h2 {
 /* Table Styles */
 .table-container {
   width: 100%;
-  overflow-x: auto;
+  overflow: visible; /* Changed from auto to let sticky headers work */
   border: 1px solid var(--admin-border);
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .admin-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   text-align: left;
 }
 
 .admin-table thead th {
-  padding: 12px 16px;
+  padding: 14px 16px;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -607,10 +633,17 @@ h2 {
   color: var(--admin-muted);
   background-color: var(--admin-surface);
   border-bottom: 1px solid var(--admin-border);
+  position: -webkit-sticky;
+  position: sticky;
+  top: 120px; /* Adjust based on sticky-header height */
+  z-index: 99;
 }
 
+.admin-table thead th:first-child { border-top-left-radius: 12px; }
+.admin-table thead th:last-child { border-top-right-radius: 12px; }
+
 .admin-table tbody td {
-  padding: 12px 16px;
+  padding: 16px;
   font-size: 13px;
   border-bottom: 1px solid var(--admin-border);
   vertical-align: middle;

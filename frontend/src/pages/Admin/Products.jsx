@@ -8,6 +8,7 @@ import {
   Upload,
   Image as ImageIcon
 } from 'lucide-react';
+import { MENU_CATEGORIES, CATEGORY_LABEL } from '../../constants/menuConstants';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -102,84 +103,88 @@ export default function Products() {
   );
 
   return (
-    <div className="products-view">
-      <header className="page-header">
-        <div className="page-header-info">
-          <h1>Clover Admin - Products</h1>
-          <p>Manage your product catalog and inventory.</p>
-        </div>
-      </header>
+    <div className="view-container">
+      <div className="sticky-header">
+        <header className="page-header">
+          <div className="page-header-info">
+            <h1>Clover Admin - Products</h1>
+            <p>Manage your product catalog and inventory.</p>
+          </div>
+        </header>
 
-      <div className="action-bar">
-        <div className="search-container">
-          <Search size={16} />
-          <input 
-            type="text" 
-            placeholder="Search products..." 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        
-        <div className="action-buttons">
-          <button className="btn-secondary">
-            <Filter size={16} />
-            <span>Filter</span>
-          </button>
-          <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
-            <Plus size={16} />
-            <span>Add Product</span>
-          </button>
+        <div className="action-bar">
+          <div className="search-container">
+            <Search size={16} />
+            <input 
+              type="text" 
+              placeholder="Search products..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          
+          <div className="action-buttons">
+            <button className="btn-secondary">
+              <Filter size={16} />
+              <span>Filter</span>
+            </button>
+            <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
+              <Plus size={16} />
+              <span>Add Product</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="table-container">
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th style={{ width: '40px' }}><input type="checkbox" /></th>
-              <th>Product</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>Stock</th>
-              <th>Status</th>
-              <th style={{ width: '40px' }}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProducts.map((product) => (
-              <tr key={product.id}>
-                <td><input type="checkbox" /></td>
-                <td>
-                  <div className="product-cell">
-                    <img 
-                      src={product.image?.startsWith('uploads/') ? `http://localhost:5000/${product.image}` : `/${product.image}`} 
-                      alt={product.name} 
-                      className="product-img"
-                      onError={(e) => { e.target.src = 'https://via.placeholder.com/48?text=No+Img'; }}
-                    />
-                    <div className="product-info">
-                      <span className="name">{product.name}</span>
-                      <span className="sku">ID: {product.id}</span>
-                      <p className="description">{product.description}</p>
-                    </div>
-                  </div>
-                </td>
-                <td>{product.category || 'Uncategorized'}</td>
-                <td>${parseFloat(product.price).toFixed(2)}</td>
-                <td>{product.stock_quantity}</td>
-                <td>
-                  <span className={`status-badge ${product.stock_quantity > 0 ? 'active' : 'inactive'}`}>
-                    {product.stock_quantity > 0 ? 'In Stock' : 'Out of Stock'}
-                  </span>
-                </td>
-                <td>
-                  <button className="btn-text"><MoreHorizontal size={16} /></button>
-                </td>
+      <div className="view-content">
+        <div className="table-container">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th style={{ width: '40px' }}><input type="checkbox" /></th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th style={{ width: '40px' }}></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredProducts.map((product) => (
+                <tr key={product.id}>
+                  <td><input type="checkbox" /></td>
+                  <td>
+                    <div className="product-cell">
+                      <img 
+                        src={product.image?.startsWith('uploads/') ? `http://localhost:5000/${product.image}` : `/${product.image}`} 
+                        alt={product.name} 
+                        className="product-img"
+                        onError={(e) => { e.target.src = 'https://via.placeholder.com/48?text=No+Img'; }}
+                      />
+                      <div className="product-info">
+                        <span className="name">{product.name}</span>
+                        <span className="sku">ID: {product.id}</span>
+                        <p className="description">{product.description}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{CATEGORY_LABEL[product.category] || product.category || 'Uncategorized'}</td>
+                  <td>${parseFloat(product.price).toFixed(2)}</td>
+                  <td>{product.stock_quantity}</td>
+                  <td>
+                    <span className={`status-badge ${product.stock_quantity > 0 ? 'active' : 'inactive'}`}>
+                      {product.stock_quantity > 0 ? 'In Stock' : 'Out of Stock'}
+                    </span>
+                  </td>
+                  <td>
+                    <button className="btn-text"><MoreHorizontal size={16} /></button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {isModalOpen && (
@@ -246,12 +251,12 @@ export default function Products() {
                   name="category"
                   value={newProduct.category}
                   onChange={handleInputChange}
+                  required
                 >
                   <option value="">Select Category</option>
-                  <option value="Pastries">Pastries</option>
-                  <option value="Coffee">Coffee</option>
-                  <option value="Sandwiches">Sandwiches</option>
-                  <option value="Desserts">Desserts</option>
+                  {MENU_CATEGORIES.map(cat => (
+                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                  ))}
                 </select>
               </div>
 

@@ -23,7 +23,7 @@
 
 .hero-section {
   text-align: center;
-  padding: var(--spacing-sm) var(--spacing-sm) 0;
+  padding: var(--spacing-lg) var(--spacing-xs) 0;
   border-bottom: 1px solid var(--border);
   margin-bottom: var(--spacing-lg);
 }
@@ -31,7 +31,7 @@
 .hero-content-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-xs);
   align-items: center;
   text-align: left;
 }
