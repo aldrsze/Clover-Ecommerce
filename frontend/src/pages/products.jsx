@@ -21,25 +21,18 @@ export default function Products({ addToCart }) {
   const [selectedPrefs, setSelectedPrefs] = useState([]);
   const [loading, setLoading]             = useState(true);
   const [activeCategory, setActiveCategory] = useState('');
-  // Track cards that just had an item added for the ✓ feedback flash
   const [addedCards, setAddedCards]       = useState({});
 
   useLayoutEffect(() => {
-    // 1. Temporarily disable CSS smooth scrolling so the jump is instant
     document.documentElement.style.scrollBehavior = 'auto';
-    
-    // 2. Force scroll to top
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
 
-    // 3. Clear any leftover #hash in the URL that might pull the page down
     if (window.location.hash) {
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
 
-    // 4. Wait a tiny fraction of a second for React to finish drawing the page, 
-    // force it to the top one more time, and restore smooth scrolling.
     const scrollTimeout = setTimeout(() => {
       window.scrollTo(0, 0);
       document.documentElement.style.scrollBehavior = '';
@@ -48,12 +41,31 @@ export default function Products({ addToCart }) {
     return () => clearTimeout(scrollTimeout);
   }, []);
 
+  // ── FETCH LOGIC ─────────────────────────────────────────────────
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    setLoading(true);
+    
+    // Dynamically build the query string if checkboxes are ticked
+    const queryString = selectedPrefs.length > 0 ? `?preferences=${selectedPrefs.join(',')}` : '';
+    
+    fetch(`http://localhost:5000/api/products${queryString}`)
       .then(res => res.json())
-      .then(data => { setProducts(data); setLoading(false); })
-      .catch(err => { console.error('Error connecting to backend database API:', err); setLoading(false); });
-  }, []);
+      .then(data => { 
+        // Normalize PostgreSQL column names to match the React UI requirements
+        const normalizedData = data.map(item => ({
+            ...item,
+            id: item.product_id || item.id,
+            image: item.image_path || item.image
+        }));
+        
+        setProducts(normalizedData); 
+        setLoading(false); 
+      })
+      .catch(err => { 
+        console.error('Error connecting to backend database API:', err); 
+        setLoading(false); 
+      });
+  }, [selectedPrefs]); 
 
   // ── SCROLL-SPY ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -97,9 +109,9 @@ export default function Products({ addToCart }) {
 
   const removePref = pref => setSelectedPrefs(p => p.filter(x => x !== pref));
 
-  const filteredProducts = products.filter(product =>
-    selectedPrefs.length === 0 || selectedPrefs.every(p => product.preferences.includes(p))
-  );
+  // The backend already filtered the data using PostgreSQL! 
+  // We just pass it straight through now.
+  const filteredProducts = products;
 
   // ── ADD TO CART WITH FEEDBACK ────────────────────────────────────────────
   const handleAddToCart = (product) => {
@@ -140,6 +152,7 @@ export default function Products({ addToCart }) {
           <section className="filter-group">
             <ul>
               {categories.map(cat => {
+                // Keep counts relative to what the DB returned
                 const count = products.filter(p => p.category === cat).length;
                 return (
                   <li key={cat}>
@@ -273,7 +286,8 @@ export default function Products({ addToCart }) {
                               <p className="description">{product.description}</p>
                             )}
                             <div className="card-footer">
-                              <span className="price">₱{product.price.toFixed(2)}</span>
+                              {/* Safely handle the numeric type parsing */}
+                              <span className="price">₱{Number(product.price).toFixed(2)}</span>
                               <button
                                 className="add-btn"
                                 onClick={() => handleAddToCart(product)}

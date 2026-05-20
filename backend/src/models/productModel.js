@@ -36,7 +36,7 @@ const Product = {
                     category, 
                     preferences 
                 FROM products 
-                WHERE preferences && $1
+                WHERE preferences @> $1
             `;
             const { rows } = await db.query(query, [preferences]);
             return rows;
