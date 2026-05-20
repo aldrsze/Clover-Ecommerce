@@ -3,4 +3,4 @@ node_modules
 .env
 
 api_test.http
-config/schemas.md
+src/config/schemas.md
