@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
-
-// Preference label map for display chips
-const PREF_LABELS = {
-  sweet:   'Sweet Treats',
-  savory:  'Savory Meals',
-  seafood: 'Seafood',
-  meat:    'Contains Meat',
-};
+import { MENU_CATEGORIES, MENU_PREFERENCES, PREF_LABEL } from '../constants/menuConstants';
 
 // Tag colors per preference (using CSS variables from main.css)
 const TAG_STYLES = {
@@ -120,15 +113,6 @@ export default function Products({ addToCart }) {
     setTimeout(() => setAddedCards(prev => { const n = { ...prev }; delete n[product.id]; return n; }), 1200);
   };
 
-  // ── CATEGORIES ──────────────────────────────────────────────────────────
-  const categories = ['cold-beverages', 'breakfast', 'sandwiches', 'pastries'];
-  const categoryTitles = {
-    'cold-beverages': 'Cold Beverages & Frappes',
-    'breakfast':      'Breakfast Plates & Omelettes',
-    'sandwiches':     'Sandwiches & Flatbreads',
-    'pastries':       'Pastries, Cookies & Cakes',
-  };
-
   const totalVisible = filteredProducts.length;
 
   // ── LOADING STATE ────────────────────────────────────────────────────────
@@ -151,7 +135,8 @@ export default function Products({ addToCart }) {
           {/* Category nav */}
           <section className="filter-group">
             <ul>
-              {categories.map(cat => {
+              {MENU_CATEGORIES.map(catObj => {
+                const cat = catObj.value;
                 // Keep counts relative to what the DB returned
                 const count = products.filter(p => p.category === cat).length;
                 return (
@@ -161,7 +146,7 @@ export default function Products({ addToCart }) {
                       className={activeCategory === cat ? 'is-active' : ''}
                       onClick={e => handleScrollToSection(e, cat)}
                     >
-                      <span>{categoryTitles[cat]}</span>
+                      <span>{catObj.label}</span>
                       <span className="nav-count">{count}</span>
                     </a>
                   </li>
@@ -174,7 +159,7 @@ export default function Products({ addToCart }) {
           <section className="filter-group">
             <h3>Filter by Preference</h3>
             <form onSubmit={e => e.preventDefault()}>
-              {Object.entries(PREF_LABELS).map(([key, label]) => (
+              {MENU_PREFERENCES.map(({ value: key, label }) => (
                 <div key={key}>
                   <input
                     type="checkbox"
@@ -227,7 +212,7 @@ export default function Products({ addToCart }) {
               <div className="active-filters">
                 {selectedPrefs.map(p => (
                   <button key={p} className="filter-chip" onClick={() => removePref(p)}>
-                    {PREF_LABELS[p]}
+                    {PREF_LABEL[p] || p}
                     <span className="chip-x" aria-hidden="true">×</span>
                   </button>
                 ))}
@@ -237,14 +222,15 @@ export default function Products({ addToCart }) {
 
           {/* Category sections */}
           {totalVisible > 0 ? (
-            categories.map(category => {
+            MENU_CATEGORIES.map(catObj => {
+              const category = catObj.value;
               const items = filteredProducts.filter(p => p.category === category);
               if (items.length === 0) return null;
 
               return (
                 <section key={category} id={category} className="product-category">
                   <div className="category-header">
-                    <h2>{categoryTitles[category]}</h2>
+                    <h2>{catObj.label}</h2>
                     <span className="category-count">{items.length} items</span>
                   </div>
                   <div className="product-grid">
@@ -254,7 +240,10 @@ export default function Products({ addToCart }) {
                       return (
                         <article key={product.id} className="product-card">
                           <div className="card-img-wrap">
-                            <img src={`/${product.image}`} alt={product.name} />
+                            <img 
+                              src={product.image?.startsWith('uploads/') ? `http://localhost:5000/${product.image}` : `/${product.image}`} 
+                              alt={product.name} 
+                            />
                             <button
                               className="quick-add-overlay"
                               onClick={() => handleAddToCart(product)}
@@ -276,7 +265,7 @@ export default function Products({ addToCart }) {
                                       color:       TAG_STYLES[t].color,
                                     } : undefined}
                                   >
-                                    {PREF_LABELS[t] || t}
+                                    {PREF_LABEL[t] || t}
                                   </span>
                                 ))}
                               </div>

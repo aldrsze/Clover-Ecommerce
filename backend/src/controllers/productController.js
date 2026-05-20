@@ -21,8 +21,19 @@ exports.getProducts = async (req, res) => {
 };
 
 exports.createProduct = async (req, res) => {
-    const { name, description, price, stock_quantity, category, preferences } = req.body;
-    const imagePath = req.file ? req.file.path : (req.body.image || null);
+    let { name, description, price, stock_quantity, category, preferences } = req.body;
+    
+    // imagePath should be the relative path to the uploaded file
+    const imagePath = req.file ? `uploads/${req.file.filename}` : (req.body.image || null);
+
+    // If preferences is a string (from FormData), parse it
+    if (typeof preferences === 'string') {
+        try {
+            preferences = JSON.parse(preferences);
+        } catch (e) {
+            preferences = preferences.split(',').map(p => p.trim());
+        }
+    }
 
     try {
         const newProduct = await Product.create(name, description, price, stock_quantity, imagePath, category, preferences);

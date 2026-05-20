@@ -1,27 +1,37 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Products from './pages/products';
+import Products from './pages/Products';
+import AdminRoot from './pages/Admin/AdminRoot'; 
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [cart, setCart] = useState([]);
 
-  useLayoutEffect(() => {
-    // 1. Temporarily disable CSS smooth scrolling
-    document.documentElement.style.scrollBehavior = 'auto';
-    
-    // 2. Instantly jump to the top
-    window.scrollTo(0, 0);
-    
-    // 3. Restore CSS smooth scrolling for normal page usage
-    document.documentElement.style.scrollBehavior = '';
-
-    // Prevent stale hashes from previous section/category jumps affecting next render.
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path === '/') {
+      setCurrentPage('home');
+    }else if (path === '/admin') {
+      setCurrentPage('admin');
+    } else {
+      setCurrentPage('home');
     }
+
+    const handlePopState = () => {
+      const currentPath = window.location.pathname;
+      if (currentPath === '/admin') setCurrentPage('admin');
+      else if (currentPath === '/products') setCurrentPage('products');
+      else setCurrentPage('home');
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
   }, [currentPage]);
 
   const addToCart = (product) => {
@@ -37,22 +47,25 @@ export default function App() {
     alert(`${product.name} added to cart!`);
   };
 
+  const isAdmin = currentPage === 'admin';
+
   return (
-    <div className="app-wrapper">
-      <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
+    <div className={`app-wrapper ${isAdmin ? 'admin-mode' : ''}`}>
+      {!isAdmin && <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />}
       
-      {/* The key={currentPage} forces React to mount a fresh div on every page switch.
-        This automatically retriggers the CSS animation we will add next. 
-      */}
-      <div key={currentPage} className="page-transition">
-        {currentPage === 'home' ? (
-          <Home setCurrentPage={setCurrentPage} />
-        ) : (
-          <Products addToCart={addToCart} />
-        )}
-      </div>
+      {isAdmin ? (
+        <AdminRoot />
+      ) : (
+        <div key={currentPage} className="page-transition">
+          {currentPage === 'home' ? (
+            <Home setCurrentPage={setCurrentPage} />
+          ) : (
+            <Products addToCart={addToCart} />
+          )}
+        </div>
+      )}
       
-      <Footer setCurrentPage={setCurrentPage} />
+      {!isAdmin && <Footer setCurrentPage={setCurrentPage} />}
     </div>
   );
 }
