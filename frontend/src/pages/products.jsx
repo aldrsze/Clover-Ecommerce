@@ -53,6 +53,14 @@ export default function Products({ addToCart }) {
         
         setProducts(normalizedData); 
         setLoading(false); 
+
+        // Set first category as active if none set
+        if (normalizedData.length > 0) {
+          const firstCat = MENU_CATEGORIES.find(catObj => 
+            normalizedData.some(p => p.category?.toLowerCase() === catObj.value.toLowerCase())
+          );
+          if (firstCat) setActiveCategory(firstCat.value);
+        }
       })
       .catch(err => { 
         console.error('Error connecting to backend database API:', err); 
@@ -64,8 +72,22 @@ export default function Products({ addToCart }) {
   useEffect(() => {
     if (loading) return;
     const observer = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) setActiveCategory(e.target.id); }),
-      { rootMargin: '-10% 0px -60% 0px', threshold: 0 }
+      entries => {
+        // Find the first intersecting entry (top-most in our case as we observe in order)
+        // Or better, use a narrow trigger zone at the top
+        entries.forEach(e => { 
+          if (e.isIntersecting) {
+            setActiveCategory(e.target.id); 
+          }
+        });
+      },
+      { 
+        // rootMargin: Top Right Bottom Left
+        // -96px top to account for sticky header
+        // -70% bottom to create a trigger zone in the top 30% of the viewport
+        rootMargin: '-96px 0px -70% 0px', 
+        threshold: 0 
+      }
     );
     document.querySelectorAll('.product-category').forEach(s => observer.observe(s));
     return () => observer.disconnect();
@@ -138,6 +160,7 @@ export default function Products({ addToCart }) {
 
           {/* Category nav */}
           <section className="filter-group">
+            <h3>Categories</h3>
             <ul>
               {MENU_CATEGORIES.map(catObj => {
                 const cat = catObj.value;

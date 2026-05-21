@@ -16,8 +16,12 @@
 
 /* About Us Overhaul */
 .about-us-container {
-  padding: var(--spacing-xl) 0;
+  padding: 0;
   border-bottom: 1px solid var(--border);
+}
+
+.about-us-container .container {
+  padding: var(--spacing-xl) clamp(1.5rem, 6vw, 5rem);
 }
 
 .about-content-wrapper {
@@ -25,7 +29,7 @@
   grid-template-columns: 0.8fr 1.2fr;
   gap: var(--spacing-xl);
   align-items: center;
-  max-width: var(--container);
+  width: 100%;
   margin: 0 auto;
 }
 

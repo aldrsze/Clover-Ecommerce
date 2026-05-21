@@ -47,6 +47,15 @@ export default function App() {
     alert(`${product.name} added to cart!`);
   };
 
+  useEffect(() => {
+    if (currentPage === 'home') {
+      document.body.classList.add('has-snap-scroll');
+    } else {
+      document.body.classList.remove('has-snap-scroll');
+    }
+    return () => document.body.classList.remove('has-snap-scroll');
+  }, [currentPage]);
+
   const isAdmin = currentPage === 'admin';
 
   return (

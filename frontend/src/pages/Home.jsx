@@ -32,11 +32,10 @@ export default function Home({ setCurrentPage }) {
   };
 
   return (
-    <main className="home-page-content" id="home">
-      <div className="container">
-        
-        {/* HERO SECTION — Fully Restored with 3-Image Composite Layout */}
-        <section className="hero-section">
+    <main className="home-page-content snap-container" id="home">
+      {/* HERO SECTION — Fully Restored with 3-Image Composite Layout */}
+      <section className="hero-section snap-section">
+        <div className="container">
           <div className="hero-content-wrapper">
             <div className="hero-text-side animate-on-scroll fade-in-left">
               <h2 className="hero-title">Experience <br /><span>Pure Delight</span></h2>
@@ -61,10 +60,12 @@ export default function Home({ setCurrentPage }) {
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* BESTSELLERS SECTION — Restored 3-Item Catalog */}
-        <section className="featured-products" id="bestsellers">
+      {/* BESTSELLERS SECTION — Restored 3-Item Catalog */}
+      <section className="featured-products snap-section" id="bestsellers">
+        <div className="container">
           <div className="section-logo-divider">
             <img src="/images/clover-logo.png" alt="Clover Logo" className="brand-logo-img-small" />
           </div>
@@ -109,10 +110,12 @@ export default function Home({ setCurrentPage }) {
               </div>
             </article>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CALL TO ACTION */}
-        <section className="call-to-action">
+      {/* CALL TO ACTION */}
+      <section className="call-to-action snap-section">
+        <div className="container">
           <div className="section-logo-divider">
             <img src="/images/clover-logo.png" alt="Clover Logo" className="brand-logo-img-small" />
           </div>
@@ -154,10 +157,12 @@ export default function Home({ setCurrentPage }) {
               <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="btn-secondary">Plan Your Visit</a>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ABOUT US SECTION — Fully Restored Text & Values */}
-        <section id="about" className="about-us-container">
+      {/* ABOUT US SECTION — Fully Restored Text & Values */}
+      <section id="about" className="about-us-container snap-section">
+        <div className="container">
           <div className="about-content-wrapper">
             <div className="about-image-side animate-on-scroll fade-in-left">
               <div className="text-composition">
@@ -190,54 +195,57 @@ export default function Home({ setCurrentPage }) {
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CONTACT SECTION — Fully Restored Contact Specifications */}
-        <section id="contact" className="contact-section">
-          <div className="contact-text-side animate-on-scroll fade-in-left">
-            <h2>Get in Touch</h2>
-            <p className="contact-lead">Have a question or need assistance? We'd love to hear from you. Drop us a line or visit our shop.</p>
-            
-            <div class="contact-info-list">
-              <div class="info-item">
-                <strong>Location</strong>
-                <p>27 Maginhawa Street, Diliman, Quezon City, Metro Manila, Philippines 1101</p>
-              </div>
-              <div class="info-item">
-                <strong>Phone</strong>
-                <p>+63 917 845 2731</p>
-              </div>
-              <div class="info-item">
-                <strong>Email</strong>
-                <p>hello@clovercoffee.ph</p>
-              </div>
-              <div class="info-item">
-                <strong>Business Hours</strong>
-                <p>Monday - Sunday: 7:00 AM - 9:00 PM</p>
+      {/* CONTACT SECTION — Fully Restored Contact Specifications */}
+      <section id="contact" className="contact-section snap-section">
+        <div className="container">
+          <div className="contact-layout-wrapper">
+            <div className="contact-text-side animate-on-scroll fade-in-left">
+              <h2>Get in Touch</h2>
+              <p className="contact-lead">Have a question or need assistance? We'd love to hear from you. Drop us a line or visit our shop.</p>
+              
+              <div className="contact-info-list">
+                <div className="info-item">
+                  <strong>Location</strong>
+                  <p>27 Maginhawa Street, Diliman, Quezon City, Metro Manila, Philippines 1101</p>
+                </div>
+                <div className="info-item">
+                  <strong>Phone</strong>
+                  <p>+63 917 845 2731</p>
+                </div>
+                <div className="info-item">
+                  <strong>Email</strong>
+                  <p>hello@clovercoffee.ph</p>
+                </div>
+                <div className="info-item">
+                  <strong>Business Hours</strong>
+                  <p>Monday - Sunday: 7:00 AM - 9:00 PM</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="contact-form-side animate-on-scroll fade-in-right">
-            <form className="boutique-contact-form" onSubmit={(e) => e.preventDefault()}>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input type="text" id="name" placeholder="Full Name" required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" placeholder="email@example.com" required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="message">Message</label>
-                <textarea id="message" placeholder="How can we help you?" required></textarea>
-              </div>
-              <button type="submit" className="btn-primary">Send Message</button>
-            </form>
+            <div className="contact-form-side animate-on-scroll fade-in-right">
+              <form className="boutique-contact-form" onSubmit={(e) => e.preventDefault()}>
+                <div className="form-group">
+                  <label htmlFor="name">Name</label>
+                  <input type="text" id="name" placeholder="Full Name" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <input type="email" id="email" placeholder="email@example.com" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="message">Message</label>
+                  <textarea id="message" placeholder="How can we help you?" required></textarea>
+                </div>
+                <button type="submit" className="btn-primary">Send Message</button>
+              </form>
+            </div>
           </div>
-        </section>
-
-      </div>
+        </div>
+      </section>
     </main>
   );
 }

@@ -16,7 +16,7 @@
   max-width: 100%;
   
   /* Layout Sizing Tokens */
-  --sidebar-width: 240px;
+  --sidebar-width: 300px;
   --sidebar-gap: 2rem; 
   --main-content-width: calc(100% - var(--sidebar-width) - var(--sidebar-gap));
 }
@@ -41,6 +41,7 @@ html {
   border-right: 1px solid var(--border);
   background: var(--bg);
   z-index: 50;
+  text-align: left;
 }
 
 /* ── CATEGORY NAV ─────────────────────────────────────────────────────────── */
@@ -123,9 +124,8 @@ html {
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--text-muted);
   margin-bottom: 0.35rem;
-  opacity: 0.7;
+  font-weight: bold;
 }
 
 /* Checkbox filter rows */

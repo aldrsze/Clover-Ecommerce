@@ -7,7 +7,7 @@
   --admin-text: #171717;
   --admin-muted: #737373;
   --admin-border: #e5e5e5;
-  --admin-font: 'Inter', sans-serif;
+  --admin-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
 }
 
 /* Force override global styles from index.css for the admin area */

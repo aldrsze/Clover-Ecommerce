@@ -71,7 +71,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.5;
@@ -79,6 +79,12 @@ body {
   -webkit-font-smoothing: antialiased;
   width: 100%;
   overflow-x: clip;
+}
+
+body.has-snap-scroll {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll; /* Force scrollbar to prevent layout shift */
+  scroll-padding-top: 80px;
 }
 
 #root {
@@ -460,6 +466,14 @@ footer {
   padding: var(--spacing-xl) 0 var(--spacing-lg);
   margin-top: var(--spacing-xl);
   background: var(--bg-offset);
+}
+
+body.has-snap-scroll footer {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  margin-top: 0;
 }
 
 .footer-content {

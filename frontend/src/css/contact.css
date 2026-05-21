@@ -16,12 +16,20 @@
 
 /* Combined Sections Spacing */
 .contact-section {
-  padding: var(--spacing-xl) 0;
+  padding: 0;
   border-bottom: 1px solid var(--border);
+}
+
+.contact-section .container {
+  padding: var(--spacing-xl) clamp(1.5rem, 6vw, 5rem);
+}
+
+.contact-layout-wrapper {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   gap: var(--spacing-xl);
   align-items: start;
+  width: 100%;
 }
 
 .contact-text-side {
@@ -84,6 +92,7 @@
 
 .boutique-contact-form label {
   font-size: 0.7rem;
+  text-align: left;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
