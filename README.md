@@ -1,4 +1,4 @@
-# Clover | Full-Stack E-Commerce Engineering Showcase
+# Clover | E-Commerce
 
 A high-performance e-commerce platform built using the **PERN stack** (PostgreSQL, Express, React, Node.js). This project demonstrates the implementation of a modern, responsive storefront and a robust administrative backend, developed as a primary showcase for my fullstack skills.
 
