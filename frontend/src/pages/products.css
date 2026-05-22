@@ -286,6 +286,7 @@ html {
 
 .product-category:last-child {
   border-bottom: none;
+  padding-bottom: 2rem;
 }
 
 /* Category header row: label + item count */

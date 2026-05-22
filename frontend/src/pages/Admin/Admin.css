@@ -10,54 +10,42 @@
   --admin-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
 }
 
-/* Force override global styles from index.css for the admin area */
-:global(body),
-:global(html),
-:global(#root) {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  border: none !important;
-  overflow: hidden; /* Avoid double scrollbars */
+/* Force override global styles from index.css for the admin area ONLY when active */
+.admin-mode-active {
+  overflow: hidden !important;
 }
 
 .admin-dashboard {
   font-family: var(--admin-font);
   color: var(--admin-text);
   background-color: var(--admin-bg);
-  min-height: 100vh;
   display: flex;
-  text-align: left;
   width: 100vw;
   height: 100vh;
   margin: 0;
   padding: 0;
+  overflow: hidden;
   box-sizing: border-box;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
 }
 
 /* Sidebar */
 .sidebar {
   width: 260px;
-  border-right: 1px solid var(--admin-border);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 0;
+  justify-content: space-between;
   background-color: #ffffff;
-  height: 100vh;
+  border-right: 1px solid var(--admin-border);
   flex-shrink: 0;
-  position: sticky;
-  top: 0;
-  overflow: hidden;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sidebar-header {
-  padding: 24px 20px;
-  font-size: 19px;
+  padding: 12px 20px;
+  font-size: 18px; /* Matched with h1 */
   font-weight: 700;
   letter-spacing: -0.8px;
   color: var(--admin-text);
@@ -70,8 +58,8 @@
 }
 
 .sidebar-logo {
-  width: 32px;
-  height: 32px;
+  width: 24px; /* Reduced from 32px to better align with 18px text */
+  height: 24px;
   object-fit: contain;
 }
 
@@ -81,7 +69,7 @@
   border: none;
   color: var(--admin-text);
   cursor: pointer;
-  padding: 8px;
+  padding: 6px; /* Slightly smaller */
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -108,12 +96,12 @@
 /* Sidebar Content */
 .sidebar-content {
   flex: 1;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  padding-bottom: 20px;
-  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
+
 
 .sidebar-content::-webkit-scrollbar {
   display: none; /* Hide scrollbar for Chrome/Safari */
@@ -127,24 +115,24 @@
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 10px 12px;
+  gap: 4px;
+  padding: 12px;
 }
 
 .nav-item {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 12px 14px;
+  border: none;
   border-radius: 10px;
+  background: transparent;
   color: var(--admin-muted);
   font-size: 14px;
   font-weight: 500;
-  background: transparent;
-  border: none;
   cursor: pointer;
-  transition: all 150ms ease;
-  width: 100%;
+  transition: all 0.15s ease;
   text-align: left;
 }
 
@@ -171,7 +159,6 @@
 
 /* Sidebar Footer */
 .sidebar-footer {
-  margin-top: auto;
   padding: 24px 16px;
   display: flex;
   flex-direction: column;
@@ -403,7 +390,6 @@
 
 /* Responsive Overrides */
 @media (max-height: 800px) {
-  .sidebar-header { padding: 18px 20px; }
   .sidebar-footer { padding: 18px 16px; gap: 16px; }
   .sidebar-nav { padding: 5px 12px; }
   .system-status { gap: 12px; }
@@ -425,7 +411,7 @@
 
 .main-header-actions {
   position: fixed; 
-  top: 20px;
+  top: 14px;
   right: 32px;
   z-index: 1100; /* Above everything */
   display: flex;
@@ -448,8 +434,12 @@
   z-index: 1000;
   background: #ffffff; /* Solid white background */
   border-bottom: 1px solid var(--admin-border);
-  padding: 24px 32px 16px;
+  padding: 0 32px 16px;
   margin-bottom: 0;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .page-header {
@@ -540,7 +530,7 @@ h2 {
 
 /* Content Area */
 .view-content {
-  padding: 0 32px 32px;
+  padding: 0;
 }
 
 .action-buttons {
@@ -612,7 +602,6 @@ h2 {
   width: 100%;
   overflow: visible; /* Changed from auto to let sticky headers work */
   border: 1px solid var(--admin-border);
-  border-radius: 12px;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
@@ -635,12 +624,12 @@ h2 {
   border-bottom: 1px solid var(--admin-border);
   position: -webkit-sticky;
   position: sticky;
-  top: 120px; /* Adjust based on sticky-header height */
-  z-index: 99;
+  top: 140px; /* Matches the height of the sticky-header */
+  z-index: 110;
 }
 
-.admin-table thead th:first-child { border-top-left-radius: 12px; }
-.admin-table thead th:last-child { border-top-right-radius: 12px; }
+.admin-table thead th:first-child { border-top-left-radius: 0; }
+.admin-table thead th:last-child { border-top-right-radius: 0; }
 
 .admin-table tbody td {
   padding: 16px;
@@ -865,7 +854,7 @@ h2 {
     border-bottom: 1px solid var(--admin-border);
   }
   .sidebar-header {
-    padding: 0 16px 12px;
+    padding: 16px 16px 12px;
   }
   .main-content {
     padding: 20px;

@@ -92,13 +92,13 @@ export default function Header({ currentPage, setCurrentPage, cartCount }) {
               <a href="#home" className={activeSection === 'home' ? 'is-active' : ''} onClick={(e) => handleNavClick(e, 'home')}>Home</a>
             </li>
             <li>
-              <a href="#products" className={activeSection === 'products' ? 'is-active' : ''} onClick={(e) => handleNavClick(e, 'products')}>Products</a>
-            </li>
-            <li>
               <a href="#about" className={activeSection === 'about' ? 'is-active' : ''} onClick={(e) => handleNavClick(e, 'about')}>About</a>
             </li>
             <li>
               <a href="#contact" className={activeSection === 'contact' ? 'is-active' : ''} onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
+            </li>
+            <li>
+              <a href="#products" className={activeSection === 'products' ? 'is-active' : ''} onClick={(e) => handleNavClick(e, 'products')}>Products</a>
             </li>
           </ul>
         </nav>

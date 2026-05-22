@@ -30,17 +30,7 @@ export default function AdminRoot() {
 
   return (
     <div className="admin-dashboard">
-      <style>{`
-        html, body, #root { 
-          margin: 0 !important; 
-          padding: 0 !important; 
-          width: 100vw !important; 
-          height: 100vh !important;
-          max-width: 100vw !important;
-          border: none !important;
-        }
-      `}</style>
-      <aside className="sidebar">
+      <div className="sidebar">
         <div className="sidebar-header">
           <img src="/images/clover-logo.png" alt="Clover Logo" className="sidebar-logo" />
           <span>Clover Admin</span>
@@ -133,7 +123,7 @@ export default function AdminRoot() {
             </div>
           </div>
         </div>
-      </aside>
+      </div>
 
       <main className="main-content">
         <div className="main-header-actions">
@@ -145,8 +135,36 @@ export default function AdminRoot() {
         {activeTab === 'Dashboard' && <Dashboard />}
         {activeTab === 'Products' && <Products />}
         {activeTab === 'Orders' && <Orders />}
-        {activeTab === 'Customers' && <div className="page-header"><h1>Customers</h1><p>Manage your customers here.</p></div>}
-        {activeTab === 'Utilities' && <div className="page-header"><h1>Utilities</h1><p>System settings and utilities.</p></div>}
+        {activeTab === 'Customers' && (
+          <div className="view-container">
+            <div className="sticky-header">
+              <header className="page-header">
+                <div className="page-header-info">
+                  <h1>Customers</h1>
+                  <p>Manage your customer database and relationships.</p>
+                </div>
+              </header>
+            </div>
+            <div className="view-content">
+              <p className="caption">Customer management features coming soon.</p>
+            </div>
+          </div>
+        )}
+        {activeTab === 'Utilities' && (
+          <div className="view-container">
+            <div className="sticky-header">
+              <header className="page-header">
+                <div className="page-header-info">
+                  <h1>Utilities</h1>
+                  <p>System configuration and maintenance tools.</p>
+                </div>
+              </header>
+            </div>
+            <div className="view-content">
+              <p className="caption">System utilities and settings coming soon.</p>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

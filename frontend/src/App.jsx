@@ -53,7 +53,17 @@ export default function App() {
     } else {
       document.body.classList.remove('has-snap-scroll');
     }
-    return () => document.body.classList.remove('has-snap-scroll');
+
+    if (currentPage === 'admin') {
+      document.body.classList.add('admin-mode-active');
+    } else {
+      document.body.classList.remove('admin-mode-active');
+    }
+
+    return () => {
+      document.body.classList.remove('has-snap-scroll');
+      document.body.classList.remove('admin-mode-active');
+    };
   }, [currentPage]);
 
   const isAdmin = currentPage === 'admin';

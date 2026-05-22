@@ -189,10 +189,142 @@
 }
 
 /* =============================================================================
-   REVISED CALL TO ACTION — Premium Asymmetric Color-Block + Floating Logo Icons
+   FEATURED PRODUCTS — Homepage featured grid and cards
+   — Used by: index.html (home page) — the 3-column product showcase.
+   — .featured-products: section wrapper with bottom border.
+   — .featured-grid: 3-column equal CSS Grid.
+   — .featured-card: bordered flex column card; lifts + accent border on hover.
+   — .product-tag: absolute "Featured" / category badge pinned top-left of card.
+   — .product-image-container: square aspect-ratio image box with overflow hidden.
+   — .featured-card img: zooms in on card hover.
+   — .product-info: flex-grows to fill card height so price/button sit at bottom.
+   — .featured-card .btn-secondary: full-width ghost button; inverts to filled on hover.
+   ============================================================================= */
+
+/* Featured Products & Grids */
+.featured-products {
+  padding: 0;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.featured-products .container {
+  padding: var(--spacing-xs) clamp(1.5rem, 7vw, 6rem);
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3 ,1fr);
+  gap: var(--spacing-xs);
+  align-items: stretch;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.featured-card {
+  background: var(--card);
+  padding: var(--spacing-sm);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+
+.featured-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 6px 12px rgba(0,0,0,0.04);
+}
+
+.product-tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 5;
+  font-size: 0.55rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  background: var(--accent);
+  color: white;
+  padding: 0.3rem 0.6rem;
+  opacity: 0.9;
+}
+
+.product-image-container {
+  width: 100%;
+  aspect-ratio: 1;
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.featured-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  margin-bottom: 0;
+  transform-origin: center;
+}
+
+.featured-card:hover img {
+  transform: scale(1.08);
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.featured-card h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  font-weight: 800;
+}
+
+.featured-card p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+.featured-card .price {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: var(--spacing-sm);
+  display: block;
+}
+
+.featured-card .btn-secondary {
+  align-self: flex-start;
+  width: 100%;
+  border-color: var(--border);
+}
+
+.featured-card:hover .btn-secondary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* =============================================================================
+   CALL TO ACTION — Premium Asymmetric Color-Block + Floating Logo Icons
    ============================================================================= */
 .call-to-action {
-  padding: 0;
   border-bottom: 1px solid var(--border); /* Clean separator line */
   position: relative;
 }
@@ -202,11 +334,9 @@
 }
 
 .call-to-action .cta-panel {
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
-  padding: 0;
-  border: none; /* Borderless architecture */
-  background: var(--bg-offset); /* Premium light gray panel base */
+  background: var(--bg-offset);
   display: grid;
   grid-template-columns: 1.3fr 1fr;
   align-items: stretch;
@@ -225,19 +355,17 @@
 /* ── FLOATING BRAND LOGO ENGINE ── */
 .cta-floating-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none; /* Never interferes with button interactions */
   z-index: 1;
 }
 
 .bg-clover {
   position: absolute;
-  opacity: 0.03; /* Kept ultra-low for editorial background text readability */
+  --cta-opacity: 0.03;
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: ctaSnowflake infinite linear;
 }
 
 .bg-clover img {
@@ -248,61 +376,61 @@
   filter: grayscale(1) brightness(0); 
 }
 
-/* Precise sizing, position maps, and continuous animation timers */
+/* Precise sizing, position maps, and continuous snowflake dropping animation */
 .bg-clover.item-1 {
   width: 75px;
-  top: -10px;
   left: 12%;
-  animation: ctaFloatSlow 14s infinite ease-in-out;
+  animation-duration: 12s;
 }
 .bg-clover.item-2 {
   width: 120px;
-  bottom: -35px;
   left: 4%;
-  animation: ctaFloatMedium 18s infinite ease-in-out 1s;
+  animation-duration: 18s;
+  animation-delay: 2s;
 }
 .bg-clover.item-3 {
   width: 60px;
-  top: 45%;
   left: 48%;
-  animation: ctaFloatFast 11s infinite ease-in-out 0.5s;
+  animation-duration: 10s;
+  animation-delay: 1s;
 }
 .bg-clover.item-4 {
   width: 95px;
-  top: 15%;
   right: 34%;
-  animation: ctaFloatMedium 15s infinite ease-in-out 2s;
+  animation-duration: 15s;
+  animation-delay: 4s;
 }
 .bg-clover.item-5 {
   width: 110px;
-  bottom: -25px;
   right: 6%;
-  animation: ctaFloatSlow 20s infinite ease-in-out 0.2s;
-  opacity: 0.015; /* Fractionally lighter inside the dark side split grid block */
+  animation-duration: 20s;
+  animation-delay: 0.5s;
+  --cta-opacity: 0.015; /* Fractionally lighter inside the dark side split grid block */
 }
 
 /* On card container hover, background elements experience a subtle contrast push */
 .cta-panel:hover .bg-clover {
-  opacity: 0.055;
+  --cta-opacity: 0.055;
 }
 .cta-panel:hover .bg-clover.item-5 {
-  opacity: 0.03;
+  --cta-opacity: 0.03;
 }
 
-/* Premium Parallactic Float Track Frameworks */
-@keyframes ctaFloatSlow {
-  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-  50%      { transform: translateY(-15px) rotate(8deg) scale(1.06); }
-}
-
-@keyframes ctaFloatMedium {
-  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-  50%      { transform: translateY(-25px) rotate(-10deg) scale(0.94); }
-}
-
-@keyframes ctaFloatFast {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-18px) rotate(12deg); }
+/* Infinite Snowflake Drop Animation */
+@keyframes ctaSnowflake {
+  0% {
+    top: -150px;
+    transform: translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: var(--cta-opacity);
+  }
+  100% {
+    top: 100%;
+    transform: translateX(40px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 /* ── LAYOUT & TYPOGRAPHY FLOW ── */
@@ -328,10 +456,8 @@
   font-size: clamp(2.5rem, 4.5vw, 3.75rem);
   line-height: 1.05;
   letter-spacing: -0.04em;
-  text-transform: none;
   font-weight: 900;
   color: var(--text);
-  opacity: 1;
 }
 
 .call-to-action .cta-description {
@@ -349,7 +475,6 @@
   gap: 0.6rem;
   background: var(--bg);
   padding: 8px 16px;
-  border: none;
   border-radius: var(--radius-sm);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
@@ -385,144 +510,12 @@
   gap: 1rem;
   position: relative;
   z-index: 2;
-  width: 100%;
   background: rgba(0, 0, 0, 0.025); /* Architectural color-blocked separation instead of lines */
   padding: var(--spacing-lg) clamp(2rem, 5vw, 3.5rem);
 }
 
 .call-to-action .cta-actions .btn-primary,
 .call-to-action .cta-actions .btn-secondary {
-  width: 100%;
   padding: 1.15rem 2rem;
-  font-size: 0.75rem;
 }
 
-/* =============================================================================
-   FEATURED PRODUCTS — Homepage featured grid and cards
-   — Used by: index.html (home page) — the 3-column product showcase.
-   — .featured-products: section wrapper with bottom border.
-   — .featured-grid: 3-column equal CSS Grid.
-   — .featured-card: bordered flex column card; lifts + accent border on hover.
-   — .product-tag: absolute "Featured" / category badge pinned top-left of card.
-   — .product-image-container: square aspect-ratio image box with overflow hidden.
-   — .featured-card img: zooms in on card hover.
-   — .product-info: flex-grows to fill card height so price/button sit at bottom.
-   — .featured-card .btn-secondary: full-width ghost button; inverts to filled on hover.
-   ============================================================================= */
-
-/* Featured Products & Grids */
-.featured-products {
-  padding: 0;
-  margin-bottom: 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.featured-products .container {
-  padding: var(--spacing-lg) clamp(1.5rem, 6vw, 5rem);
-}
-
-.featured-grid {
-  display: grid;
-  grid-template-columns: repeat(3 ,1fr);
-  gap: var(--spacing-xl);
-  align-items: stretch;
-}
-
-.featured-card {
-  background: var(--card);
-  padding: var(--spacing-lg);
-  transition: var(--transition);
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
-  text-align: left;
-}
-
-.featured-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-10px) scale(1.01);
-  box-shadow: 0 24px 48px rgba(0,0,0,0.10), 0 8px 16px rgba(0,0,0,0.06);
-}
-
-.product-tag {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  z-index: 5;
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  background: var(--accent);
-  color: white;
-  padding: 0.4rem 0.8rem;
-  opacity: 0.9;
-}
-
-.product-image-container {
-  width: 100%;
-  aspect-ratio: 1;
-  margin-bottom: var(--spacing-md);
-  overflow: hidden;
-  background: var(--bg-offset);
-}
-
-.featured-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: none;
-  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-  margin-bottom: 0;
-  transform-origin: center;
-}
-
-.featured-card:hover img {
-  transform: scale(1.08);
-}
-
-.product-info {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.featured-card h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  text-transform: none;
-  letter-spacing: -0.01em;
-  font-weight: 800;
-}
-
-.featured-card p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin-bottom: var(--spacing-md);
-  line-height: 1.5;
-  flex-grow: 1;
-}
-
-.featured-card .price {
-  font-size: 1.25rem;
-  font-weight: 300;
-  color: var(--text);
-  margin-bottom: var(--spacing-md);
-  display: block;
-}
-
-.featured-card .btn-secondary {
-  align-self: flex-start;
-  width: 100%;
-  border-color: var(--border);
-}
-
-.featured-card:hover .btn-secondary {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-}

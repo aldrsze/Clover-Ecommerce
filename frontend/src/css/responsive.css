@@ -58,6 +58,7 @@
   }
 }
 
+
 /* ── PC/LAPTOP FLUID SCALING (1024px and up) ── */
 @media (min-width: 1024px) {
 
@@ -185,6 +186,63 @@
     grid-template-columns: 1.5fr repeat(3, 1fr);
     gap: clamp(2rem, 4vw, 6rem);
   }
+}
+
+/* ── LARGE SCREEN OPTIMIZATION (1900px+) ── */
+@media (min-width: 1900px) {
+    .featured-products .container {
+      padding: var(--spacing-xl) clamp(2rem, 8vw, 8rem);
+    }
+
+    .featured-grid {
+      gap: 4rem;
+      max-width: 1500px; /* Further increased for better proportion */
+      margin: 0 auto;
+    }
+
+    .featured-card {
+      padding: 3.5rem; /* More generous internal padding */
+    }
+
+    .featured-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.15), 0 15px 30px rgba(0,0,0,0.08);
+    }
+
+    .product-tag {
+      top: 2.5rem;
+      left: 2.5rem;
+      font-size: 0.85rem;
+      padding: 0.6rem 1.2rem;
+    }
+
+    .product-image-container {
+      margin-bottom: 3.5rem;
+      margin-top: 1rem;
+    }
+
+    .featured-card h3 {
+      font-size: 2rem; /* Substantially larger title */
+      margin-bottom: 1.25rem;
+    }
+
+    .featured-card p {
+      font-size: 1.2rem; /* Larger description */
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .featured-card .price {
+      font-size: 2rem; /* Substantially larger price */
+      margin-bottom: 3rem;
+    }
+
+    /* Scaling the button for ultra-wide */
+    .featured-card .btn-secondary {
+      padding: 1.25rem 2rem;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+    }
 }
 
 /* ── ULTRA-WIDE OPTIMIZATION (2000px+) ── */
