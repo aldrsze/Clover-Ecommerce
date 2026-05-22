@@ -26,7 +26,9 @@ A modern, high-end e-commerce platform built with the **PERN stack**. This proje
 - PostgreSQL
 
 ### 1. Clone the repository
-   `git clone https://github.com/aldrsze/Clover-Ecommerce.git`
+  ```cmd
+    git clone https://github.com/aldrsze/Clover-Ecommerce.git
+  ```
 
 ### 2. Backend Configuration
 - Navigate to `/backend`
