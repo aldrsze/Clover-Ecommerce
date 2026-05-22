@@ -25,7 +25,10 @@ A modern, high-end e-commerce platform built with the **PERN stack**. This proje
 - Node.js (LTS)
 - PostgreSQL
 
-### 1. Backend Configuration
+### 1. Clone the repository
+   `git clone https://github.com/aldrsze/Clover-Ecommerce.git`
+
+### 2. Backend Configuration
 - Navigate to `/backend`
 - Run `npm install`
 - Create a `.env` file in the `/backend` directory:
@@ -39,7 +42,7 @@ A modern, high-end e-commerce platform built with the **PERN stack**. This proje
   ```
 - Start server: `npm run dev`
 
-### 2. Frontend Configuration
+### 3. Frontend Configuration
 - Navigate to `/frontend`
 - Run `npm install`
 - Start client: `npm run dev`
