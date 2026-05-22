@@ -12,6 +12,11 @@
    — .about-text-side: right column, left-aligned text.
    — .lead-text: large light-weight intro paragraph.
    — .about-values / .value-item: grid of brand values; slides + highlights on hover.
+
+   FLUID SCALING NOTES (laptop → desktop: 1024px–1920px)
+   — All clamp() calls follow the pattern: clamp(MIN, PREFERRED-VW, MAX)
+   — PREFERRED is a viewport-relative value that grows linearly across the range.
+   — No mobile breakpoints are added; these rules only concern laptop/desktop.
    ============================================================================= */
 
 /* About Us Overhaul */
@@ -20,31 +25,50 @@
   border-bottom: 1px solid var(--border);
 }
 
+/*
+  Container horizontal padding:
+    1024px → 1.5rem  |  1920px → 5rem
+  Formula: (5 - 1.5) / (1920 - 1024) * 100vw ≈ 3.9vw, offset ≈ -2.49rem
+  Simplified: clamp(1.5rem, 4vw - 2rem, 5rem)
+*/
 .about-us-container .container {
-  padding: var(--spacing-xl) clamp(1.5rem, 6vw, 5rem);
+  padding: clamp(2rem, 4vw, 4rem) clamp(1.5rem, 4vw - 2rem, 5rem);
 }
 
+/*
+  Gap: 1024px → ~2rem  |  1920px → ~4rem
+*/
 .about-content-wrapper {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
-  gap: var(--spacing-xl);
+  gap: clamp(2rem, 3.5vw, 4rem);
   align-items: center;
   width: 100%;
   margin: 0 auto;
 }
 
-/* Text Composition for About Us */
+/* ── Text Composition ─────────────────────────────────────────────────────── */
+
+/*
+  Height: 1024px → 180px  |  1920px → 260px
+  ≈ clamp(11.25rem, 14vw, 16.25rem)
+*/
 .text-composition {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 200px; /* Reduced from 300px to be more compact */
+  height: clamp(11.25rem, 14vw, 16.25rem);
 }
 
+/*
+  Font size: 1024px → 4rem  |  1920px → 7rem
+  Slope: (7 - 4) / (1920 - 1024) * 100 ≈ 0.335vw per rem
+  clamp(4rem, 3.35vw + 0.56rem, 7rem)
+*/
 .animated-clover-text {
-  font-size: 5rem; /* Reduced from 8rem to prioritize content */
+  font-size: clamp(4rem, 3.35vw + 0.56rem, 7rem);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -54,7 +78,7 @@
   z-index: 2;
   display: flex;
   gap: 0.05em;
-  opacity: 0.8; /* Slightly more subtle */
+  opacity: 0.8;
 }
 
 .animated-clover-text span {
@@ -72,19 +96,23 @@
 
 @keyframes float-letter {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); } /* Reduced motion */
+  50% { transform: translateY(-15px); }
 }
 
+/*
+  Glow circle: 1024px → 90px  |  1920px → 140px  ≈ clamp(5.625rem, 7.5vw, 8.75rem)
+  Blur:        1024px → 55px  |  1920px → 80px   ≈ clamp(3.4375rem, 4.5vw, 5rem)
+*/
 .text-decorative-glow {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
+  width: clamp(5.625rem, 7.5vw, 8.75rem);
+  height: clamp(5.625rem, 7.5vw, 8.75rem);
   background: var(--text);
   border-radius: 50%;
-  filter: blur(60px);
+  filter: blur(clamp(3.4375rem, 4.5vw, 5rem));
   opacity: 0.03;
   z-index: 1;
   animation: pulse-glow 8s ease-in-out infinite;
@@ -95,45 +123,68 @@
   50% { opacity: 0.05; transform: translate(-50%, -50%) scale(1.3); }
 }
 
+/* ── Right Column (Text Side) ─────────────────────────────────────────────── */
+
 .about-text-side {
   text-align: left;
 }
 
+/*
+  h2 bottom margin: 1024px → 1rem  |  1920px → 2rem
+*/
 .about-text-side h2 {
   text-align: left;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: clamp(1rem, 1.8vw, 2rem);
 }
 
+/*
+  Lead text: 1024px → 1.1rem  |  1920px → 1.4rem
+  Slope: 0.3 / 896 * 100 ≈ 0.033vw → clamp(1.1rem, 0.33vw + 0.76rem, 1.4rem)
+*/
 .lead-text {
-  font-size: 1.25rem; /* Slightly smaller for better focus */
+  font-size: clamp(1.1rem, 0.33vw + 0.76rem, 1.4rem);
   line-height: 1.5;
   color: var(--text);
   font-weight: 300;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: clamp(1.5rem, 2.5vw, 3rem);
 }
 
+/*
+  Values grid gap: 1024px → 1.25rem  |  1920px → 2rem
+*/
 .about-values {
   display: grid;
-  gap: var(--spacing-lg); /* More air between value items */
+  gap: clamp(1.25rem, 1.8vw, 2rem);
 }
+
+/* ── Value Items ──────────────────────────────────────────────────────────── */
 
 .value-item {
   padding-left: 0;
   border-left: 2px solid transparent;
-  transition: border-color 0.3s ease, padding-left 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition:
+    border-color 0.3s ease,
+    padding-left 0.3s ease,
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/*
+  Hover indent: 1024px → 0.75rem  |  1920px → 1.25rem
+*/
 .value-item:hover {
   border-left-color: var(--accent);
-  padding-left: 1rem;
+  padding-left: clamp(0.75rem, 1.2vw, 1.25rem);
   transform: translateX(2px);
 }
 
+/*
+  Label font: 1024px → 0.7rem  |  1920px → 0.8rem
+*/
 .value-item h3 {
-  font-size: 0.75rem;
+  font-size: clamp(0.7rem, 0.1vw + 0.6rem, 0.8rem);
   font-weight: 800;
   letter-spacing: 0.15em;
-  margin-bottom: 0.5rem;
+  margin-bottom: clamp(0.3rem, 0.5vw, 0.6rem);
   opacity: 0.6;
   transition: opacity 0.3s ease;
 }
@@ -142,7 +193,10 @@
   opacity: 1;
 }
 
+/*
+  Body copy: 1024px → 0.875rem  |  1920px → 1rem
+*/
 .value-item p {
-  font-size: 0.95rem;
+  font-size: clamp(0.875rem, 0.14vw + 0.73rem, 1rem);
   margin-bottom: 0;
 }

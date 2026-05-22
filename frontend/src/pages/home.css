@@ -1,19 +1,7 @@
 /* =============================================================================
    HOME PAGE — Hero section, image composition, CTA strip
-   — Used by: index.html (home page) only.
-   — .home-page-content: zero padding wrapper for the page body.
-   — .hero-section: full-width two-column section at the top of the home page.
-   — .hero-content-wrapper: CSS Grid — text left, image right.
-   — .hero-title: large clamp-sized headline with italic/light span variant.
-   — .hero-subtitle: supporting description text under the headline.
-   — .hero-actions: flex row holding the CTA buttons.
-   — .hero-image-side / .hero-composition: positioned container for layered product images.
-   — .comp-item.main/sub-1/sub-2: three overlapping product image layers with
-     rotation and z-index; sub items gently drift on composition hover.
-   — .hero-decorative-bg: blurred circular background behind the composition.
-   — .floating-img / .floating-img-alt: continuous float animations with stagger.
-   — @keyframes float / float-alt: vertical float loop used by hero images.
-   — .call-to-action: centered strip between hero and featured products.
+   Fluid layout via clamp() — scales smoothly from ~1024px to ~1920px viewports
+   without discrete media-query breakpoints for the core layout geometry.
    ============================================================================= */
 
 /* Home Page */
@@ -44,23 +32,26 @@
   align-items: center;
 }
 
+/* Grid column ratio is stable for laptop-to-desktop */
 .hero-content-wrapper {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: var(--spacing-xs);
+  gap: clamp(1rem, 1.5vw, var(--spacing-md, 2rem));
   align-items: center;
   text-align: left;
   width: 100%;
 }
 
+/* Typography: 5.5rem (laptop) → 8rem (ultrawide), governed by viewport width */
 .hero-title {
-  font-size: clamp(3.5rem, 8vw, 8rem);
+  font-size: clamp(5.5rem, 6.5vw, 8rem);
   line-height: 0.85;
   letter-spacing: -0.02em;
   font-weight: 900;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: clamp(1.25rem, 1.8vw, var(--spacing-md, 2rem));
   text-transform: none;
-  margin-top: -60px;
+  /* Negative top margin scales with viewport */
+  margin-top: clamp(-30px, -2.5vh, -20px);
 }
 
 .hero-title span {
@@ -71,22 +62,26 @@
   letter-spacing: -0.06em;
 }
 
+/* Subtitle: 1.15rem (laptop) → 1.35rem (desktop), max-width scales with viewport */
 .hero-subtitle {
-  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
-  max-width: 700px;
-  margin-bottom: var(--spacing-xl);
+  font-size: clamp(1.15rem, 1.3vw, 1.35rem);
+  max-width: clamp(500px, 45vw, 700px);
+  margin-bottom: clamp(3rem, 4vw, var(--spacing-xl, 4.5rem));
   line-height: 1.6;
 }
 
 .hero-actions {
   display: flex;
-  gap: var(--spacing-md);
+  gap: clamp(1rem, 1.5vw, var(--spacing-md, 1.5rem));
+  flex-wrap: wrap; /* prevents overflow on narrower laptops */
 }
 
-/* Hero Composition */
+/* ── Hero Composition ── */
+
+/* Height of the image stage scales fluidly: 600px (laptop) → 850px (4K) */
 .hero-image-side {
   position: relative;
-  height: clamp(400px, 40vw, 750px);
+  height: clamp(600px, 55vw, 850px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,10 +101,10 @@
   align-items: center;
 }
 
-/* Tight Stacked Composition as per screenshot */
 .comp-item.main {
   z-index: 10;
-  width: 85%;
+  /* Width: 75% on laptop → 85% on desktop */
+  width: clamp(75%, 5vw + 70%, 85%);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -117,7 +112,7 @@
 
 .comp-item.sub-1 {
   z-index: 5;
-  width: 75%;
+  width: clamp(65%, 5vw + 60%, 75%);
   top: 35%;
   left: 70%;
   transform: translate(-50%, -50%) rotate(12deg);
@@ -126,7 +121,7 @@
 
 .comp-item.sub-2 {
   z-index: 4;
-  width: 75%;
+  width: clamp(65%, 5vw + 60%, 75%);
   top: 65%;
   left: 35%;
   transform: translate(-50%, -50%) rotate(-15deg);
@@ -136,18 +131,17 @@
 .comp-item img {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.12));
+  /* Shadow depth scales with viewport */
+  filter: drop-shadow(0 clamp(16px, 2vw, 20px) clamp(32px, 3.5vw, 40px) rgba(0,0,0,0.12));
 }
 
-/* Subtle drift that preserves the "stacked" look */
+/* Hover drift — unchanged, these are delta transforms */
 .hero-composition:hover .comp-item.sub-1 {
   transform: translate(-45%, -55%) rotate(15deg);
 }
-
 .hero-composition:hover .comp-item.sub-2 {
   transform: translate(-55%, -45%) rotate(-18deg);
 }
-
 .hero-composition:hover .comp-item.main {
   transform: translate(-50%, -52%) scale(1.02);
 }
@@ -165,68 +159,59 @@
   opacity: 0.5;
 }
 
-/* Specific Animations for Hero */
-.floating-img {
-  animation: float 6s ease-in-out infinite;
-}
+/* Float animations */
+.floating-img     { animation: float     6s ease-in-out infinite; }
+.floating-img-alt { animation: float-alt 7s ease-in-out infinite; }
 
-.floating-img-alt {
-  animation: float-alt 7s ease-in-out infinite;
-}
-
-/* Stagger delays for hero items */
 .comp-item.sub-1 .floating-img-alt { animation-delay: 0.5s; }
-.comp-item.sub-2 .floating-img { animation-delay: 1s; }
+.comp-item.sub-2 .floating-img     { animation-delay: 1s; }
 
+/* Float travel: 18px (laptop) → 25px (desktop) */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-25px); }
+  50%      { transform: translateY(clamp(-18px, -2vw, -25px)); }
 }
 
 @keyframes float-alt {
   0%, 100% { transform: translateY(0) rotate(2deg); }
-  50% { transform: translateY(-30px) rotate(-2deg); }
+  50%      { transform: translateY(clamp(-22px, -2.5vw, -30px)) rotate(-2deg); }
 }
+
 
 /* =============================================================================
    FEATURED PRODUCTS — Homepage featured grid and cards
-   — Used by: index.html (home page) — the 3-column product showcase.
-   — .featured-products: section wrapper with bottom border.
-   — .featured-grid: 3-column equal CSS Grid.
-   — .featured-card: bordered flex column card; lifts + accent border on hover.
-   — .product-tag: absolute "Featured" / category badge pinned top-left of card.
-   — .product-image-container: square aspect-ratio image box with overflow hidden.
-   — .featured-card img: zooms in on card hover.
-   — .product-info: flex-grows to fill card height so price/button sit at bottom.
-   — .featured-card .btn-secondary: full-width ghost button; inverts to filled on hover.
    ============================================================================= */
 
-/* Featured Products & Grids */
 .featured-products {
   padding: 0;
   margin-bottom: 0;
   border-bottom: 1px solid var(--border);
 }
 
+/* Horizontal padding and negative pull-up margin both scale with viewport */
 .featured-products .container {
-  padding: var(--spacing-xs) clamp(1.5rem, 7vw, 6rem);
+  padding: clamp(1.5rem, 2vw, var(--spacing-md, 2.5rem))
+           clamp(4rem, 6vw, 6rem);
+  margin-top: clamp(-100px, -10vh, -80px);
 }
 
+/* Grid auto-fills columns: min 180px, max 1fr */
 .featured-grid {
   display: grid;
-  grid-template-columns: repeat(3 ,1fr);
-  gap: var(--spacing-xs);
+  grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 16vw, 200px), 1fr));
+  gap: clamp(0.5rem, 1.2vw, 0.75rem);
   align-items: stretch;
-  max-width: 900px;
+  max-width: clamp(650px, 55vw, 850px);
   margin: 0 auto;
 }
 
 .featured-card {
   background: var(--card);
-  padding: var(--spacing-sm);
+  padding: clamp(0.85rem, 1.2vw, 1rem);
   transition: var(--transition);
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   border: 1px solid var(--border);
   position: relative;
   overflow: hidden;
@@ -244,23 +229,23 @@
   top: 0.75rem;
   left: 0.75rem;
   z-index: 5;
-  font-size: 0.55rem;
+  font-size: clamp(0.55rem, 0.6vw, 0.65rem);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   background: var(--accent);
   color: white;
-  padding: 0.3rem 0.6rem;
+  padding: clamp(0.25rem, 0.4vw, 0.35rem) clamp(0.5rem, 0.8vw, 0.7rem);
   opacity: 0.9;
 }
 
 .product-image-container {
-  width: 100%;
+  width: 90%;
   aspect-ratio: 1;
-  margin-top: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
+  margin: 0 auto clamp(0.75rem, 1.5vw, 1.25rem) auto;
   overflow: hidden;
   background: var(--bg);
+  border-radius: var(--radius-sm, 4px);
 }
 
 .featured-card img {
@@ -272,47 +257,45 @@
   margin-bottom: 0;
   transform-origin: center;
 }
-
-.featured-card:hover img {
-  transform: scale(1.08);
-}
+.featured-card:hover img { transform: scale(1.08); }
 
 .product-info {
   display: flex;
   flex-direction: column;
+  align-items: flex-start; /* Align items to the left */
   flex-grow: 1;
+  width: 100%;
 }
 
 .featured-card h3 {
-  font-size: 0.95rem;
-  margin-bottom: 0.35rem;
+  font-size: clamp(1rem, 1.1vw, 1.15rem);
+  margin-bottom: 0.4rem;
   text-transform: none;
   letter-spacing: -0.01em;
   font-weight: 800;
 }
 
 .featured-card p {
-  font-size: 0.78rem;
+  font-size: clamp(0.85rem, 0.9vw, 0.95rem);
   color: var(--text-muted);
-  margin-bottom: var(--spacing-sm);
-  line-height: 1.4;
+  margin-bottom: clamp(0.8rem, 1.8vw, 1rem);
+  line-height: 1.5;
   flex-grow: 1;
 }
 
 .featured-card .price {
-  font-size: 0.95rem;
-  font-weight: 300;
+  font-size: clamp(1rem, 1.1vw, 1.15rem);
+  font-weight: 400;
   color: var(--text);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: clamp(0.8rem, 1.8vw, 1rem);
   display: block;
 }
 
 .featured-card .btn-secondary {
-  align-self: flex-start;
+  align-self: stretch;
   width: 100%;
   border-color: var(--border);
 }
-
 .featured-card:hover .btn-secondary {
   border-color: var(--accent);
   background: var(--accent);
@@ -321,29 +304,34 @@
   box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 }
 
+
 /* =============================================================================
    CALL TO ACTION — Premium Asymmetric Color-Block + Floating Logo Icons
    ============================================================================= */
+
 .call-to-action {
-  border-bottom: 1px solid var(--border); /* Clean separator line */
+  border-bottom: 1px solid var(--border);
   position: relative;
 }
 
+/* Section padding scales: tighter on laptop, generous on desktop */
 .call-to-action .container {
-  padding: var(--spacing-lg) clamp(1.5rem, 6vw, 5rem);
+  padding: clamp(2.5rem, 4vw, var(--spacing-lg, 4rem))
+           clamp(2.5rem, 6vw, 5rem);
 }
 
 .call-to-action .cta-panel {
-  max-width: 1150px;
+  max-width: clamp(900px, 80vw, 1150px);
   margin: 0 auto;
   background: var(--bg-offset);
-  display: grid;
+  /* Column ratio: 1.3/1 stable across larger screens */
   grid-template-columns: 1.3fr 1fr;
+  display: grid;
   align-items: stretch;
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -352,11 +340,11 @@
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
 }
 
-/* ── FLOATING BRAND LOGO ENGINE ── */
+/* ── Floating Brand Logo Engine ── */
 .cta-floating-bg {
   position: absolute;
   inset: 0;
-  pointer-events: none; /* Never interferes with button interactions */
+  pointer-events: none;
   z-index: 1;
 }
 
@@ -372,88 +360,57 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  /* Forces icon to render black/minimalist grayscale, echoing your brand rules */
-  filter: grayscale(1) brightness(0); 
+  filter: grayscale(1) brightness(0);
 }
 
-/* Precise sizing, position maps, and continuous snowflake dropping animation */
-.bg-clover.item-1 {
-  width: 75px;
-  left: 12%;
-  animation-duration: 12s;
-}
-.bg-clover.item-2 {
-  width: 120px;
-  left: 4%;
-  animation-duration: 18s;
-  animation-delay: 2s;
-}
-.bg-clover.item-3 {
-  width: 60px;
-  left: 48%;
-  animation-duration: 10s;
-  animation-delay: 1s;
-}
-.bg-clover.item-4 {
-  width: 95px;
-  right: 34%;
-  animation-duration: 15s;
-  animation-delay: 4s;
-}
+/* Icon sizes scale with viewport starting at larger baseline */
+.bg-clover.item-1 { width: clamp(60px, 6vw, 75px);   left: 12%; animation-duration: 12s; }
+.bg-clover.item-2 { width: clamp(90px, 8vw, 120px);  left:  4%; animation-duration: 18s; animation-delay: 2s; }
+.bg-clover.item-3 { width: clamp(45px, 4.5vw, 60px); left: 48%; animation-duration: 10s; animation-delay: 1s; }
+.bg-clover.item-4 { width: clamp(75px, 6.5vw, 95px); right: 34%; animation-duration: 15s; animation-delay: 4s; }
 .bg-clover.item-5 {
-  width: 110px;
+  width: clamp(85px, 7.5vw, 110px);
   right: 6%;
   animation-duration: 20s;
   animation-delay: 0.5s;
-  --cta-opacity: 0.015; /* Fractionally lighter inside the dark side split grid block */
+  --cta-opacity: 0.015;
 }
 
-/* On card container hover, background elements experience a subtle contrast push */
-.cta-panel:hover .bg-clover {
-  --cta-opacity: 0.055;
-}
-.cta-panel:hover .bg-clover.item-5 {
-  --cta-opacity: 0.03;
-}
+.cta-panel:hover .bg-clover        { --cta-opacity: 0.055; }
+.cta-panel:hover .bg-clover.item-5 { --cta-opacity: 0.03;  }
 
-/* Infinite Snowflake Drop Animation */
 @keyframes ctaSnowflake {
-  0% {
-    top: -150px;
-    transform: translateX(0) rotate(0deg);
-    opacity: 0;
-  }
-  10%, 90% {
-    opacity: var(--cta-opacity);
-  }
-  100% {
-    top: 100%;
-    transform: translateX(40px) rotate(360deg);
-    opacity: 0;
-  }
+  0%        { top: -150px; transform: translateX(0)    rotate(0deg);   opacity: 0; }
+  10%, 90%  { opacity: var(--cta-opacity); }
+  100%      { top: 100%;   transform: translateX(40px) rotate(360deg); opacity: 0; }
 }
 
-/* ── LAYOUT & TYPOGRAPHY FLOW ── */
+/* ── Layout & Typography ── */
 .call-to-action .cta-copy {
   text-align: left;
   position: relative;
   z-index: 2;
-  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-lg) clamp(2rem, 5vw, 4rem);
+  /* Padding scales from compact on laptop to generous on desktop */
+  padding: clamp(2.5rem, 3vw, var(--spacing-lg, 4rem))
+           clamp(2.5rem, 3vw, var(--spacing-lg, 4rem))
+           clamp(2.5rem, 3vw, var(--spacing-lg, 4rem))
+           clamp(3rem, 4vw, 4rem);
 }
 
 .call-to-action .cta-eyebrow {
   display: block;
-  font-size: 0.7rem;
+  font-size: clamp(0.65rem, 0.7vw, 0.75rem);
   font-weight: 800;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
 }
 
+/* Headline: 3rem (laptop) → 4rem (desktop) */
 .call-to-action h2 {
-  margin-bottom: 1.25rem;
-  font-size: clamp(2.5rem, 4.5vw, 3.75rem);
+  margin-bottom: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(3rem, 3.5vw, 4rem);
   line-height: 1.05;
   letter-spacing: -0.04em;
   font-weight: 900;
@@ -461,20 +418,20 @@
 }
 
 .call-to-action .cta-description {
-  max-width: 32rem;
-  margin: 0 0 2.5rem 0;
-  font-size: 1.15rem;
+  max-width: clamp(28rem, 30vw, 36rem);
+  margin: 0 0 clamp(2rem, 3.5vw, 2.5rem) 0;
+  font-size: clamp(1.05rem, 1.1vw, 1.15rem);
   color: var(--text-muted);
   line-height: 1.65;
 }
 
-/* Operational Status Tracker Badge */
+/* Status badge */
 .cta-meta-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   background: var(--bg);
-  padding: 8px 16px;
+  padding: clamp(6px, 0.7vw, 8px) clamp(12px, 1.2vw, 16px);
   border-radius: var(--radius-sm);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
@@ -490,32 +447,33 @@
 
 @keyframes mini-pulse {
   0%, 100% { opacity: 0.3; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.2); }
+  50%      { opacity: 1;   transform: scale(1.2); }
 }
 
 .call-to-action .cta-meta {
   margin-bottom: 0;
-  font-size: 0.7rem;
+  font-size: clamp(0.65rem, 0.7vw, 0.75rem);
   color: var(--text);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 800;
 }
 
-/* ── ACTIONS BACKDROP SPLIT ZONE ── */
+/* ── Actions Zone ── */
 .call-to-action .cta-actions {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
+  gap: clamp(0.75rem, 1.5vw, 1rem);
   position: relative;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.025); /* Architectural color-blocked separation instead of lines */
-  padding: var(--spacing-lg) clamp(2rem, 5vw, 3.5rem);
+  background: rgba(0, 0, 0, 0.025);
+  padding: clamp(2.5rem, 3.5vw, var(--spacing-lg, 4rem))
+           clamp(2.5rem, 4vw, 3.5rem);
 }
 
+/* CTA buttons get fluid vertical padding so they don't shrink awkwardly */
 .call-to-action .cta-actions .btn-primary,
 .call-to-action .cta-actions .btn-secondary {
-  padding: 1.15rem 2rem;
+  padding: clamp(1rem, 1.2vw, 1.25rem) clamp(1.5rem, 2vw, 2.5rem);
 }
-

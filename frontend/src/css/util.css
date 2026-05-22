@@ -18,9 +18,3 @@
 ::-webkit-scrollbar-thumb {
   background: #000;
 }
-
-/* Accessibility */
-:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 4px;
-}

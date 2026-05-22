@@ -14,35 +14,33 @@
 
 /* =============================================================================
    CSS CUSTOM PROPERTIES  (Design Tokens / Variables)
-   — Used by: every component across all pages.
-   — Change values here to update the theme site-wide.
-   — Palette: Modern Minimalist Monochrome (black/white/grey).
    ============================================================================= */
 :root {
-  /* Modern Minimalist Monochrome Palette */
   --bg: #ffffff;
   --bg-offset: #f9f9f9;
   --card: #ffffff;
   --card-hover: #ffffff;
   --text: #000000;
   --text-muted: #666666;
-  --accent: #000000; /* Primary action color */
+  --accent: #000000;
   --border: #e5e5e5;
   --border-strong: #000000;
-  
-  --radius: 4px; /* Sharper edges for a more modern, minimal look */
+
+  --radius: 4px;
   --radius-sm: 2px;
-  
+
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
   --shadow: 0 4px 6px rgba(0,0,0,0.02);
-  
+
   --container: 1800px;
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 3rem;
-  --spacing-xl: 4.5rem;
-  
+
+  /* Spacing tokens — fluid from ~1024px (laptop) to ~1440px (desktop) */
+  --spacing-xs: clamp(0.5rem, 0.8vw, 0.625rem);
+  --spacing-sm: clamp(1rem, 1.4vw, 1.25rem);
+  --spacing-md: clamp(1.5rem, 2.5vw, 2rem);
+  --spacing-lg: clamp(3rem, 4.5vw, 4rem);
+  --spacing-xl: clamp(4.5rem, 7vw, 6rem);
+
   --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -50,13 +48,7 @@
 
 /* =============================================================================
    RESET & BASE STYLES
-   — Used by: every page — resets browser defaults and sets global box model.
-   — html: enables smooth scroll + reserves offset for the sticky header height.
-   — body: sets global font, background, text color, and line-height.
-   — .container: the centered max-width wrapper used in every section.
    ============================================================================= */
-
-/* Reset & Base Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -65,7 +57,8 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* Adjust based on sticky header height */
+  /* Offset scales with header height, which shrinks on laptops */
+  scroll-padding-top: clamp(70px, 7vh, 90px);
 }
 
 body {
@@ -81,8 +74,8 @@ body {
 
 body.has-snap-scroll {
   scroll-snap-type: y mandatory;
-  overflow-y: scroll; /* Force scrollbar to prevent layout shift */
-  scroll-padding-top: 80px;
+  overflow-y: scroll;
+  scroll-padding-top: clamp(70px, 7vh, 90px);
 }
 
 #root {
@@ -99,20 +92,14 @@ body.has-snap-scroll {
 .container {
   max-width: var(--container);
   margin: 0 auto;
-  padding: 0 clamp(1.5rem, 6vw, 5rem);
+  /* Horizontal gutters: balanced on laptop, generous on desktop */
+  padding: 0 clamp(2.5rem, 6vw, 5rem);
 }
 
 
 /* =============================================================================
    TYPOGRAPHY — Global headings, paragraphs, section headers
-   — Used by: all pages.
-   — h1–h4: shared bold/uppercase base style.
-   — .section-header and the list of h2 selectors: small-caps eyebrow label
-     used as the title above every major section (featured products, about, etc.)
-   — p: default muted color and size for body copy.
    ============================================================================= */
-
-/* Typography */
 h1, h2, h3, h4 {
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -121,13 +108,14 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
 }
 
-/* Elegant Section Header Style */
-.featured-products h2, 
+/* Section eyebrow labels */
+.featured-products h2,
 .product-category h2,
 .call-to-action h2 {
   text-align: center;
   margin-bottom: var(--spacing-lg);
-  font-size: 0.8rem;
+  /* 0.75rem (laptop) → 0.9rem (desktop) */
+  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
   font-weight: 800;
   letter-spacing: 0.3em;
   opacity: 0.4;
@@ -137,23 +125,15 @@ h1, h2, h3, h4 {
 p {
   color: var(--text-muted);
   margin-bottom: var(--spacing-sm);
-  font-size: 1rem;
+  /* 1rem (laptop) → 1.125rem (desktop) */
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
   font-weight: 400;
 }
 
+
 /* =============================================================================
    HEADER & NAVIGATION
-   — Used by: all pages — the sticky frosted-glass bar at the top.
-   — header: sticky, z-index 100, frosted glass via backdrop-filter.
-   — header h1: brand name text fallback (if not using logo image).
-   — nav ul / nav a: horizontal link list with uppercase label style.
-   — nav a opacity/letter-spacing: dim-to-bright + subtle letter-spacing expand on hover.
-   — nav a::before / ::after: two-layer animated underline —
-       ::before = light grey track that reveals first,
-       ::after  = solid accent fill that sweeps in slightly after.
    ============================================================================= */
-
-/* Header & Navigation */
 header {
   position: sticky;
   top: 0;
@@ -162,9 +142,11 @@ header {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  padding: 0.85rem 0;
+  /* Vertical padding scales for laptop -> desktop */
+  padding: clamp(0.75rem, 1.2vw, 1.25rem) 0;
   transition: var(--transition);
-  min-height: 70px;
+  /* Header height scales: 70px (laptop) → 90px (desktop) */
+  min-height: clamp(70px, 7vh, 90px);
   display: flex;
   align-items: center;
 }
@@ -173,30 +155,23 @@ header {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: clamp(1.5rem, 3vw, var(--spacing-md));
   width: 100%;
 }
 
-.header-left {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.header-center {
-  display: flex;
-  justify-content: center;
-}
-
+.header-left  { display: flex; justify-content: flex-start; }
+.header-center { display: flex; justify-content: center; }
 .header-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: clamp(1rem, 2vw, var(--spacing-sm));
 }
 
 nav ul {
   display: flex;
-  gap: 2rem;
+  /* Gap between links: 2rem (laptop) → 3rem (desktop) */
+  gap: clamp(2rem, 3.5vw, 3rem);
   list-style: none;
 }
 
@@ -204,7 +179,8 @@ nav a {
   color: var(--text);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.75rem;
+  /* Nav labels: 0.75rem (laptop) → 0.85rem (desktop) */
+  font-size: clamp(0.75rem, 1.1vw, 0.85rem);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   opacity: 0.45;
@@ -213,13 +189,13 @@ nav a {
   transition: opacity 0.3s ease, letter-spacing 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Icon Buttons (Cart, Search) */
+/* Icon Buttons */
 .icon-btn {
   background: none;
   border: none;
   color: var(--text);
   cursor: pointer;
-  padding: 0.5rem;
+  padding: clamp(0.5rem, 0.8vw, 0.75rem);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -227,7 +203,6 @@ nav a {
   transition: var(--transition-fast);
   opacity: 0.6;
 }
-
 .icon-btn:hover {
   opacity: 1;
   transform: translateY(-1px);
@@ -239,10 +214,11 @@ nav a {
   right: 0;
   background: var(--accent);
   color: white;
-  font-size: 0.6rem;
+  /* Badge label: 0.6rem → 0.7rem */
+  font-size: clamp(0.6rem, 0.9vw, 0.7rem);
   font-weight: 800;
-  width: 16px;
-  height: 16px;
+  width: clamp(16px, 1.5vw, 20px);
+  height: clamp(16px, 1.5vw, 20px);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -263,7 +239,8 @@ nav a {
   padding: 0;
   border: none !important;
   background: none !important;
-  font-size: 0.85rem;
+  /* Input text: 0.85rem → 1rem */
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
   font-family: inherit;
   outline: none !important;
   box-shadow: none !important;
@@ -272,12 +249,7 @@ nav a {
   border-bottom: 1.5px solid transparent !important;
   color: var(--text);
 }
-
-.search-input::placeholder {
-  color: var(--text-muted);
-  opacity: 0.6;
-}
-
+.search-input::placeholder { color: var(--text-muted); opacity: 0.6; }
 .search-input:focus {
   outline: none !important;
   box-shadow: none !important;
@@ -285,14 +257,12 @@ nav a {
 }
 
 .search-wrapper.active .search-input {
-  width: 240px;
-  padding: 0.4rem 0.8rem;
+  /* Expanded width: 220px (laptop) → 300px (desktop) */
+  width: clamp(220px, 22vw, 300px);
+  padding: 0.5rem 1rem;
   border-bottom-color: var(--text) !important;
 }
-
-.search-trigger {
-  z-index: 2;
-}
+.search-trigger { z-index: 2; }
 
 nav a:hover,
 nav a.is-active {
@@ -300,67 +270,48 @@ nav a.is-active {
   letter-spacing: 0.18em;
 }
 
-/* Two-layer underline: full track + sliding fill */
+/* Two-layer underline */
 nav a::before {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
+  bottom: 0; left: 0;
+  width: 100%; height: 1px;
   background-color: var(--border);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 nav a::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
+  bottom: 0; left: 0;
+  width: 100%; height: 1px;
   background-color: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.05s;
 }
-
-/* Ensure the two-layer sliding underline stays fully expanded when the link is active */
-nav a:hover::before,
-nav a:hover::after,
-nav a.is-active::before,
-nav a.is-active::after {
+nav a:hover::before, nav a:hover::after,
+nav a.is-active::before, nav a.is-active::after {
   transform: scaleX(1);
 }
 
 
 /* =============================================================================
    BUTTONS
-   — Used by: all pages — .btn-primary, .btn-secondary, product card buttons,
-     contact form submit button.
-   — Shared base: flex-centered, uppercase, small letter-spaced label.
-   — .btn-primary / .product-card button / .contact-form button:
-       solid black fill, white text, shimmer sweep on hover via ::before pseudo.
-   — ::before shimmer: diagonal light stripe that slides left-to-right on hover.
-   — Hover state: lifts with translateY + slight scale + deep shadow.
-   — Active state: partial lift-back for a press-down feel.
-   — .btn-secondary: transparent/ghost variant, no shimmer sweep.
-       Hover fills bg-offset and darkens border.
    ============================================================================= */
-
-/* Buttons */
 .btn-primary, .btn-secondary, .product-card button, .contact-form button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.85rem 2rem;
+  /* Padding: snug on laptop, full on desktop */
+  padding: clamp(0.85rem, 1.2vw, 1rem) clamp(2rem, 3vw, 2.5rem);
   border-radius: var(--radius-sm);
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  font-size: 0.75rem;
+  /* Label text: 0.75rem → 0.85rem */
+  font-size: clamp(0.75rem, 1.1vw, 0.85rem);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   border: 1px solid var(--accent);
@@ -373,19 +324,17 @@ nav a.is-active::after {
               border-color 0.35s ease;
 }
 
-/* Shimmer sweep pseudo-element */
+/* Shimmer sweep */
 .btn-primary::before, .product-card button::before, .contact-form button::before {
   content: '';
   position: absolute;
   top: 0; left: -75%;
-  width: 50%;
-  height: 100%;
+  width: 50%; height: 100%;
   background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
   transform: skewX(-20deg);
   transition: left 0.55s ease;
   pointer-events: none;
 }
-
 .btn-primary:hover::before, .product-card button:hover::before, .contact-form button:hover::before {
   left: 130%;
 }
@@ -394,14 +343,12 @@ nav a.is-active::after {
   background: var(--accent);
   color: white;
 }
-
 .btn-primary:hover, .product-card button:hover, .contact-form button:hover {
   background: #222;
   color: white;
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 10px 30px rgba(0,0,0,0.18);
 }
-
 .btn-primary:active, .product-card button:active, .contact-form button:active {
   transform: translateY(-1px) scale(0.99);
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
@@ -412,11 +359,7 @@ nav a.is-active::after {
   color: var(--text);
   border: 1px solid var(--border);
 }
-
-.btn-secondary::before {
-  content: none; /* no fill sweep on secondary */
-}
-
+.btn-secondary::before { content: none; }
 .btn-secondary:hover {
   border-color: var(--text);
   color: var(--text);
@@ -424,28 +367,15 @@ nav a.is-active::after {
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
-
 .btn-secondary:active {
   transform: translateY(-1px) scale(0.99);
   background: var(--bg-offset);
 }
 
 
-
-
 /* =============================================================================
-    FOOTER
-   — Used by: all pages.
-   — footer: offset background, top border, generous padding.
-   — .footer-content: 4-column grid (brand column wider, 3 link columns equal).
-   — .footer-section h3: small-caps column heading.
-   — .footer-section a: muted link that indents + darkens on hover.
-   — .social-icons: flex row of text-based social links.
-   — .social-icons a: inverts to filled accent background on hover with lift.
-   — .footer-bottom: centered copyright bar separated by a top border.
+   FOOTER
    ============================================================================= */
-
-/* Footer */
 footer {
   border-top: 1px solid var(--border);
   padding: var(--spacing-xl) 0 0;
@@ -460,8 +390,9 @@ body.has-snap-scroll footer {
 
 .footer-content {
   display: grid;
-  grid-template-columns: 1.5fr repeat(3, 1fr);
-  gap: var(--spacing-lg);
+  /* Columns: naturally sit 4-wide between laptop and desktop */
+  grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 20vw, 260px), 1fr));
+  gap: clamp(2rem, 4vw, var(--spacing-lg));
   margin-bottom: var(--spacing-sm);
   align-items: start;
 }
@@ -474,7 +405,8 @@ body.has-snap-scroll footer {
 }
 
 .footer-section h3 {
-  font-size: 0.7rem;
+  /* Column heading: 0.75rem → 0.85rem */
+  font-size: clamp(0.75rem, 1.1vw, 0.85rem);
   font-weight: 800;
   margin-bottom: var(--spacing-md);
   letter-spacing: 0.2em;
@@ -485,44 +417,33 @@ body.has-snap-scroll footer {
 }
 
 .footer-section p {
-  font-size: 0.85rem;
+  /* Body copy in footer: 0.85rem → 0.95rem */
+  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
   line-height: 1.8;
-  max-width: 280px;
+  max-width: clamp(260px, 25vw, 340px);
   margin-left: 0;
 }
 
-.footer-section ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-}
-
-.footer-section li {
-  margin-bottom: 0.75rem;
-  display: flex;
-}
+.footer-section ul { list-style: none; padding: 0; margin: 0; width: 100%; }
+.footer-section li { margin-bottom: clamp(0.75rem, 1.2vw, 1rem); display: flex; }
 
 .footer-section a {
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.8rem;
+  /* Link labels: 0.8rem → 0.9rem */
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
   font-weight: 500;
   transition: color 0.25s ease, padding-left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
 }
+.footer-section a:hover { color: var(--text); padding-left: 6px; }
 
-.footer-section a:hover {
-  color: var(--text);
-  padding-left: 6px;
-}
-
-/* ── SOCIAL BOXES LAYOUT ── */
+/* Social icon boxes */
 .social-icons {
   display: flex;
-  gap: 0.75rem;
+  gap: clamp(0.75rem, 1.2vw, 1rem);
   justify-content: flex-start;
   width: 100%;
 }
@@ -531,108 +452,70 @@ body.has-snap-scroll footer {
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  /* Box: 36px (laptop) → 44px (desktop) */
+  width:  clamp(36px, 4vw, 44px);
+  height: clamp(36px, 4vw, 44px);
   box-sizing: border-box;
   padding: 0 !important;
-  
-  /* Minimalist monochrome outline container frame */
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: transparent;
-  
   cursor: pointer;
-  transition: border-color 0.25s ease, 
-              background-color 0.25s ease, 
+  transition: border-color 0.25s ease,
+              background-color 0.25s ease,
               transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Ensure the SVG shapes inside are perfectly scaled and match the muted text style */
 .social-icons a svg {
-  width: 16px;
-  height: 16px;
+  /* Icon glyph: 16px (laptop) → 20px (desktop) */
+  width:  clamp(16px, 1.8vw, 20px);
+  height: clamp(16px, 1.8vw, 20px);
   fill: var(--text-muted);
   transition: fill 0.25s ease, transform 0.25s ease;
 }
 
-/* ── PRECISE HIGH-END BRAND HOVER INTERACTIONS ── */
+/* Brand-specific hover treatments */
+.social-icons a.facebook:hover  { border-color: #0866FF !important; background-color: rgba(8,102,255,0.05); transform: translateY(-4px); }
+.social-icons a.facebook:hover svg { fill: #0866FF !important; transform: scale(1.05); }
 
-/* 1. Facebook Hover Treatment */
-.social-icons a.facebook:hover {
-  border-color: #0866FF !important;
-  background-color: rgba(8, 102, 255, 0.05); /* Ultra soft blue tint backdrop */
-  transform: translateY(-4px);
-}
-.social-icons a.facebook:hover svg {
-  fill: #0866FF !important; /* Turns the official brand blue */
-  transform: scale(1.05);
-}
+.social-icons a.instagram:hover { border-color: #FF0069 !important; background-color: rgba(255,0,105,0.05); transform: translateY(-4px); }
+.social-icons a.instagram:hover svg { fill: #FF0069 !important; transform: scale(1.05); }
 
-/* 2. Instagram Hover Treatment */
-.social-icons a.instagram:hover {
-  border-color: #FF0069 !important;
-  background-color: rgba(255, 0, 105, 0.05); /* Ultra soft pink tint backdrop */
-  transform: translateY(-4px);
-}
-.social-icons a.instagram:hover svg {
-  fill: #FF0069 !important; /* Turns the official brand pink-magenta */
-  transform: scale(1.05);
-}
+.social-icons a.x-twitter:hover { border-color: var(--text) !important; background-color: rgba(0,0,0,0.05); transform: translateY(-4px); }
+.social-icons a.x-twitter:hover svg { fill: var(--text) !important; transform: scale(1.05); }
 
-/* 3. X (Twitter) Hover Treatment */
-.social-icons a.x-twitter:hover {
-  border-color: var(--text) !important; /* Matches your core theme text black/light rules */
-  background-color: rgba(0, 0, 0, 0.05);
-  transform: translateY(-4px);
-}
-.social-icons a.x-twitter:hover svg {
-  fill: var(--text) !important; /* Sharp pure contrast pop color */
-  transform: scale(1.05);
-}
 .footer-bottom p {
-  font-size: 0.6rem;
+  /* Copyright line: 0.65rem → 0.75rem */
+  font-size: clamp(0.65rem, 1vw, 0.75rem);
   color: var(--text-muted);
   border-top: 1px solid var(--border);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   font-weight: 600;
-  padding-top: 30px;
-  margin-bottom: 20px;
+  padding-top: clamp(24px, 3.5vw, 40px);
+  margin-bottom: clamp(16px, 2.5vw, 24px);
 }
+
 
 /* =============================================================================
-    ANIMATIONS & SCROLL REVEALS
-   — Used by: all pages — JS (main.js IntersectionObserver) toggles .is-visible.
-   — .animate-on-scroll: base transition; starts visible by default for robustness.
-   — @supports block: only hides elements if CSS transitions are supported,
-     preventing a flash-of-hidden-content if JS fails to run.
-   — .animate-on-scroll:not(.is-visible): hidden + translateY starting state.
-   — .fade-in-left / .fade-in-right: both collapse to a simple Y-fade
-     (large side-slides were removed to avoid clipping at page edges).
-   — .animate-on-scroll.is-visible: fully visible + no transform; !important
-     overrides any directional transform set by variant classes.
-   — .about-text-side.is-visible: 0.2s delay so the text reveals after the visual.
-   — @keyframes float-shadow / pulse-glow: shared keyframes defined in logo.css and about.css.
+   ANIMATIONS & SCROLL REVEALS
    ============================================================================= */
-
-/* Animations & Scroll Reveals */
 .animate-on-scroll {
-  opacity: 1; /* Default visible for robustness */
-  transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  opacity: 1;
+  transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Only hide if JS is supported and running */
 @supports (transition: opacity 1s) {
   .animate-on-scroll:not(.is-visible) {
     opacity: 0;
-    transform: translateY(40px) scale(0.98);
+    /* Reveal travel: 30px (laptop) → 50px (desktop) */
+    transform: translateY(clamp(30px, 4.5vw, 50px)) scale(0.98);
   }
-  
-  /* Removed large side-slides that were getting clipped by boundaries */
   .fade-in-left:not(.is-visible),
   .fade-in-right:not(.is-visible) {
     opacity: 0;
-    transform: translateY(40px) scale(0.98);
+    transform: translateY(clamp(30px, 4.5vw, 50px)) scale(0.98);
   }
 }
 
@@ -641,9 +524,8 @@ body.has-snap-scroll footer {
   transform: translate(0, 0) scale(1) !important;
 }
 
-.about-text-side.is-visible {
-  transition-delay: 0.2s;
-}
+.about-text-side.is-visible { transition-delay: 0.2s; }
+
 
 /* =============================================================================
    PAGE TRANSITIONS
@@ -656,11 +538,13 @@ body.has-snap-scroll footer {
   flex-direction: column;
   width: 100%;
 }
+
 @keyframes pageFadeIn {
   0% {
     opacity: 0;
-    transform: translateY(40px); /* Increased distance */
-    filter: blur(4px); /* Adds a subtle blur reveal */
+    /* Entry travel: 30px (laptop) → 50px (desktop) */
+    transform: translateY(clamp(30px, 4.5vw, 50px));
+    filter: blur(clamp(2px, 0.4vw, 5px));
   }
   100% {
     opacity: 1;

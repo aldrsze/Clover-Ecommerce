@@ -1,6 +1,26 @@
 /* =============================================================================
     PRODUCTS PAGE LAYOUT — Sidebar + catalog grid
+    Fluid scaling: laptop (1024px) → desktop (1440px) via clamp()
+    No mobile changes — fluid range is strictly 1024px–1440px.
    ============================================================================= */
+
+/*
+  FLUID SCALING REFERENCE
+  ─────────────────────────────────────────────────────────────────────────────
+  Formula: clamp(MIN, PREFERRED, MAX)
+
+  The PREFERRED value uses a viewport-relative expression so the property
+  scales smoothly between the two breakpoints:
+
+    preferred = MIN + (MAX - MIN) * (100vw - 1024px) / (1440px - 1024px)
+              = MIN + (MAX - MIN) * (100vw - 1024px) / 416px
+
+  Simplified into vw units (vi-style):
+    coefficient = (MAX - MIN) / 416   →   expressed as a vw multiplier
+
+  All clamp() values below follow this pattern unless noted.
+  ─────────────────────────────────────────────────────────────────────────────
+*/
 
 .product-page-layout {
   display: flex;
@@ -9,19 +29,28 @@
   position: relative;
   gap: var(--sidebar-gap);
   align-items: flex-start;
-  
-  /* Forces the page grid container area to stay maximized sideways */
+
   width: 100%;
   min-width: 100%;
   max-width: 100%;
-  
-  /* Layout Sizing Tokens */
-  --sidebar-width: 300px;
-  --sidebar-gap: 2rem; 
+
+  /*
+    --sidebar-width : 240px @ 1024px  →  300px @ 1440px
+    preferred coeff : (300-240)/416 ≈ 0.1442  → ~14.42vw contribution
+    expression      : calc(240px + (100vw - 1024px) * 0.1442)
+  */
+  --sidebar-width: clamp(240px, calc(240px + (100vw - 1024px) * 0.1442), 300px);
+
+  /*
+    --sidebar-gap : 1.25rem @ 1024px  →  2rem @ 1440px
+    (0.75rem range over 416px)
+    preferred      : calc(1.25rem + (100vw - 1024px) * 0.001802)
+  */
+  --sidebar-gap: clamp(1.25rem, calc(1.25rem + (100vw - 1024px) * 0.001802), 2rem);
+
   --main-content-width: calc(100% - var(--sidebar-width) - var(--sidebar-gap));
 }
 
-/* Prevent scrollbar from shifting layout */
 html {
   scrollbar-gutter: stable;
 }
@@ -30,14 +59,24 @@ html {
 
 .sidebar {
   position: sticky;
-  top: 100px; /* Sits perfectly below your frosted header */
+  /*
+    top : 80px @ 1024px  →  100px @ 1440px
+    preferred : calc(80px + (100vw - 1024px) * 0.04808)
+  */
+  top: clamp(80px, calc(80px + (100vw - 1024px) * 0.04808), 100px);
   width: var(--sidebar-width);
   flex-shrink: 0;
-  height: max-content; /* Adapts to its content so it never squishes */
+  height: max-content;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 0 0.8rem 1rem 0;
+  /*
+    gap : 0.35rem → 0.5rem
+  */
+  gap: clamp(0.35rem, calc(0.35rem + (100vw - 1024px) * 0.000361), 0.5rem);
+  /*
+    padding-right : 0.5rem → 0.8rem
+  */
+  padding: 0 clamp(0.5rem, calc(0.5rem + (100vw - 1024px) * 0.000721), 0.8rem) 1rem 0;;
   border-right: 1px solid var(--border);
   background: var(--bg);
   z-index: 50;
@@ -64,8 +103,17 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.65rem 0.9rem;
-  font-size: 0.68rem;
+  /*
+    padding block : 0.5rem → 0.65rem
+    padding inline: 0.75rem → 0.9rem
+  */
+  padding:
+    clamp(0.5rem,  calc(0.5rem  + (100vw - 1024px) * 0.000361), 0.65rem)
+    clamp(0.75rem, calc(0.75rem + (100vw - 1024px) * 0.000361), 0.9rem);
+  /*
+    font-size : 0.62rem → 0.68rem
+  */
+  font-size: clamp(0.62rem, calc(0.62rem + (100vw - 1024px) * 0.000144), 0.68rem);
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -82,18 +130,17 @@ html {
 .sidebar .filter-group:first-child ul li a:hover {
   color: var(--text);
   background: rgba(0, 0, 0, 0.03);
-  padding-left: 1.15rem;
+  padding-left: clamp(0.95rem, calc(0.95rem + (100vw - 1024px) * 0.000481), 1.15rem);
 }
 
 .sidebar .filter-group:first-child ul li a.is-active {
   color: var(--text);
   background: rgba(0, 0, 0, 0.04);
   border-left-color: var(--accent);
-  padding-left: 1.15rem;
+  padding-left: clamp(0.95rem, calc(0.95rem + (100vw - 1024px) * 0.000481), 1.15rem);
   font-weight: 700;
 }
 
-/* Item count badge on nav links */
 .sidebar .filter-group:first-child ul li a .nav-count {
   font-size: 0.65rem;
   font-weight: 700;
@@ -120,15 +167,16 @@ html {
 }
 
 .filter-group h3 {
-  font-size: 0.65rem;
+  /*
+    font-size : 0.6rem → 0.65rem
+  */
+  font-size: clamp(0.6rem, calc(0.6rem + (100vw - 1024px) * 0.000120), 0.65rem);
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   margin-bottom: 0.35rem;
-  font-weight: bold;
 }
 
-/* Checkbox filter rows */
 .filter-group form > div {
   display: flex;
   align-items: center;
@@ -137,7 +185,10 @@ html {
 }
 
 .filter-group form > div label {
-  font-size: 0.73rem;
+  /*
+    font-size : 0.68rem → 0.73rem
+  */
+  font-size: clamp(0.68rem, calc(0.68rem + (100vw - 1024px) * 0.000120), 0.73rem);
   font-weight: 500;
   color: var(--text-muted);
   cursor: pointer;
@@ -188,10 +239,13 @@ html {
   flex-shrink: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  overflow: hidden; 
+  overflow: hidden;
   background: var(--bg);
   text-align: center;
-  margin-top: 1rem;
+  /*
+    margin-top : 0.75rem → 1rem
+  */
+  margin-top: clamp(0.75rem, calc(0.75rem + (100vw - 1024px) * 0.000601), 1rem);
   position: relative;
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.36, 0.64, 1);
 }
@@ -202,7 +256,6 @@ html {
   box-shadow: 0 16px 32px rgba(0,0,0,0.08);
 }
 
-/* Floating badge over the image */
 .promo-badge {
   position: absolute;
   top: 0.6rem;
@@ -218,9 +271,11 @@ html {
   border-radius: 2px;
 }
 
-/* Content area below the image */
 .promo-content {
-  padding: 1rem;
+  /*
+    padding : 0.75rem → 1rem
+  */
+  padding: clamp(0.75rem, calc(0.75rem + (100vw - 1024px) * 0.000601), 1rem);
   background: var(--bg-offset);
   border-top: 1px solid var(--border);
 }
@@ -235,7 +290,10 @@ html {
 }
 
 .promo-title {
-  font-size: 0.85rem !important;
+  /*
+    font-size : 0.78rem → 0.85rem
+  */
+  font-size: clamp(0.78rem, calc(0.78rem + (100vw - 1024px) * 0.000168), 0.85rem) !important;
   font-weight: 700 !important;
   color: var(--text) !important;
   margin: 0 0 0.25rem 0 !important;
@@ -243,13 +301,15 @@ html {
 }
 
 .promo-desc {
-  font-size: 0.75rem !important;
+  /*
+    font-size : 0.68rem → 0.75rem
+  */
+  font-size: clamp(0.68rem, calc(0.68rem + (100vw - 1024px) * 0.000168), 0.75rem) !important;
   color: var(--text-muted) !important;
   margin: 0 0 1rem 0 !important;
   line-height: 1.4 !important;
 }
 
-/* Make the button fill the card width */
 .promo-btn {
   width: 100%;
   padding: 0.6rem;
@@ -263,11 +323,17 @@ html {
   flex-direction: column;
   min-height: calc(100vh - 6.5rem);
   margin-left: 0;
-  padding: 0.2rem 1.3rem 0 0.5rem;
+  /*
+    padding-right : 1rem → 1.3rem
+    padding-left  : 0.3rem → 0.5rem
+  */
+  padding: 0.2rem
+           clamp(1rem,  calc(1rem  + (100vw - 1024px) * 0.000721), 1.3rem)
+           0
+           clamp(0.3rem, calc(0.3rem + (100vw - 1024px) * 0.000481), 0.5rem);
   box-sizing: border-box;
 
-  /* Force the flexbox column to occupy its full architectural space share */
-  flex: 0 0 var(--main-content-width); 
+  flex: 0 0 var(--main-content-width);
   width: var(--main-content-width);
   min-width: var(--main-content-width);
   max-width: var(--main-content-width);
@@ -276,7 +342,10 @@ html {
 /* ── PRODUCT CATEGORY SECTION ─────────────────────────────────────────────── */
 
 .product-category {
-  padding: 0 0 5rem;
+  /*
+    padding-bottom : 3rem → 5rem
+  */
+  padding: 0 0 clamp(3rem, calc(3rem + (100vw - 1024px) * 0.004808), 5rem);
   border-bottom: 1px solid var(--border);
 }
 
@@ -289,13 +358,16 @@ html {
   padding-bottom: 2rem;
 }
 
-/* Category header row: label + item count */
 .category-header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  /*
+    margin-top    : 0.6rem → 1rem
+    margin-bottom : 1.25rem → 2rem
+  */
+  margin-top: clamp(0.6rem, calc(0.6rem + (100vw - 1024px) * 0.000962), 1rem);
+  margin-bottom: clamp(1.25rem, calc(1.25rem + (100vw - 1024px) * 0.001803), 2rem);
 }
 
 .category-header h2 {
@@ -316,8 +388,19 @@ html {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.4rem;
+  /*
+    min column width : 155px → 180px
+    This lets auto-fill naturally place more columns on wider screens
+    while clamp keeps individual column minimums fluid.
+  */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(clamp(155px, calc(155px + (100vw - 1024px) * 0.06010), 180px), 1fr)
+  );
+  /*
+    gap : 1rem → 1.4rem
+  */
+  gap: clamp(1rem, calc(1rem + (100vw - 1024px) * 0.000962), 1.4rem);
   width: 100%;
 }
 
@@ -342,7 +425,6 @@ html {
   box-shadow: 0 24px 48px rgba(0,0,0,0.10), 0 8px 16px rgba(0,0,0,0.06);
 }
 
-/* Top-edge accent sweep */
 .product-card::before {
   content: '';
   position: absolute;
@@ -399,7 +481,6 @@ html {
   transform: scale(1.08);
 }
 
-/* "Quick Add" overlay that appears on image hover */
 .product-card .quick-add-overlay {
   position: absolute;
   bottom: 0;
@@ -427,11 +508,20 @@ html {
 /* ── CARD BODY ────────────────────────────────────────────────────────────── */
 
 .product-card .card-body {
-  padding: 0 0.9rem 1rem;
+  /*
+    padding inline : 0.65rem → 0.9rem
+    padding-bottom : 0.75rem → 1rem
+  */
+  padding: 0
+           clamp(0.65rem, calc(0.65rem + (100vw - 1024px) * 0.000601), 0.9rem)
+           clamp(0.75rem, calc(0.75rem + (100vw - 1024px) * 0.000601), 1rem);
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 0.45rem;
+  /*
+    gap : 0.3rem → 0.45rem
+  */
+  gap: clamp(0.3rem, calc(0.3rem + (100vw - 1024px) * 0.000361), 0.45rem);
 }
 
 .product-card .card-tags {
@@ -455,7 +545,10 @@ html {
 }
 
 .product-card h3 {
-  font-size: 1.15rem;
+  /*
+    font-size : 0.95rem → 1.15rem
+  */
+  font-size: clamp(0.95rem, calc(0.95rem + (100vw - 1024px) * 0.000481), 1.15rem);
   font-weight: 800;
   letter-spacing: -0.01em;
   text-transform: none;
@@ -465,7 +558,10 @@ html {
 }
 
 .product-card .description {
-  font-size: 0.85rem;
+  /*
+    font-size : 0.75rem → 0.85rem
+  */
+  font-size: clamp(0.75rem, calc(0.75rem + (100vw - 1024px) * 0.000240), 0.85rem);
   color: var(--text-muted);
   line-height: 1.5;
   margin: 0;
@@ -483,7 +579,10 @@ html {
 }
 
 .product-card .price {
-  font-size: 1.15rem;
+  /*
+    font-size : 0.95rem → 1.15rem
+  */
+  font-size: clamp(0.95rem, calc(0.95rem + (100vw - 1024px) * 0.000481), 1.15rem);
   font-weight: 300;
   color: var(--text);
   letter-spacing: 0.02em;
@@ -491,13 +590,15 @@ html {
   flex-shrink: 0;
 }
 
-/* Compact "Add" icon button in the card footer */
 .product-card .add-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  /*
+    size : 30px → 34px
+  */
+  width: clamp(30px, calc(30px + (100vw - 1024px) * 0.009615), 34px);
+  height: clamp(30px, calc(30px + (100vw - 1024px) * 0.009615), 34px);
   border-radius: 3px;
   border: 1.5px solid var(--accent);
   background: var(--accent);
@@ -553,7 +654,7 @@ html {
 
 .products-panel-loader {
   position: fixed;
-  top: 70px; /* Below header */
+  top: 70px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -587,8 +688,8 @@ html {
 }
 
 @keyframes loaderBarMove {
-  0% { transform: scaleX(0) translateX(0); }
-  50% { transform: scaleX(0.5) translateX(50%); }
+  0%   { transform: scaleX(0) translateX(0); }
+  50%  { transform: scaleX(0.5) translateX(50%); }
   100% { transform: scaleX(0) translateX(200%); }
 }
 
@@ -645,7 +746,7 @@ html {
   border: 1px dashed var(--border);
   border-radius: var(--radius);
   margin-top: 1.5rem;
-  width: 100%; 
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -668,9 +769,15 @@ html {
 .catalog-header-main {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  /*
+    gap : 0.6rem → 1rem
+  */
+  gap: clamp(0.6rem, calc(0.6rem + (100vw - 1024px) * 0.000962), 1rem);
   padding-bottom: 1rem;
-  margin-bottom: 2rem;
+  /*
+    margin-bottom : 1.25rem → 2rem
+  */
+  margin-bottom: clamp(1.25rem, calc(1.25rem + (100vw - 1024px) * 0.001803), 2rem);
   border-bottom: 1px solid var(--border);
   position: relative;
 }
@@ -680,12 +787,21 @@ html {
   grid-template-columns: 1.4fr 1fr;
   align-items: center;
   background: linear-gradient(135deg, var(--bg-offset) 0%, #ffffff 100%);
-  padding: 2rem 3rem;
+  /*
+    padding block  : 1.25rem → 2rem
+    padding inline : 1.75rem → 3rem
+  */
+  padding:
+    clamp(1.25rem, calc(1.25rem + (100vw - 1024px) * 0.001803), 2rem)
+    clamp(1.75rem, calc(1.75rem + (100vw - 1024px) * 0.003005), 3rem);
   border-radius: var(--radius);
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border);
-  min-height: 180px;
+  /*
+    min-height : 140px → 180px
+  */
+  min-height: clamp(140px, calc(140px + (100vw - 1024px) * 0.09615), 180px);
   box-shadow: var(--shadow-sm);
 }
 
@@ -693,7 +809,10 @@ html {
   position: relative;
   z-index: 2;
   border-left: 2px solid var(--accent);
-  padding-left: 1.5rem;
+  /*
+    padding-left : 1rem → 1.5rem
+  */
+  padding-left: clamp(1rem, calc(1rem + (100vw - 1024px) * 0.001202), 1.5rem);
 }
 
 .catalog-eyebrow {
@@ -708,6 +827,9 @@ html {
 }
 
 .catalog-hero-strip h1 {
+  /*
+    font-size range already fluid via clamp() — kept as-is since it's well-defined
+  */
   font-size: clamp(1.5rem, 3.5vw, 2rem);
   font-weight: 900;
   letter-spacing: -0.03em;
@@ -727,7 +849,10 @@ html {
 }
 
 .catalog-description {
-  font-size: 0.85rem;
+  /*
+    font-size : 0.78rem → 0.85rem
+  */
+  font-size: clamp(0.78rem, calc(0.78rem + (100vw - 1024px) * 0.000168), 0.85rem);
   line-height: 1.6;
   color: var(--text-muted);
   max-width: 400px;
@@ -747,22 +872,23 @@ html {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 0.6rem;
+  gap: clamp(0.4rem, calc(0.4rem + (100vw - 1024px) * 0.000481), 0.6rem);
   width: 100%;
-  height: 220px; /* Slightly taller for better presence */
+  /*
+    height : 170px → 220px
+  */
+  height: clamp(170px, calc(170px + (100vw - 1024px) * 0.12019), 220px);
 }
 
 .mosaic-item {
   position: relative;
   border-radius: var(--radius-sm);
   overflow: hidden;
-  background: white; /* Ensures white-background PNGs blend in */
+  background: white;
   border: 1px solid var(--border);
   box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-  /* Static premium feel */
 }
 
-/* Staggered Opening Animation */
 .animate-entrance {
   opacity: 0;
   transform: translateY(20px);
@@ -783,25 +909,10 @@ html {
   display: block;
 }
 
-/* Featured Item (Big Breakfast) */
-.item-1 {
-  grid-row: span 2;
-}
-
-/* Middle Items (Stacked) */
-.item-2 {
-  grid-column: 2;
-}
-
-.item-3 {
-  grid-column: 2;
-  grid-row: 2;
-}
-
-/* Hide 4th item or place it elsewhere for a cleaner 3-piece look */
-.item-4 {
-  display: none;
-}
+.item-1 { grid-row: span 2; }
+.item-2 { grid-column: 2; }
+.item-3 { grid-column: 2; grid-row: 2; }
+.item-4 { display: none; }
 
 @media (min-width: 1200px) {
   .hero-gallery-mosaic {
@@ -810,10 +921,10 @@ html {
   .item-1 { grid-row: span 2; }
   .item-2 { grid-column: 2; grid-row: 1; }
   .item-3 { grid-column: 2; grid-row: 2; }
-  .item-4 { 
-    display: block; 
-    grid-column: 3; 
-    grid-row: span 2; 
+  .item-4 {
+    display: block;
+    grid-column: 3;
+    grid-row: span 2;
     opacity: 0.9;
   }
 }
@@ -825,13 +936,17 @@ html {
   pointer-events: none;
 }
 
-/* Organized Controls Bar */
+/* ── CATALOG CONTROLS BAR ─────────────────────────────────────────────────── */
+
 .catalog-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 0;
-  gap: 1.5rem;
+  /*
+    gap : 1rem → 1.5rem
+  */
+  gap: clamp(1rem, calc(1rem + (100vw - 1024px) * 0.001202), 1.5rem);
   background: transparent;
 }
 

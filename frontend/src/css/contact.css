@@ -12,6 +12,12 @@
    — inputs / textarea: borderless except bottom line; transparent background.
    — .form-group::after: animated accent underline that grows in on :focus-within.
    — placeholders: light grey, low weight for a minimal editorial feel.
+
+   FLUID SCALING NOTES (laptop → desktop: 1024px–1920px)
+   — All clamp() calls follow: clamp(MIN, slope×vw + offset, MAX)
+   — Slope/offset derived from: slope = (max-min)/(1920-1024)×100
+                                 offset = min - slope×(1024/100)
+   — No mobile breakpoints added; mobile is untouched.
    ============================================================================= */
 
 /* Combined Sections Spacing */
@@ -20,14 +26,21 @@
   border-bottom: 1px solid var(--border);
 }
 
+/*
+  Block padding: 1024px → 2rem  |  1920px → 4rem
+  Inline padding: 1024px → 1.5rem  |  1920px → 5rem
+*/
 .contact-section .container {
-  padding: var(--spacing-xl) clamp(1.5rem, 6vw, 5rem);
+  padding: clamp(2rem, 4vw, 4rem) clamp(1.5rem, 4vw - 2rem, 5rem);
 }
 
+/*
+  Grid gap: 1024px → 2rem  |  1920px → 4rem
+*/
 .contact-layout-wrapper {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
-  gap: var(--spacing-xl);
+  gap: clamp(2rem, 3.5vw, 4rem);
   align-items: start;
   width: 100%;
 }
@@ -36,76 +49,109 @@
   text-align: left;
 }
 
+/*
+  h2 bottom margin: 1024px → 1rem  |  1920px → 2rem
+*/
 .contact-text-side h2 {
-  margin-bottom: var(--spacing-md);
+  margin-bottom: clamp(1rem, 1.8vw, 2rem);
 }
 
+/*
+  Lead font size: 1024px → 1.1rem  |  1920px → 1.4rem
+  slope = 0.3/896×100 ≈ 0.033 → clamp(1.1rem, 0.33vw + 0.76rem, 1.4rem)
+  Bottom margin: 1024px → 1.5rem  |  1920px → 3rem
+  max-width: 1024px → 340px  |  1920px → 480px
+*/
 .contact-lead {
-  font-size: 1.25rem;
+  font-size: clamp(1.1rem, 0.33vw + 0.76rem, 1.4rem);
   line-height: 1.5;
   color: var(--text);
   font-weight: 300;
-  margin-bottom: var(--spacing-lg);
-  max-width: 400px;
+  margin-bottom: clamp(1.5rem, 2.5vw, 3rem);
+  max-width: clamp(21.25rem, 28vw, 30rem); /* 340px → 480px */
 }
 
+/*
+  Info grid gap row: 1024px → 1.25rem  |  1920px → 2rem
+  Info grid gap col: 1024px → 1rem     |  1920px → 1.5rem
+*/
 .contact-info-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-lg) var(--spacing-md);
+  gap: clamp(1.25rem, 1.8vw, 2rem) clamp(1rem, 1.4vw, 1.5rem);
 }
 
+/*
+  Label font: stays small — 0.7rem → 0.75rem
+*/
 .info-item strong {
   display: block;
-  font-size: 0.7rem;
+  font-size: clamp(0.7rem, 0.06vw + 0.64rem, 0.75rem);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--text-muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: clamp(0.3rem, 0.5vw, 0.6rem);
 }
 
+/*
+  Value text: 1024px → 0.875rem  |  1920px → 1rem
+*/
 .info-item p {
-  font-size: 0.95rem;
+  font-size: clamp(0.875rem, 0.14vw + 0.73rem, 1rem);
   color: var(--text);
   margin-bottom: 0;
 }
 
-/* Boutique Form Styling */
+/* ── Boutique Form ──────────────────────────────────────────────────────────── */
+
+/*
+  Form card padding: 1024px → 1.5rem  |  1920px → 2.5rem
+*/
 .contact-form-side {
   background: var(--bg-offset);
-  padding: var(--spacing-lg);
+  padding: clamp(1.5rem, 2.2vw, 2.5rem);
   border: 1px solid var(--border);
 }
 
+/*
+  Form row gap: 1024px → 1.25rem  |  1920px → 2rem
+*/
 .boutique-contact-form {
   display: grid;
-  gap: var(--spacing-lg);
+  gap: clamp(1.25rem, 1.8vw, 2rem);
 }
 
 .boutique-contact-form .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: clamp(0.35rem, 0.5vw, 0.6rem);
   position: relative;
 }
 
+/*
+  Label font: 0.7rem → 0.75rem (subtle step-up at wider viewports)
+*/
 .boutique-contact-form label {
-  font-size: 0.7rem;
+  font-size: clamp(0.7rem, 0.06vw + 0.64rem, 0.75rem);
   text-align: left;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
+/*
+  Input font: 1024px → 0.9rem  |  1920px → 1rem
+  Input padding-block: 1024px → 0.65rem  |  1920px → 0.85rem
+*/
 .boutique-contact-form input,
 .boutique-contact-form textarea {
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--border);
-  padding: 0.75rem 0;
+  padding: clamp(0.65rem, 0.8vw, 0.85rem) 0;
   border-radius: 0;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 0.11vw + 0.79rem, 1rem);
   font-family: inherit;
   line-height: 1.5;
   color: var(--text);
@@ -119,7 +165,7 @@
 .boutique-contact-form textarea {
   min-height: 0;
   vertical-align: top;
-} 
+}
 
 .boutique-contact-form input:focus,
 .boutique-contact-form textarea:focus {
@@ -132,7 +178,8 @@
 .boutique-contact-form .form-group::after {
   content: '';
   position: absolute;
-  bottom: 0; left: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: 1px;
   background: var(--accent);

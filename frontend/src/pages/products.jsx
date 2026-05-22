@@ -230,7 +230,7 @@ export default function Products({ addToCart }) {
         <main className="main-product-catalog">
 
           {/* Main Content Header / Premium Catalog Hero */}
-          <header className="catalog-header-main">
+          <div className="catalog-header-main">
             <div className="catalog-hero-strip">
               <div className="hero-text-content">
                 <span className="catalog-eyebrow">The Collection</span>
@@ -282,7 +282,7 @@ export default function Products({ addToCart }) {
                 </div>
               )}
             </div>
-          </header>
+          </div>
 
           {/* Category sections or Loading Spinner */}
           {loading ? (
