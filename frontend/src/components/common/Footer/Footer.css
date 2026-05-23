@@ -1,0 +1,128 @@
+/* =============================================================================
+   FOOTER
+   ============================================================================= */
+footer {
+  border-top: 1px solid var(--border);
+  padding: var(--spacing-xl) 0 0;
+  margin-top: var(--spacing-sm);
+  background: var(--bg-offset);
+}
+
+body.has-snap-scroll footer {
+  scroll-snap-align: start;
+  margin-top: 0;
+}
+
+.footer-content {
+  display: grid;
+  /* 4 equal columns: brand | links | contact | socials */
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: clamp(2rem, 4vw, var(--spacing-lg));
+  margin-bottom: var(--spacing-sm);
+  align-items: start;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.footer-section h3 {
+  /* Column heading: 0.75rem → 0.85rem */
+  font-size: clamp(0.75rem, 1.1vw, 0.85rem);
+  font-weight: 800;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0.8;
+  width: 100%;
+}
+
+.footer-section p {
+  /* Body copy in footer: 0.85rem → 0.95rem */
+  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+  line-height: 1.8;
+  max-width: clamp(260px, 25vw, 340px);
+  margin-left: 0;
+}
+
+.footer-section ul { list-style: none; padding: 0; margin: 0; width: 100%; }
+.footer-section li { margin-bottom: clamp(0.75rem, 1.2vw, 1rem); display: flex; }
+
+.footer-section a {
+  color: var(--text-muted);
+  text-decoration: none;
+  /* Link labels: 0.8rem → 0.9rem */
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  font-weight: 500;
+  transition: color 0.25s ease, padding-left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.footer-section a:hover { color: var(--text); padding-left: 6px; }
+
+/* Social icon boxes */
+.social-icons {
+  display: flex;
+  gap: clamp(0.75rem, 1.2vw, 1rem);
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.social-icons a {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  /* Box: 36px (laptop) → 44px (desktop) */
+  width:  clamp(36px, 4vw, 44px);
+  height: clamp(36px, 4vw, 44px);
+  box-sizing: border-box;
+  padding: 0 !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.25s ease,
+              background-color 0.25s ease,
+              transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.social-icons a svg,
+.social-icons a img {
+  /* Icon glyph: 16px (laptop) → 20px (desktop) */
+  width:  clamp(16px, 1.8vw, 20px);
+  height: clamp(16px, 1.8vw, 20px);
+  fill: var(--text-muted);
+  filter: grayscale(1) brightness(0.5);
+  transition: fill 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+}
+
+/* Brand-specific hover treatments */
+.social-icons a.facebook:hover  { border-color: #0866FF !important; background-color: rgba(8,102,255,0.05); transform: translateY(-4px); }
+.social-icons a.facebook:hover svg { fill: #0866FF !important; transform: scale(1.05); }
+.social-icons a.facebook:hover img { filter: none; transform: scale(1.05); }
+
+.social-icons a.instagram:hover { border-color: #FF0069 !important; background-color: rgba(255,0,105,0.05); transform: translateY(-4px); }
+.social-icons a.instagram:hover svg { fill: #FF0069 !important; transform: scale(1.05); }
+.social-icons a.instagram:hover img { filter: none; transform: scale(1.05); }
+
+.social-icons a.x-twitter:hover { border-color: var(--text) !important; background-color: rgba(0,0,0,0.05); transform: translateY(-4px); }
+.social-icons a.x-twitter:hover svg { fill: var(--text) !important; transform: scale(1.05); }
+.social-icons a.x-twitter:hover img { filter: none; transform: scale(1.05); }
+
+.footer-bottom p {
+  /* Copyright line: 0.65rem → 0.75rem */
+  font-size: clamp(0.65rem, 1vw, 0.75rem);
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  padding-top: clamp(24px, 3.5vw, 40px);
+  margin-bottom: clamp(16px, 2.5vw, 24px);
+}
+

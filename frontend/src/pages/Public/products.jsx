@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
 import { MENU_CATEGORIES, MENU_PREFERENCES, PREF_LABEL } from '../../constants/menuConstants';
 import { apiClient } from '../../api/apiClient';
+import { Button } from '../../components/common/Button/Button';
+import { useProducts } from '../../hooks/useProducts';
 
 // Tag colors per preference (using CSS variables from main.css)
 const TAG_STYLES = {
@@ -167,12 +169,13 @@ export default function Products({ addToCart }) {
               <h4>Featured Dessert</h4>
               <p className="promo-title">Torched Classic Cheesecake</p>
               <p className="promo-desc">Rich, creamy, and torched to perfection.</p>
-              <button 
-                className="btn-secondary promo-btn"
+              <Button 
+                variant="secondary"
+                className="promo-btn"
                 onClick={e => handleScrollToSection(e, 'pastries')}
               >
                 View in Pastries
-              </button>
+              </Button>
             </div>
             
           </div>
@@ -226,10 +229,10 @@ export default function Products({ addToCart }) {
                   <span className="filter-label">Refined by:</span>
                   <div className="filter-chips-wrap">
                     {selectedPrefs.map(p => (
-                      <button key={p} className="filter-chip" onClick={() => removePref(p)}>
+                      <Button key={p} variant="secondary" className="filter-chip" onClick={() => removePref(p)}>
                         {PREF_LABEL[p] || p}
                         <span className="chip-x" aria-hidden="true">×</span>
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -268,13 +271,14 @@ export default function Products({ addToCart }) {
                               src={product.image?.startsWith('uploads/') ? `http://localhost:5000/${product.image}` : `/${product.image}`} 
                               alt={product.name} 
                             />
-                            <button
+                            <Button
+                              variant="primary"
                               className="quick-add-overlay"
                               onClick={() => handleAddToCart(product)}
                               aria-label={`Quick add ${product.name} to cart`}
                             >
                               {isAdded ? '✓ Added' : '+ Quick Add'}
-                            </button>
+                            </Button>
                           </div>
                           <div className="card-body">
                             {tags.length > 0 && (
@@ -301,14 +305,15 @@ export default function Products({ addToCart }) {
                             <div className="card-footer">
                               {/* Safely handle the numeric type parsing */}
                               <span className="price">₱{Number(product.price).toFixed(2)}</span>
-                              <button
+                              <Button
+                                variant="none"
                                 className="add-btn"
                                 onClick={() => handleAddToCart(product)}
                                 aria-label={`Add ${product.name} to cart`}
                                 title="Add to cart"
                               >
                                 {isAdded ? '✓' : '+'}
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         </article>

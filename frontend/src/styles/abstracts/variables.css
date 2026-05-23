@@ -1,0 +1,32 @@
+/* =============================================================================
+   CSS CUSTOM PROPERTIES  (Design Tokens / Variables)
+   ============================================================================= */
+:root {
+  --bg: #ffffff;
+  --bg-offset: #f9f9f9;
+  --card: #ffffff;
+  --card-hover: #ffffff;
+  --text: #000000;
+  --text-muted: #666666;
+  --accent: #000000;
+  --border: #e5e5e5;
+  --border-strong: #000000;
+
+  --radius: 4px;
+  --radius-sm: 2px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow: 0 4px 6px rgba(0,0,0,0.02);
+
+  --container: 1800px;
+
+  /* Spacing tokens — fluid from ~1024px (laptop) to ~1440px (desktop) */
+  --spacing-xs: clamp(0.5rem, 0.8vw, 0.625rem);
+  --spacing-sm: clamp(1rem, 1.4vw, 1.25rem);
+  --spacing-md: clamp(1.5rem, 2.5vw, 2rem);
+  --spacing-lg: clamp(3rem, 4.5vw, 4rem);
+  --spacing-xl: clamp(4.5rem, 7vw, 6rem);
+
+  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}

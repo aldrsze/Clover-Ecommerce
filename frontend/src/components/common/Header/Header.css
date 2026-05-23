@@ -1,0 +1,164 @@
+/* =============================================================================
+   HEADER & NAVIGATION
+   ============================================================================= */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  /* Vertical padding scales for laptop -> desktop */
+  padding: clamp(0.75rem, 1.2vw, 1.25rem) 0;
+  transition: var(--transition);
+  /* Header height scales: 70px (laptop) → 90px (desktop) */
+  min-height: clamp(70px, 7vh, 90px);
+  display: flex;
+  align-items: center;
+}
+
+.header-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, var(--spacing-md));
+  width: 100%;
+}
+
+.header-left  { display: flex; justify-content: flex-start; }
+.header-center { display: flex; justify-content: center; }
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: clamp(1rem, 2vw, var(--spacing-sm));
+}
+
+nav ul {
+  display: flex;
+  /* Gap between links: 2rem (laptop) → 3rem (desktop) */
+  gap: clamp(2rem, 3.5vw, 3rem);
+  list-style: none;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  /* Nav labels: 0.75rem (laptop) → 0.85rem (desktop) */
+  font-size: clamp(0.75rem, 1.1vw, 0.85rem);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.45;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: opacity 0.3s ease, letter-spacing 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Icon Buttons */
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: clamp(0.5rem, 0.8vw, 0.75rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: var(--transition-fast);
+  opacity: 0.6;
+}
+.icon-btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.cart-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--accent);
+  color: white;
+  /* Badge label: 0.6rem → 0.7rem */
+  font-size: clamp(0.6rem, 0.9vw, 0.7rem);
+  font-weight: 800;
+  width: clamp(16px, 1.5vw, 20px);
+  height: clamp(16px, 1.5vw, 20px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(25%, -25%);
+}
+
+/* Search Wrapper */
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: var(--transition);
+}
+
+.search-input {
+  width: 0;
+  padding: 0;
+  border: none !important;
+  background: none !important;
+  /* Input text: 0.85rem → 1rem */
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  font-family: inherit;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s;
+  overflow: hidden;
+  border-bottom: 1.5px solid transparent !important;
+  color: var(--text);
+}
+.search-input::placeholder { color: var(--text-muted); opacity: 0.6; }
+.search-input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-bottom: 1.5px solid var(--text) !important;
+}
+
+.search-wrapper.active .search-input {
+  /* Expanded width: 220px (laptop) → 300px (desktop) */
+  width: clamp(220px, 22vw, 300px);
+  padding: 0.5rem 1rem;
+  border-bottom-color: var(--text) !important;
+}
+.search-trigger { z-index: 2; }
+
+nav a:hover,
+nav a.is-active {
+  opacity: 1;
+  letter-spacing: 0.18em;
+}
+
+/* Two-layer underline */
+nav a::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 1px;
+  background-color: var(--border);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 1px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.05s;
+}
+nav a:hover::before, nav a:hover::after,
+nav a.is-active::before, nav a.is-active::after {
+  transform: scaleX(1);
+}

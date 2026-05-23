@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bell } from 'lucide-react';
+import { Button } from '../../components/common/Button/Button';
 
 export default function Orders() {
   return (
@@ -12,10 +13,10 @@ export default function Orders() {
             <p>Manage and track your customer orders.</p>
           </div>
           <div className="page-header-actions">
-            <button className="notification-trigger">
+            <Button variant="none" className="notification-trigger">
               <Bell size={18} />
               <span className="notification-dot"></span>
-            </button>
+            </Button>
           </div>
         </header>
       </div>

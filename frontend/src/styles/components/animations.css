@@ -1,0 +1,55 @@
+/* =============================================================================
+   ANIMATIONS & SCROLL REVEALS
+   ============================================================================= */
+.animate-on-scroll {
+  opacity: 1;
+  transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@supports (transition: opacity 1s) {
+  .animate-on-scroll:not(.is-visible) {
+    opacity: 0;
+    /* Reveal travel: 30px (laptop) → 50px (desktop) */
+    transform: translateY(clamp(30px, 4.5vw, 50px)) scale(0.98);
+  }
+  .fade-in-left:not(.is-visible),
+  .fade-in-right:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(clamp(30px, 4.5vw, 50px)) scale(0.98);
+  }
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translate(0, 0) scale(1) !important;
+}
+
+.about-text-side.is-visible { transition-delay: 0.2s; }
+
+
+/* =============================================================================
+   PAGE TRANSITIONS
+   ============================================================================= */
+.page-transition {
+  animation: pageFadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  will-change: opacity, transform, filter;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@keyframes pageFadeIn {
+  0% {
+    opacity: 0;
+    /* Entry travel: 30px (laptop) → 50px (desktop) */
+    transform: translateY(clamp(30px, 4.5vw, 50px));
+    filter: blur(clamp(2px, 0.4vw, 5px));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "../../common/Button/Button";
 
 export const ContactSection = ({ setCurrentPage }) => {
     return (
@@ -43,7 +44,7 @@ export const ContactSection = ({ setCurrentPage }) => {
                   <label htmlFor="message">Message</label>
                   <textarea id="message" placeholder="How can we help you?" required></textarea>
                 </div>
-                <button type="submit" className="btn-primary">Send Message</button>
+                <Button type="submit">Send Message</Button>
               </form>
             </div>
           </div>

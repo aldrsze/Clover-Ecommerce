@@ -16,6 +16,7 @@ import {
 import { MENU_CATEGORIES, CATEGORY_LABEL } from '../../constants/menuConstants';
 import { apiClient }  from '../../api/apiClient';
 import { productsService } from '../../api/productService';
+import { Button } from '../../components/common/Button/Button';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -119,10 +120,10 @@ export default function Products() {
             <p>Manage your product catalog and inventory.</p>
           </div>
           <div className="page-header-actions">
-            <button className="notification-trigger">
+            <Button variant="none" className="notification-trigger">
               <Bell size={18} />
               <span className="notification-dot"></span>
-            </button>
+            </Button>
           </div>
         </header>
 
@@ -166,18 +167,18 @@ export default function Products() {
           </div>
 
           <div className="action-buttons">
-            <button className="btn-secondary">
+            <Button variant="secondary">
               <Filter size={16} />
               <span>Filter</span>
-            </button>
-            <button className="btn-secondary">
+            </Button>
+            <Button variant="secondary">
               <Upload size={16} />
               <span>Export</span>
-            </button>
-            <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
+            </Button>
+            <Button onClick={() => setIsModalOpen(true)}>
               <Plus size={16} />
               <span>Add Product</span>
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -234,12 +235,12 @@ export default function Products() {
                   </td>
                   <td>
                     <div className="table-actions">
-                      <button className="btn-text action-edit" title="Edit product">
+                      <Button variant="none" className="btn-text action-edit" title="Edit product">
                         <Pencil size={16} />
-                      </button>
-                      <button className="btn-text action-delete" title="Delete product">
+                      </Button>
+                      <Button variant="none" className="btn-text action-delete" title="Delete product">
                         <Trash size={16} />
-                      </button>
+                      </Button>
                     </div>
                   </td>
                 </tr>
@@ -254,7 +255,7 @@ export default function Products() {
           <div className="modal-content">
             <div className="modal-header">
               <h2>Add Product</h2>
-              <button className="btn-text" onClick={() => setIsModalOpen(false)}><X size={24} /></button>
+              <Button variant="none" className="btn-text" onClick={() => setIsModalOpen(false)}><X size={24} /></Button>
             </div>
             
             <form onSubmit={handleSubmit}>
@@ -356,8 +357,8 @@ export default function Products() {
               </div>
 
               <div className="modal-footer">
-                <button type="button" className="btn-secondary" onClick={() => setIsModalOpen(false)}>Cancel</button>
-                <button type="submit" className="btn-primary">Add Product</button>
+                <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+                <Button type="submit">Add Product</Button>
               </div>
             </form>
           </div>

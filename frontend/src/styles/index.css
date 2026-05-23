@@ -1,0 +1,15 @@
+/* src/styles/base/main.css */
+
+/* 1. Tokens */
+@import './abstracts/variables.css';
+
+/* 2. Foundation */
+@import './base/reset.css';
+@import './base/typography.css';
+
+/* 3. Global Components */
+@import './components/animations.css';
+
+/* 4. Utilities */
+@import './utilities/logo.css';
+@import './utilities/utilities.css';

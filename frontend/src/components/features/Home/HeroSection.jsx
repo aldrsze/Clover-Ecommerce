@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '../../common/Button/Button';
 
 export const HeroSection = ({ setCurrentPage }) => {
   return (
@@ -9,8 +10,8 @@ export const HeroSection = ({ setCurrentPage }) => {
               <h2 className="hero-title">Experience <br /><span>Pure Delight</span></h2>
               <p className="hero-subtitle">Crafting extraordinary coffee and artisan pastries for those who appreciate the finer things in life.</p>
               <div className="hero-actions">
-                <button onClick={() => setCurrentPage('products')} className="btn-primary" style={{ border: 'none', cursor: 'pointer' }}>Explore Menu</button>
-                <a href="#about" onClick={(e) => handleNavClick(e, 'about')} className="btn-secondary">Our Story</a>
+                <Button onClick={() => setCurrentPage('products')} style={{ border: 'none', cursor: 'pointer' }}>Explore Menu</Button>
+                <a href="#about" className="btn-secondary">Our Story</a>
               </div>
             </div>
             <div className="hero-image-side animate-on-scroll fade-in-right">

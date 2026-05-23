@@ -16,6 +16,7 @@ import './Admin.css';
 import Dashboard from './Dashboard';
 import Products from './Products';
 import Orders from './Orders';
+import { Button } from '../../components/common/Button/Button';
 
 export default function AdminRoot() {
   const [activeTab, setActiveTab] = useState('Products'); // Default to Products for this task
@@ -41,14 +42,15 @@ export default function AdminRoot() {
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
-                <button 
+                <Button 
                   key={item.name}
+                  variant="secondary"
                   className={`nav-item ${activeTab === item.name ? 'is-active' : ''}`}
                   onClick={() => setActiveTab(item.name)}
                 >
                   <Icon strokeWidth={2} />
                   <span>{item.name}</span>
-                </button>
+                </Button>
               );
             })}
           </nav>
@@ -96,21 +98,21 @@ export default function AdminRoot() {
                   <span className="user-name">Aldrin J.</span>
                   <span className="user-role">Super Admin</span>
                 </div>
-                <button className="profile-settings">
+                <Button variant="none" className="profile-settings">
                   <Settings size={14} />
-                </button>
+                </Button>
               </div>
             </div>
 
             <div className="sidebar-actions">
-              <button className="action-item logout">
+              <Button variant="secondary" className="action-item logout">
                 <LogOut size={16} strokeWidth={2} />
                 <span>Sign Out</span>
-              </button>
-              <button className="action-item security">
+              </Button>
+              <Button variant="secondary" className="action-item security">
                 <ShieldCheck size={16} strokeWidth={2} />
                 <span>Security</span>
-              </button>
+              </Button>
             </div>
 
             <div className="footer-meta">
@@ -139,10 +141,10 @@ export default function AdminRoot() {
                   <p>Manage your customer database and relationships.</p>
                 </div>
                 <div className="page-header-actions">
-                  <button className="notification-trigger">
+                  <Button variant="none" className="notification-trigger">
                     <Bell size={18} />
                     <span className="notification-dot"></span>
-                  </button>
+                  </Button>
                 </div>
               </header>
             </div>
@@ -161,10 +163,10 @@ export default function AdminRoot() {
                   <p>System configuration and maintenance tools.</p>
                 </div>
                 <div className="page-header-actions">
-                  <button className="notification-trigger">
+                  <Button variant="none" className="notification-trigger">
                     <Bell size={18} />
                     <span className="notification-dot"></span>
-                  </button>
+                  </Button>
                 </div>
               </header>
             </div>

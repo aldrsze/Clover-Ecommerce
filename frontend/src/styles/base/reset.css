@@ -1,0 +1,51 @@
+/* =============================================================================
+   RESET & BASE STYLES
+   ============================================================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Offset scales with header height, which shrinks on laptops */
+  scroll-padding-top: clamp(70px, 7vh, 90px);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+  overflow-x: clip;
+}
+
+body.has-snap-scroll {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: clamp(70px, 7vh, 90px);
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  /* Single source of truth for side gutters — all sections inherit this */
+  padding-inline: 10vw;
+}
+
+

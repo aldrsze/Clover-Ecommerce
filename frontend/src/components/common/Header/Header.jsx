@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, ShoppingCart } from 'lucide-react';
 import { smoothScrollTo } from '../../../utils/scrollUtils';
 import { useScrollSpy } from '../../../hooks/useScrollSpy';
+import { Button } from '../Button/Button';
 
 export default function Header({ currentPage, setCurrentPage, cartCount }) {
   const [isSearchActive, setIsSearchActive] = useState(false);
@@ -83,16 +84,16 @@ export default function Header({ currentPage, setCurrentPage, cartCount }) {
 
         <div className="header-right">
           <div className={`search-wrapper ${isSearchActive ? 'active' : ''}`}>
-            <button className="icon-btn search-trigger" onClick={() => setIsSearchActive(!isSearchActive)} aria-label="Search">
+            <Button variant="none" className="icon-btn search-trigger" onClick={() => setIsSearchActive(!isSearchActive)} aria-label="Search">
               <Search size={20} />
-            </button>
+            </Button>
             <input type="text" placeholder="Search our menu..." className="search-input" autoFocus={isSearchActive} />
           </div>
 
-          <button className="icon-btn cart-btn" onClick={() => setCurrentPage('products')} aria-label="Cart">
+          <Button variant="none" className="icon-btn cart-btn" onClick={() => setCurrentPage('products')} aria-label="Cart">
             <ShoppingCart size={20} />
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-          </button>
+          </Button>
         </div>
       </div>
     </header>

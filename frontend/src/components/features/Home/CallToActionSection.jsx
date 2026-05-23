@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "../../common/Button/Button";
 
 export const CallToActionSection = ({ setCurrentPage }) => {
   return (
@@ -41,8 +42,8 @@ export const CallToActionSection = ({ setCurrentPage }) => {
             </div>
             
             <div className="cta-actions">
-              <button onClick={() => setCurrentPage('products')} className="btn-primary" style={{ border: 'none', cursor: 'pointer' }}>Browse Menu</button>
-              <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="btn-secondary">Plan Your Visit</a>
+              <Button onClick={() => setCurrentPage('products')} style={{ border: 'none', cursor: 'pointer' }}>Browse Menu</Button>
+              <a href="#contact" className="btn-secondary">Plan Your Visit</a>
             </div>
           </div>
         </div>
