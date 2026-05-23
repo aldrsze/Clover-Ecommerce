@@ -1,0 +1,174 @@
+/* =============================================================================
+   CALL TO ACTION — Premium Asymmetric Color-Block + Floating Logo Icons
+   ============================================================================= */
+
+.call-to-action {
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+/* Section padding scales: tighter on laptop, generous on desktop */
+.call-to-action .container {
+  padding-top: clamp(4rem, 6vw, 8rem);
+  padding-bottom: clamp(4rem, 6vw, 8rem);
+}
+
+.call-to-action .cta-panel {
+  max-width: 100%;
+  margin: 0 auto;
+  background: var(--bg-offset);
+  /* Column ratio: 1.3/1 stable across larger screens */
+  grid-template-columns: 1.3fr 1fr;
+  display: grid;
+  align-items: stretch;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.call-to-action .cta-panel:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
+}
+
+/* ── Floating Brand Logo Engine ── */
+.cta-floating-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bg-clover {
+  position: absolute;
+  --cta-opacity: 0.03;
+  top: -150px;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: ctaSnowflake infinite linear;
+}
+
+.bg-clover img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(1) brightness(0);
+}
+
+/* Icon sizes scale with viewport starting at larger baseline */
+.bg-clover.item-1 { width: clamp(60px, 6vw, 75px);   left: 12%; animation-duration: 12s; }
+.bg-clover.item-2 { width: clamp(90px, 8vw, 120px);  left:  4%; animation-duration: 18s; animation-delay: 2s; }
+.bg-clover.item-3 { width: clamp(45px, 4.5vw, 60px); left: 48%; animation-duration: 10s; animation-delay: 1s; }
+.bg-clover.item-4 { width: clamp(75px, 6.5vw, 95px); right: 34%; animation-duration: 15s; animation-delay: 4s; }
+.bg-clover.item-5 {
+  width: clamp(85px, 7.5vw, 110px);
+  right: 6%;
+  animation-duration: 20s;
+  animation-delay: 0.5s;
+  --cta-opacity: 0.015;
+}
+
+.cta-panel:hover .bg-clover        { --cta-opacity: 0.055; }
+.cta-panel:hover .bg-clover.item-5 { --cta-opacity: 0.03;  }
+
+@keyframes ctaSnowflake {
+  0%        { top: -150px; transform: translateX(0)    rotate(0deg);   opacity: 0; }
+  10%, 90%  { opacity: var(--cta-opacity); }
+  100%      { top: 100%;   transform: translateX(40px) rotate(360deg); opacity: 0; }
+}
+
+/* ── Layout & Typography ── */
+.call-to-action .cta-copy {
+  text-align: left;
+  position: relative;
+  z-index: 2;
+  /* Padding scales from compact on laptop to generous on desktop */
+  padding: clamp(2.5rem, 3vw, var(--spacing-lg, 4rem))
+           clamp(2.5rem, 3vw, var(--spacing-lg, 4rem))
+           clamp(2.5rem, 3vw, var(--spacing-lg, 4rem))
+           clamp(3rem, 4vw, 4rem);
+}
+
+.call-to-action .cta-eyebrow {
+  display: block;
+  font-size: clamp(0.65rem, 0.7vw, 0.75rem);
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* Headline: 3rem (laptop) → 4rem (desktop) */
+.call-to-action h2 {
+  margin-bottom: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(3rem, 3.5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.call-to-action .cta-description {
+  max-width: clamp(28rem, 30vw, 36rem);
+  margin: 0 0 clamp(2rem, 3.5vw, 2.5rem) 0;
+  font-size: clamp(1.05rem, 1.1vw, 1.15rem);
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+/* Status badge */
+.cta-meta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--bg);
+  padding: clamp(6px, 0.7vw, 8px) clamp(12px, 1.2vw, 16px);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.cta-meta-badge .pulse-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--text);
+  border-radius: 50%;
+  display: inline-block;
+  animation: mini-pulse 2s infinite ease-in-out;
+}
+
+@keyframes mini-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.9); }
+  50%      { opacity: 1;   transform: scale(1.2); }
+}
+
+.call-to-action .cta-meta {
+  margin-bottom: 0;
+  font-size: clamp(0.65rem, 0.7vw, 0.75rem);
+  color: var(--text);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+/* ── Actions Zone ── */
+.call-to-action .cta-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+  position: relative;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.025);
+  padding: clamp(2.5rem, 3.5vw, var(--spacing-lg, 4rem))
+           clamp(2.5rem, 4vw, 3.5rem);
+}
+
+/* CTA buttons get fluid vertical padding so they don't shrink awkwardly */
+.call-to-action .cta-actions .btn-primary,
+.call-to-action .cta-actions .btn-secondary {
+  padding: clamp(1rem, 1.2vw, 1.25rem) clamp(1.5rem, 2vw, 2.5rem);
+}

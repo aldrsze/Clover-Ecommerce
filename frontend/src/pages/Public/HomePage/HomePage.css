@@ -1,0 +1,26 @@
+/* =============================================================================
+   HOME PAGE — Hero section, image composition, CTA strip
+   Fluid layout via clamp() — scales smoothly from ~1024px to ~1920px viewports
+   without discrete media-query breakpoints for the core layout geometry.
+   ============================================================================= */
+
+/* Home Page */
+.home-page-content {
+  padding: 0;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: norma;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+
+
