@@ -1,4 +1,5 @@
 import React from 'react';
+import { Bell } from 'lucide-react';
 
 export default function Orders() {
   return (
@@ -6,8 +7,15 @@ export default function Orders() {
       <div className="sticky-header">
         <header className="page-header">
           <div className="page-header-info">
+            <span className="page-path">Sales</span>
             <h1>Orders</h1>
             <p>Manage and track your customer orders.</p>
+          </div>
+          <div className="page-header-actions">
+            <button className="notification-trigger">
+              <Bell size={18} />
+              <span className="notification-dot"></span>
+            </button>
           </div>
         </header>
       </div>

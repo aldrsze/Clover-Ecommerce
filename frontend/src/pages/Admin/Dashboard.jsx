@@ -1,4 +1,5 @@
 import React from 'react';
+import { Bell, LayoutDashboard } from 'lucide-react';
 
 export default function Dashboard() {
   return (
@@ -6,8 +7,15 @@ export default function Dashboard() {
       <div className="sticky-header">
         <header className="page-header">
           <div className="page-header-info">
+            <span className="page-path">Overview</span>
             <h1>Dashboard</h1>
             <p>Welcome to your Clover Admin dashboard.</p>
+          </div>
+          <div className="page-header-actions">
+            <button className="notification-trigger">
+              <Bell size={18} />
+              <span className="notification-dot"></span>
+            </button>
           </div>
         </header>
       </div>

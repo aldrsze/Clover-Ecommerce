@@ -18,20 +18,65 @@ export default function Home({ setCurrentPage }) {
     return () => animationObserver.disconnect();
   }, []);
 
+  const smoothScrollTo = (targetY, duration = 1000) => {
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const startTime = performance.now();
+
+    const ease = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+    const step = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + distance * ease(progress));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+
+    requestAnimationFrame(step);
+  };
+
+
   const handleNavClick = (e, sectionId) => {
     e.preventDefault();
-    
-    // 1. Suspend CSS snapping
-    document.body.style.scrollSnapType = 'none';
-    
+
+    // Home always snaps to absolute top
+    if (sectionId === 'home') {
+      document.body.classList.remove('has-snap-scroll');
+      document.body.classList.add('snap-disabled');
+
+      smoothScrollTo(0, 1000);
+
+      const restore = () => {
+        document.body.classList.add('has-snap-scroll');
+        document.body.classList.remove('snap-disabled');
+      };
+
+      if ('onscrollend' in window) {
+        window.addEventListener('scrollend', restore, { once: true });
+      } else {
+        setTimeout(restore, 1000);
+      }
+      return;
+    }
+
     const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      
-      // 2. Restore snapping after animation finishes
-      setTimeout(() => {
-        document.body.style.scrollSnapType = '';
-      }, 1000);
+    if (!element) return;
+
+    document.body.classList.remove('has-snap-scroll');
+    document.body.classList.add('snap-disabled');
+
+    const targetY = element.getBoundingClientRect().top + window.scrollY;
+    smoothScrollTo(targetY, 1000);
+
+    const restore = () => {
+      document.body.classList.add('has-snap-scroll');
+      document.body.classList.remove('snap-disabled');
+    };
+
+    if ('onscrollend' in window) {
+      window.addEventListener('scrollend', restore, { once: true });
+    } else {
+      setTimeout(restore, 1000);
     }
   };
 

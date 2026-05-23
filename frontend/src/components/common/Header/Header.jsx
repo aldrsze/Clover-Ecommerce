@@ -1,77 +1,92 @@
 import React, { useState, useEffect } from 'react';
+import { Search, ShoppingCart } from 'lucide-react';
 
 export default function Header({ currentPage, setCurrentPage, cartCount }) {
-  // New state to track which exact section we are currently looking at
   const [activeSection, setActiveSection] = useState('home');
   const [isSearchActive, setIsSearchActive] = useState(false);
 
   // ── SCROLL SPY FOR NAVIGATION HIGHLIGHTS ──
   useEffect(() => {
-    // If we are on the products page, keep Products highlighted
     if (currentPage === 'products') {
       setActiveSection('products');
       return;
     }
 
     const handleScroll = () => {
-      // List of section IDs to track on the Home page
       const sections = ['home', 'about', 'contact'];
       let current = 'home';
-      
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
-          // Get the section's position. 150px offset accounts for the height of your sticky header.
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 150) {
-            current = section;
-          }
+          if (rect.top <= 150) current = section;
         }
       }
       setActiveSection(current);
     };
 
-    // Listen for scroll events
     window.addEventListener('scroll', handleScroll);
-    // Call once to set initial state on load
     handleScroll();
-    
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentPage]);
 
-  const resetScrollTop = () => {
-    window.scrollTo({ top: 0, behavior: 'auto' });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
+  const smoothScrollTo = (targetY, duration = 1000) => {
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const startTime = performance.now();
+    const ease = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    const step = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + distance * ease(progress));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
   };
 
   const handleNavClick = (e, sectionId) => {
     e.preventDefault();
+
+    // Products — switch page and hard reset to top
     if (sectionId === 'products') {
-      if (window.location.hash) {
-        window.history.replaceState(null, '', window.location.pathname + window.location.search);
-      }
       setCurrentPage('products');
-      resetScrollTop();
-      requestAnimationFrame(resetScrollTop);
-    } else {
-      setCurrentPage('home');
-      
-      // 1. Suspend CSS snapping
-      document.body.style.scrollSnapType = 'none'; 
-      
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-          
-          // 2. Restore snapping after animation finishes (approx 1000ms)
-          setTimeout(() => {
-            document.body.style.scrollSnapType = '';
-          }, 1000);
-        }
-      }, 50);
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      return;
     }
+
+    const restore = () => {
+      document.body.classList.add('has-snap-scroll');
+      document.body.classList.remove('snap-disabled');
+    };
+
+    document.body.classList.remove('has-snap-scroll');
+    document.body.classList.add('snap-disabled');
+
+    // Home — scroll to absolute top
+    if (sectionId === 'home') {
+      setCurrentPage('home');
+      smoothScrollTo(0, 1000);
+      if ('onscrollend' in window) {
+        window.addEventListener('scrollend', restore, { once: true });
+      } else {
+        setTimeout(restore, 1400);
+      }
+      return;
+    }
+
+    // All other sections
+    setCurrentPage('home');
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (!element) return;
+      const targetY = element.getBoundingClientRect().top + window.scrollY;
+      smoothScrollTo(targetY, 1000);
+      if ('onscrollend' in window) {
+        window.addEventListener('scrollend', restore, { once: true });
+      } else {
+        setTimeout(restore, 1400);
+      }
+    }, 50);
   };
 
   return (
@@ -104,13 +119,13 @@ export default function Header({ currentPage, setCurrentPage, cartCount }) {
         <div className="header-right">
           <div className={`search-wrapper ${isSearchActive ? 'active' : ''}`}>
             <button className="icon-btn search-trigger" onClick={() => setIsSearchActive(!isSearchActive)} aria-label="Search">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <Search size={20} />
             </button>
             <input type="text" placeholder="Search our menu..." className="search-input" autoFocus={isSearchActive} />
           </div>
 
           <button className="icon-btn cart-btn" onClick={() => setCurrentPage('products')} aria-label="Cart">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            <ShoppingCart size={20} />
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </button>
         </div>

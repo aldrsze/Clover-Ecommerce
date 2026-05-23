@@ -6,6 +6,11 @@ import {
   MoreHorizontal, 
   X, 
   Upload,
+  Pencil,
+  Trash,
+  Package,
+  AlertCircle,
+  Bell,
   Image as ImageIcon
 } from 'lucide-react';
 import { MENU_CATEGORIES, CATEGORY_LABEL } from '../../constants/menuConstants';
@@ -102,31 +107,74 @@ export default function Products() {
     product.category?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const totalProducts = products.length;
+  const lowStockProducts = products.filter(p => p.stock_quantity > 0 && p.stock_quantity <= 10).length;
+  const outOfStockProducts = products.filter(p => p.stock_quantity === 0).length;
+
   return (
     <div className="view-container">
       <div className="sticky-header">
         <header className="page-header">
           <div className="page-header-info">
-            <h1>Clover Admin - Products</h1>
+            <span className="page-path">Catalog</span>
+            <h1>Products</h1>
             <p>Manage your product catalog and inventory.</p>
+          </div>
+          <div className="page-header-actions">
+            <button className="notification-trigger">
+              <Bell size={18} />
+              <span className="notification-dot"></span>
+            </button>
           </div>
         </header>
 
-        <div className="action-bar">
+        <div className="header-secondary-row">
+          <div className="quick-stats-bar">
+            <div className="stat-card">
+              <div className="stat-icon"><Package size={14} /></div>
+              <div className="stat-info">
+                <span className="stat-value">{totalProducts}</span>
+                <span className="stat-label">Total Products</span>
+              </div>
+            </div>
+            <div className="stat-card warning">
+              <div className="stat-icon"><AlertCircle size={14} /></div>
+              <div className="stat-info">
+                <span className="stat-value">{lowStockProducts}</span>
+                <span className="stat-label">Low Stock</span>
+              </div>
+            </div>
+            <div className="stat-card danger">
+              <div className="stat-icon"><X size={14} /></div>
+              <div className="stat-info">
+                <span className="stat-value">{outOfStockProducts}</span>
+                <span className="stat-label">Out of Stock</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="view-content">
+        <div className="table-search-bar">
           <div className="search-container">
             <Search size={16} />
             <input 
               type="text" 
-              placeholder="Search products..." 
+              placeholder="Search products by name or category..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          
+
           <div className="action-buttons">
             <button className="btn-secondary">
               <Filter size={16} />
               <span>Filter</span>
+            </button>
+            <button className="btn-secondary">
+              <Upload size={16} />
+              <span>Export</span>
             </button>
             <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
               <Plus size={16} />
@@ -134,26 +182,27 @@ export default function Products() {
             </button>
           </div>
         </div>
-      </div>
 
-      <div className="view-content">
         <div className="table-container">
           <table className="admin-table">
             <thead>
               <tr>
                 <th style={{ width: '40px' }}><input type="checkbox" /></th>
+                <th style={{ width: '80px' }}>ID</th>
                 <th>Product</th>
                 <th>Category</th>
                 <th>Price</th>
                 <th>Stock</th>
+                <th>Preferences</th>
                 <th>Status</th>
-                <th style={{ width: '40px' }}></th>
+                <th style={{ width: '80px' }}></th>
               </tr>
             </thead>
             <tbody>
               {filteredProducts.map((product) => (
                 <tr key={product.id}>
                   <td><input type="checkbox" /></td>
+                  <td><span className="sku">#{product.id}</span></td>
                   <td>
                     <div className="product-cell">
                       <img 
@@ -164,7 +213,6 @@ export default function Products() {
                       />
                       <div className="product-info">
                         <span className="name">{product.name}</span>
-                        <span className="sku">ID: {product.id}</span>
                         <p className="description">{product.description}</p>
                       </div>
                     </div>
@@ -173,12 +221,28 @@ export default function Products() {
                   <td>₱{parseFloat(product.price).toFixed(2)}</td>
                   <td>{product.stock_quantity}</td>
                   <td>
+                    <div className="preferences-tags">
+                      {Array.isArray(product.preferences) ? product.preferences.map((pref, i) => (
+                        <span key={i} className="pref-tag">{pref}</span>
+                      )) : typeof product.preferences === 'string' ? JSON.parse(product.preferences).map((pref, i) => (
+                        <span key={i} className="pref-tag">{pref}</span>
+                      )) : null}
+                    </div>
+                  </td>
+                  <td>
                     <span className={`status-badge ${product.stock_quantity > 0 ? 'active' : 'inactive'}`}>
                       {product.stock_quantity > 0 ? 'In Stock' : 'Out of Stock'}
                     </span>
                   </td>
                   <td>
-                    <button className="btn-text"><MoreHorizontal size={16} /></button>
+                    <div className="table-actions">
+                      <button className="btn-text action-edit" title="Edit product">
+                        <Pencil size={16} />
+                      </button>
+                      <button className="btn-text action-delete" title="Delete product">
+                        <Trash size={16} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

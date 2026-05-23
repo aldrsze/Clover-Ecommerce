@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
-import { MENU_CATEGORIES, MENU_PREFERENCES, PREF_LABEL } from '../constants/menuConstants';
+import { MENU_CATEGORIES, MENU_PREFERENCES, PREF_LABEL } from '../../constants/menuConstants';
 
 // Tag colors per preference (using CSS variables from main.css)
 const TAG_STYLES = {

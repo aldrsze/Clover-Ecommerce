@@ -126,12 +126,6 @@ export default function AdminRoot() {
       </div>
 
       <main className="main-content">
-        <div className="main-header-actions">
-          <button className="notification-trigger">
-            <Bell size={20} />
-            <span className="notification-dot"></span>
-          </button>
-        </div>
         {activeTab === 'Dashboard' && <Dashboard />}
         {activeTab === 'Products' && <Products />}
         {activeTab === 'Orders' && <Orders />}
@@ -140,8 +134,15 @@ export default function AdminRoot() {
             <div className="sticky-header">
               <header className="page-header">
                 <div className="page-header-info">
+                  <span className="page-path">CRM</span>
                   <h1>Customers</h1>
                   <p>Manage your customer database and relationships.</p>
+                </div>
+                <div className="page-header-actions">
+                  <button className="notification-trigger">
+                    <Bell size={18} />
+                    <span className="notification-dot"></span>
+                  </button>
                 </div>
               </header>
             </div>
@@ -155,8 +156,15 @@ export default function AdminRoot() {
             <div className="sticky-header">
               <header className="page-header">
                 <div className="page-header-info">
+                  <span className="page-path">System</span>
                   <h1>Utilities</h1>
                   <p>System configuration and maintenance tools.</p>
+                </div>
+                <div className="page-header-actions">
+                  <button className="notification-trigger">
+                    <Bell size={18} />
+                    <span className="notification-dot"></span>
+                  </button>
                 </div>
               </header>
             </div>

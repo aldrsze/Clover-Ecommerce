@@ -17,6 +17,12 @@
   --admin-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
 
   /*
+    Fluid header height: 56px @ 1024px → 64px @ 1440px
+    COEFF = (64 - 56) / 416 ≈ 0.01923
+  */
+  --admin-header-height: clamp(56px, calc(56px + (100vw - 1024px) * 0.01923), 64px);
+
+  /*
     Fluid sidebar width: 220px @ 1024px → 260px @ 1440px
     COEFF = (260 - 220) / 416 ≈ 0.09615
   */
@@ -69,13 +75,8 @@
 /* ── SIDEBAR HEADER ───────────────────────────────────────────────────────── */
 
 .sidebar-header {
-  /*
-    padding block  : 10px → 12px   COEFF ≈ 0.00481
-    padding inline : 16px → 20px   COEFF ≈ 0.00962
-  */
-  padding:
-    clamp(10px, calc(10px + (100vw - 1024px) * 0.00481), 12px)
-    clamp(16px, calc(16px + (100vw - 1024px) * 0.00962), 20px);
+  height: var(--admin-header-height);
+  padding: 0 var(--admin-content-pad);
   /*
     font-size: 16px → 18px   COEFF ≈ 0.00481
   */
@@ -87,6 +88,7 @@
   align-items: center;
   gap: 12px;
   background-color: #ffffff;
+  border-bottom: 1px solid var(--admin-border);
   position: relative;
   flex-shrink: 0;
 }
@@ -101,12 +103,11 @@
 }
 
 .notification-trigger {
-  margin-left: auto;
-  background: var(--admin-secondary);
-  border: none;
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border);
   color: var(--admin-text);
   cursor: pointer;
-  padding: 6px;
+  padding: 8px;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -116,7 +117,7 @@
 }
 
 .notification-trigger:hover {
-  background-color: var(--admin-border);
+  background-color: var(--admin-secondary);
 }
 
 .notification-dot {
@@ -486,22 +487,6 @@
   min-width: 0;
 }
 
-/* ── FIXED HEADER ACTIONS ─────────────────────────────────────────────────── */
-
-.main-header-actions {
-  position: fixed;
-  top: 14px;
-  /*
-    right: 24px → 32px   COEFF ≈ 0.01923
-    Keeps the actions optically aligned with the content padding.
-  */
-  right: clamp(24px, calc(24px + (100vw - 1024px) * 0.01923), 32px);
-  z-index: 1100;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
 /* ── VIEW CONTAINER ───────────────────────────────────────────────────────── */
 
 .view-container {
@@ -523,28 +508,28 @@
   z-index: 1000;
   background-color: var(--admin-bg);
   flex-shrink: 0;
-  /*
-    padding inline: 24px → 32px   COEFF ≈ 0.01923
-    padding-bottom: 14px → 16px   COEFF ≈ 0.00481
-    Mirrors --admin-content-pad so header edge aligns with page content.
-  */
-  padding:
-    0
-    clamp(24px, calc(24px + (100vw - 1024px) * 0.01923), 32px)
-    clamp(14px, calc(14px + (100vw - 1024px) * 0.00481), 16px);
-  margin-bottom: 0;
-  min-height: 64px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 0 var(--admin-content-pad);
+  border-bottom: 1px solid var(--admin-border);
 }
 
 .page-header {
+  min-height: var(--admin-header-height);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  /* Alignment fix: gap keeps items from colliding at narrower laptop widths */
-  gap: clamp(12px, calc(12px + (100vw - 1024px) * 0.00962), 16px);
+  gap: 16px;
+  padding-top: 24px;
+  position: relative;
+}
+
+.page-header-actions {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 /* ── VIEW CONTENT ─────────────────────────────────────────────────────────── */
@@ -565,23 +550,97 @@
 
 /* ── PAGE HEADER INFO ─────────────────────────────────────────────────────── */
 
-.page-header-info h1 {
-  /*
-    font-size: 16px → 18px   COEFF ≈ 0.00481
-  */
-  font-size: clamp(16px, calc(16px + (100vw - 1024px) * 0.00481), 18px);
+.page-header-info {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.page-path {
+  font-size: 10px;
   font-weight: 700;
+  text-transform: uppercase;
+  color: var(--admin-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.page-header-info h1 {
+  font-size: clamp(22px, calc(22px + (100vw - 1024px) * 0.00962), 26px);
+  font-weight: 800;
   margin: 0;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.04em;
   color: var(--admin-text);
-  text-transform: none;
+  line-height: 1.1;
 }
 
 .page-header-info p {
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--admin-muted);
-  margin: 4px 0 0;
+  margin: 6px 0 0;
+  letter-spacing: -0.01em;
 }
+
+/* ── QUICK STATS ──────────────────────────────────────────────────────────── */
+
+.quick-stats-bar {
+  display: flex;
+  gap: 12px;
+  padding: 20px 0;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  min-width: 120px;
+  transition: all 200ms ease;
+}
+
+.stat-card:hover {
+  background-color: var(--admin-surface);
+  border-color: var(--admin-border);
+}
+
+.stat-card .stat-icon {
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  color: var(--admin-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-card .stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-card .stat-value {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--admin-text);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.stat-card .stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--admin-muted);
+  text-transform: none;
+  letter-spacing: 0;
+  margin-top: 4px;
+}
+
+.stat-card.warning .stat-icon { color: #d97706; }
+.stat-card.danger .stat-icon { color: #dc2626; }
 
 /* ── TYPOGRAPHY ───────────────────────────────────────────────────────────── */
 
@@ -606,51 +665,70 @@ h2 {
   border: none;
 }
 
-.action-bar {
+/* ── SECONDARY HEADER ROW ─────────────────────────────────────────────────── */
+
+.header-secondary-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 16px;
-  margin-top: 8px;
-  /* Alignment fix: flex-wrap prevents overflow at laptop widths */
-  flex-wrap: wrap;
+  padding: 4px 0;
+}
+
+.header-secondary-row .quick-stats-bar {
+  padding: 0;
 }
 
 .search-container {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+  gap: 12px;
+  padding: 10px 16px;
+  background-color: var(--admin-surface);
   border: 1px solid var(--admin-border);
-  border-radius: 8px;
+  border-radius: 10px;
   flex: 1;
-  /*
-    max-width: 280px → 320px   COEFF ≈ 0.09615
-    Alignment fix: search bar scales proportionally with sidebar so the
-    action bar right-edge always aligns with table right-edge.
-  */
-  max-width: clamp(280px, calc(280px + (100vw - 1024px) * 0.09615), 320px);
-  background-color: #fff;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  max-width: clamp(320px, calc(320px + (100vw - 1024px) * 0.15), 420px);
+  transition: all 200ms ease;
 }
 
 .search-container:focus-within {
+  background-color: #fff;
   border-color: var(--admin-text);
-  box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.03);
 }
 
 .search-container input {
   border: none;
-  background: none;
+  background: transparent;
   font-size: 13px;
+  font-weight: 500;
   width: 100%;
   outline: none;
   color: var(--admin-text);
 }
 
+.search-container input::placeholder {
+  color: var(--admin-muted);
+}
+
 .search-container svg {
   color: var(--admin-muted);
-  flex-shrink: 0; /* Alignment fix */
+  flex-shrink: 0;
+}
+
+/* ── TABLE SEARCH BAR ─────────────────────────────────────────────────────── */
+
+.table-search-bar {
+  padding-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.table-search-bar .search-container {
+  max-width: clamp(320px, calc(320px + (100vw - 1024px) * 0.15), 420px);
 }
 
 /* ── BUTTONS ──────────────────────────────────────────────────────────────── */
@@ -658,76 +736,92 @@ h2 {
 .action-buttons {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-shrink: 0; /* Alignment fix: button group never squishes */
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .btn-primary {
   background-color: var(--admin-primary);
   color: #fff;
   border: none;
-  /*
-    padding: 9/14px → 10/16px   small fluid nudge for proportional feel
-  */
-  padding:
-    clamp(9px,  calc(9px  + (100vw - 1024px) * 0.00240), 10px)
-    clamp(14px, calc(14px + (100vw - 1024px) * 0.00481), 16px);
+  height: 32px;
+  padding: 0 12px;
   border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  white-space: nowrap; /* Alignment fix */
-  transition: all 150ms ease;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-primary:hover {
-  background-color: #333;
+  background-color: #000;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary {
   background-color: #fff;
   color: var(--admin-text);
   border: 1px solid var(--admin-border);
-  padding:
-    clamp(9px,  calc(9px  + (100vw - 1024px) * 0.00240), 10px)
-    clamp(14px, calc(14px + (100vw - 1024px) * 0.00481), 16px);
+  height: 32px;
+  padding: 0 12px;
   border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  white-space: nowrap; /* Alignment fix */
-  transition: all 150ms ease;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-secondary:hover {
-  background-color: var(--admin-secondary);
-  border-color: var(--admin-muted);
+  background-color: var(--admin-surface);
+  border-color: var(--admin-text);
+  transform: translateY(-1px);
 }
 
 .btn-text {
-  background: none;
+  background: transparent;
   border: none;
-  padding: 6px;
+  padding: 8px;
   font-size: 14px;
   font-weight: 600;
   color: var(--admin-text);
   cursor: pointer;
-  transition: all 150ms ease;
+  border-radius: 8px;
   display: flex;
   align-items: center;
-  border-radius: 6px;
-  white-space: nowrap;
+  transition: all 150ms ease;
 }
 
 .btn-text:hover {
   background-color: var(--admin-secondary);
+}
+
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.action-edit:hover {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.action-delete:hover {
+  color: #dc2626;
+  background-color: #fef2f2;
 }
 
 /* ── TABLE ────────────────────────────────────────────────────────────────── */
@@ -897,6 +991,25 @@ h2 {
   background-color: #fef2f2;
   color: #991b1b;
   border: 1px solid #fecaca;
+}
+
+.preferences-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 200px;
+}
+
+.pref-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  background-color: var(--admin-secondary);
+  color: var(--admin-accent);
+  border-radius: 4px;
+  border: 1px solid var(--admin-border);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 /* ── MODAL ────────────────────────────────────────────────────────────────── */
