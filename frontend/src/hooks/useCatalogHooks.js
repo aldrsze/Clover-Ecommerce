@@ -68,13 +68,17 @@ export const useCatalogScrollSpy = (loading, dependencies = []) => {
 export const useProductFilters = () => {
   const [selectedPrefs, setSelectedPrefs] = useState([]);
 
-  const togglePref = (pref) =>
+  const togglePref = (pref) => {
     setSelectedPrefs((p) =>
       p.includes(pref) ? p.filter((x) => x !== pref) : [...p, pref],
     );
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-  const removePref = (pref) =>
+  const removePref = (pref) => {
     setSelectedPrefs((p) => p.filter((x) => x !== pref));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return { selectedPrefs, togglePref, removePref };
 };
