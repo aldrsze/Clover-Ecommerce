@@ -1,17 +1,4 @@
 /* Common Components */
-@import './common/Header.css';
-@import './common/Footer.css';
-@import './common/Button.css';
-
-/* Home Page Components */
-@import './features/HomePage/HeroSection.css';
-@import './features/HomePage/AboutSection.css';
-@import './features/HomePage/BestSellerSection.css';
-@import './features/HomePage/CallToActionSection.css';
-@import './features/HomePage/ContactSection.css';
-
-/* Products Page Components */
-@import './features/ProductsPage/CatalogHeader.css';
-@import './features/ProductsPage/ProductSidebar.css';
-@import './features/ProductsPage/ProductGrid.css';
-@import './features/ProductsPage/ProductCard.css';
+@import "./common/Header/Header.css";
+@import "./common/Footer/Footer.css";
+@import "./common/Button/Button.css";

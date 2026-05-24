@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useScrollSnap } from "../../../hooks/useScrollSnap";
-import { HeroSection } from "../../../components/features/HomePage/HeroSection";
-import { BestSellerSection } from "../../../components/features/HomePage/BestSellerSection";
-import { CallToActionSection } from "../../../components/features/HomePage/CallToActionSection";
-import { AboutSection } from "../../../components/features/HomePage/AboutSection";
-import { ContactSection } from "../../../components/features/HomePage/ContactSection";
+import { HeroSection } from "./components/HeroSection/HeroSection";
+import { BestSellerSection } from "./components/BestSellerSection/BestSellerSection";
+import { CallToActionSection } from "./components/CallToActionSection/CallToActionSection";
+import { AboutSection } from "./components/AboutSection/AboutSection";
+import { ContactSection } from "./components/ContactSection";
 
 export default function Home({ setCurrentPage }) {
   const { performSnapScroll } = useScrollSnap();

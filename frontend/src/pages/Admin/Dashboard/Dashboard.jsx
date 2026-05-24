@@ -1,5 +1,5 @@
-import { Bell, LayoutDashboard } from 'lucide-react';
-import { Button } from '../../components/common/Button';
+import { Bell, LayoutDashboard } from "lucide-react";
+import { Button } from "../../../components/common/Button/Button";
 
 export default function Dashboard() {
   return (
@@ -19,25 +19,34 @@ export default function Dashboard() {
           </div>
         </header>
       </div>
-      
+
       <div className="view-content">
-        <div className="metrics-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '32px' }}>
+        <div
+          className="metrics-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "32px",
+          }}
+        >
           <div className="metric-item">
             <div className="caption">Total Sales</div>
-            <div style={{ fontSize: '24px', fontWeight: '600' }}>$12,450.00</div>
+            <div style={{ fontSize: "24px", fontWeight: "600" }}>
+              $12,450.00
+            </div>
           </div>
           <div className="metric-item">
             <div className="caption">Orders</div>
-            <div style={{ fontSize: '24px', fontWeight: '600' }}>156</div>
+            <div style={{ fontSize: "24px", fontWeight: "600" }}>156</div>
           </div>
           <div className="metric-item">
             <div className="caption">Customers</div>
-            <div style={{ fontSize: '24px', fontWeight: '600' }}>2,840</div>
+            <div style={{ fontSize: "24px", fontWeight: "600" }}>2,840</div>
           </div>
         </div>
-        
+
         <hr className="divider" />
-        
+
         <section>
           <h2>Recent Activity</h2>
           <p className="caption">No recent activity to show.</p>

@@ -1,5 +1,5 @@
 import { Bell } from "lucide-react";
-import { Button } from "../../components/common/Button";
+import { Button } from "../../../components/common/Button/Button";
 
 export default function ManageCustomers() {
   return (

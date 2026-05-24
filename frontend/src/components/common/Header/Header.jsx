@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Search, ShoppingCart } from "lucide-react";
-import { smoothScrollTo } from "../../utils/scrollUtils";
-import { useScrollSpy } from "../../hooks/useScrollSpy";
-import { Button } from "./Button";
+import { smoothScrollTo } from "../../../utils/scrollUtils";
+import { useScrollSpy } from "../../../hooks/useScrollSpy";
+import { Button } from "../Button/Button";
 
 export default function Header({ currentPage, setCurrentPage, cartCount }) {
   const [isSearchActive, setIsSearchActive] = useState(false);
@@ -10,7 +10,7 @@ export default function Header({ currentPage, setCurrentPage, cartCount }) {
   const activeSection = useScrollSpy(["home", "about", "contact"]);
 
   const displayActiveSection =
-    currentPage === "products" ? "products" : (clickedSection || activeSection);
+    currentPage === "products" ? "products" : clickedSection || activeSection;
 
   const handleNavClick = (e, sectionId) => {
     e.preventDefault();
@@ -59,7 +59,7 @@ export default function Header({ currentPage, setCurrentPage, cartCount }) {
             onClick={(e) => handleNavClick(e, "home")}
           >
             <img
-              src="/images/clover-logo.png"
+              src="/images/brand/clover-logo.png"
               alt="Clover Logo"
               className="brand-logo-img"
             />

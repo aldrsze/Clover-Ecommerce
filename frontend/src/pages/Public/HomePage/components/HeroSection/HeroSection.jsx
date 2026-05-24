@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button } from "../../common/Button";
+import { Button } from "../../../../../components/common/Button/Button";
 
 export const HeroSection = ({ setCurrentPage }) => {
   return (
@@ -32,21 +32,21 @@ export const HeroSection = ({ setCurrentPage }) => {
             <div className="hero-composition">
               <div className="comp-item main">
                 <img
-                  src="/images/ICED-WHITE-CHOCOLATE-MOCHA-hero.png"
+                  src="/images/hero/ICED-WHITE-CHOCOLATE-MOCHA-hero.png"
                   alt="Iced White Chocolate Mocha"
                   className="floating-img"
                 />
               </div>
               <div className="comp-item sub-1">
                 <img
-                  src="/images/JAVACHIP-JAVAKULA-hero.png"
+                  src="/images/hero/JAVACHIP-JAVAKULA-hero.png"
                   alt="Javachip Javakula"
                   className="floating-img-alt"
                 />
               </div>
               <div className="comp-item sub-2">
                 <img
-                  src="/images/Strawberry-Milkshake-600x600-hero.png"
+                  src="/images/hero/Strawberry-Milkshake-600x600-hero.png"
                   alt="Strawberry Milkshake"
                   className="floating-img"
                 />

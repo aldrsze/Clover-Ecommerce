@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../../common/Button";
+import { Button } from "../../../../../components/common/Button/Button";
 
 export const CatalogHeader = ({
   totalVisible,
@@ -30,7 +30,7 @@ export const CatalogHeader = ({
               style={{ animationDelay: "0s" }}
             >
               <img
-                src="/images/BIG-BREAKFAST-3-ch.jpg"
+                src="/images/products/BIG-BREAKFAST-3-ch.jpg"
                 alt="Artisan Breakfast"
                 loading="eager"
               />
@@ -41,7 +41,7 @@ export const CatalogHeader = ({
               style={{ animationDelay: "0.1s" }}
             >
               <img
-                src="/images/Margherita-Flatbread-600x600-ch.jpg"
+                src="/images/products/Margherita-Flatbread-600x600-ch.jpg"
                 alt="Savory Flatbread"
                 loading="eager"
               />
@@ -51,7 +51,7 @@ export const CatalogHeader = ({
               style={{ animationDelay: "0.15s" }}
             >
               <img
-                src="/images/Nutella-Croissant-600x600-ch.jpg"
+                src="/images/products/Nutella-Croissant-600x600-ch.jpg"
                 alt="Handcrafted Pastries"
                 loading="eager"
               />
@@ -61,7 +61,7 @@ export const CatalogHeader = ({
               style={{ animationDelay: "0.2s" }}
             >
               <img
-                src="/images/QUATTRO-ch.jpg"
+                src="/images/products/QUATTRO-ch.jpg"
                 alt="Premium Selections"
                 loading="eager"
               />

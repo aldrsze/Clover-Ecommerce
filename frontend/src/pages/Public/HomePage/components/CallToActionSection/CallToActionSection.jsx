@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../../common/Button";
+import { Button } from "../../../../../components/common/Button/Button";
 
 export const CallToActionSection = ({ setCurrentPage }) => {
   return (
@@ -7,7 +7,7 @@ export const CallToActionSection = ({ setCurrentPage }) => {
       <div className="container">
         <div className="section-logo-divider">
           <img
-            src="/images/clover-logo.png"
+            src="/images/brand/clover-logo.png"
             alt="Clover Logo"
             className="brand-logo-img-small"
           />
@@ -16,19 +16,39 @@ export const CallToActionSection = ({ setCurrentPage }) => {
           {/* ── FLOATING BRAND LOGO BACKGROUND EFFECT ── */}
           <div className="cta-floating-bg">
             <div className="bg-clover item-1">
-              <img src="/images/clover-logo.png" alt="" aria-hidden="true" />
+              <img
+                src="/images/brand/clover-logo.png"
+                alt=""
+                aria-hidden="true"
+              />
             </div>
             <div className="bg-clover item-2">
-              <img src="/images/clover-logo.png" alt="" aria-hidden="true" />
+              <img
+                src="/images/brand/clover-logo.png"
+                alt=""
+                aria-hidden="true"
+              />
             </div>
             <div className="bg-clover item-3">
-              <img src="/images/clover-logo.png" alt="" aria-hidden="true" />
+              <img
+                src="/images/brand/clover-logo.png"
+                alt=""
+                aria-hidden="true"
+              />
             </div>
             <div className="bg-clover item-4">
-              <img src="/images/clover-logo.png" alt="" aria-hidden="true" />
+              <img
+                src="/images/brand/clover-logo.png"
+                alt=""
+                aria-hidden="true"
+              />
             </div>
             <div className="bg-clover item-5">
-              <img src="/images/clover-logo.png" alt="" aria-hidden="true" />
+              <img
+                src="/images/brand/clover-logo.png"
+                alt=""
+                aria-hidden="true"
+              />
             </div>
           </div>
 
@@ -49,9 +69,7 @@ export const CallToActionSection = ({ setCurrentPage }) => {
           </div>
 
           <div className="cta-actions">
-            <Button
-              onClick={() => setCurrentPage("products")}
-            >
+            <Button onClick={() => setCurrentPage("products")}>
               Browse Menu
             </Button>
             <a href="#contact" className="btn-secondary">

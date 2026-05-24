@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "../../common/Button";
+import { Button } from "../../../../../components/common/Button/Button";
 import {
   MENU_CATEGORIES,
   MENU_PREFERENCES,
-} from "../../../constants/menuConstants";
+} from "../../../../../constants/menuConstants";
 
 export const ProductSidebar = ({
   products,
@@ -65,7 +65,7 @@ export const ProductSidebar = ({
         <div className="promo-badge">Specials</div>
         <div className="promo-img-wrap">
           <img
-            src="/images/Torched-Classic-Cheesecake-3-600x600.jpg"
+            src="/images/products/Torched-Classic-Cheesecake-3-600x600.jpg"
             alt="Torched Classic Cheesecake"
           />
         </div>

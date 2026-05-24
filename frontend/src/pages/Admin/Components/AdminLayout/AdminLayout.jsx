@@ -4,7 +4,7 @@ import Products from "./ManageProducts";
 import Orders from "./ManageOrders";
 import ManageCustomers from "./ManageCustomers";
 import Utilities from "./Utilities";
-import { AdminSidebar } from "./AdminSidebar";
+import { AdminSidebar } from "./Components/AdminSidebar/AdminSidebar";
 
 export default function AdminRoot() {
   const [activeTab, setActiveTab] = useState("Products"); // Default to Products for this task

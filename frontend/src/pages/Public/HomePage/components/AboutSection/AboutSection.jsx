@@ -9,7 +9,7 @@ export const AboutSection = ({ setCurrentPage }) => {
             <div className="text-composition">
               <div className="large-about-logo">
                 <img
-                  src="/images/clover-logo.png"
+                  src="/images/brand/clover-logo.png"
                   alt="Clover Logo"
                   className="brand-logo-img-large animated-logo"
                 />

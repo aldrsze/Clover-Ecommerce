@@ -1,24 +1,27 @@
 import React from "react";
-import { ProductSidebar } from "../../../components/features/ProductsPage/ProductSidebar";
-import { CatalogHeader } from "../../../components/features/ProductsPage/CatalogHeader";
-import ProductGrid from "../../../components/features/ProductsPage/ProductGrid";
-import { useProducts } from "../../../hooks/useProductsHooks";
+import { ProductSidebar } from "./components/ProductSidebar/ProductSidebar";
+import { CatalogHeader } from "./components/CatalogHeader/CatalogHeader";
+import ProductGrid from "./components/ProductSidebar/ProductGrid/ProductGrid";
+import { useProducts } from "../../../hooks/useProducts";
 import { PREF_LABEL } from "../../../constants/menuConstants";
 import {
   useScrollReset,
   useCatalogScrollSpy,
   useProductFilters,
   useCartFeedback,
-} from "../../../hooks/useCatalogHooks";
+} from "../../../hooks/useCatalog";
 
 export default function Products({ addToCart }) {
   const { selectedPrefs, togglePref, removePref } = useProductFilters();
-  
+
   const queryString =
     selectedPrefs.length > 0 ? `?preferences=${selectedPrefs.join(",")}` : "";
   const { products, loading, error } = useProducts(queryString);
-  
-  const { activeCategory, handleScrollToSection } = useCatalogScrollSpy(loading, [selectedPrefs]);
+
+  const { activeCategory, handleScrollToSection } = useCatalogScrollSpy(
+    loading,
+    [selectedPrefs],
+  );
   const { addedCards, handleAddToCart } = useCartFeedback(addToCart);
 
   useScrollReset();

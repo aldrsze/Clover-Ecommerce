@@ -1,15 +1,15 @@
 import { Bell } from "lucide-react";
-import { Button } from "../../components/common/Button";
+import { Button } from "../../../components/common/Button/Button";
 
-export default function Utilities() {
+export default function Orders() {
   return (
     <div className="view-container">
       <div className="sticky-header">
         <header className="page-header">
           <div className="page-header-info">
-            <span className="page-path">System</span>
-            <h1>Utilities</h1>
-            <p>System configuration and maintenance tools.</p>
+            <span className="page-path">Sales</span>
+            <h1>Orders</h1>
+            <p>Manage and track your customer orders.</p>
           </div>
           <div className="page-header-actions">
             <Button variant="none" className="notification-trigger">
@@ -19,8 +19,14 @@ export default function Utilities() {
           </div>
         </header>
       </div>
+
       <div className="view-content">
-        <p className="caption">System utilities and settings coming soon.</p>
+        <div
+          className="empty-state"
+          style={{ textAlign: "center", padding: "64px 0" }}
+        >
+          <p className="caption">No orders found.</p>
+        </div>
       </div>
     </div>
   );

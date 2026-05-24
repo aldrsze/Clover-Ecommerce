@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "../../common/Button";
-import { PREF_LABEL, TAG_STYLES } from "../../../constants/menuConstants";
+import { Button } from "../../../../../components/common/Button/Button";
+import { PREF_LABEL, TAG_STYLES } from "../../../../../constants/menuConstants";
 import "./ProductCard.css";
 
 const ProductCard = ({ product, isAdded, handleAddToCart }) => {
