@@ -4,8 +4,9 @@
  * Smoothly scrolls the window to a specific Y coordinate.
  * @param {number} targetY - The absolute Y coordinate to scroll to.
  * @param {number} duration - The duration of the scroll animation in milliseconds (default: 1000).
+ * @param {Function} onComplete - Callback executed when scroll finishes.
  */
-export const smoothScrollTo = (targetY, duration = 1000) => {
+export const smoothScrollTo = (targetY, duration = 1000, onComplete = null) => {
   const startY = window.scrollY;
   const distance = targetY - startY;
   const startTime = performance.now();
@@ -20,6 +21,8 @@ export const smoothScrollTo = (targetY, duration = 1000) => {
     
     if (progress < 1) {
       requestAnimationFrame(step);
+    } else if (onComplete) {
+      onComplete();
     }
   };
   

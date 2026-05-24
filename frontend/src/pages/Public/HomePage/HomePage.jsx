@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { smoothScrollTo } from "../../../utils/scrollUtils";
 import { useScrollSnap } from "../../../hooks/useScrollSnap";
 import { HeroSection } from "../../../components/features/HomePage/HeroSection";
 import { BestSellerSection } from "../../../components/features/HomePage/BestSellerSection";
@@ -29,16 +28,6 @@ export default function Home({ setCurrentPage }) {
 
     return () => animationObserver.disconnect();
   }, []);
-
-  const handleNavClick = (e, sectionId) => {
-    e.preventDefault();
-    const targetY =
-      sectionId === "home"
-        ? 0
-        : document.getElementById(sectionId)?.getBoundingClientRect().top +
-          window.scrollY;
-    if (targetY !== undefined) performSnapScroll(targetY);
-  };
 
   return (
     <main className="home-page-content" id="home">

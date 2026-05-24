@@ -6,10 +6,11 @@ import { Button } from "./Button";
 
 export default function Header({ currentPage, setCurrentPage, cartCount }) {
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [clickedSection, setClickedSection] = useState(null);
   const activeSection = useScrollSpy(["home", "about", "contact"]);
 
   const displayActiveSection =
-    currentPage === "products" ? "products" : activeSection;
+    currentPage === "products" ? "products" : (clickedSection || activeSection);
 
   const handleNavClick = (e, sectionId) => {
     e.preventDefault();
@@ -24,20 +25,17 @@ export default function Header({ currentPage, setCurrentPage, cartCount }) {
     const restore = () => {
       document.body.classList.add("has-snap-scroll");
       document.body.classList.remove("snap-disabled");
+      setClickedSection(null);
     };
 
     document.body.classList.remove("has-snap-scroll");
     document.body.classList.add("snap-disabled");
+    setClickedSection(sectionId);
 
     // Home — scroll to absolute top
     if (sectionId === "home") {
       setCurrentPage("home");
-      smoothScrollTo(0, 1000);
-      if ("onscrollend" in window) {
-        window.addEventListener("scrollend", restore, { once: true });
-      } else {
-        setTimeout(restore, 1400);
-      }
+      smoothScrollTo(0, 1000, restore);
       return;
     }
 
@@ -47,12 +45,7 @@ export default function Header({ currentPage, setCurrentPage, cartCount }) {
       const element = document.getElementById(sectionId);
       if (!element) return;
       const targetY = element.getBoundingClientRect().top + window.scrollY;
-      smoothScrollTo(targetY, 1000);
-      if ("onscrollend" in window) {
-        window.addEventListener("scrollend", restore, { once: true });
-      } else {
-        setTimeout(restore, 1400);
-      }
+      smoothScrollTo(targetY, 1000, restore);
     }, 50);
   };
 
