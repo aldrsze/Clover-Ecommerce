@@ -1,6 +1,6 @@
 import React from "react";
-import ProductCard from "../../../../components/features/ProductsPage/ProductCard";
-import { MENU_CATEGORIES } from "../../../../../../constants/menuConstants";
+import ProductCard from "../ProductCard/ProductCard";
+import { MENU_CATEGORIES } from "../../../../../constants/menuConstants";
 
 const ProductGrid = ({
   filteredProducts,

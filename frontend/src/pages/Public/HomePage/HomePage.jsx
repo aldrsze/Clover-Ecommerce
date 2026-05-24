@@ -4,7 +4,7 @@ import { HeroSection } from "./components/HeroSection/HeroSection";
 import { BestSellerSection } from "./components/BestSellerSection/BestSellerSection";
 import { CallToActionSection } from "./components/CallToActionSection/CallToActionSection";
 import { AboutSection } from "./components/AboutSection/AboutSection";
-import { ContactSection } from "./components/ContactSection";
+import { ContactSection } from "./components/ContactSection/ContactSection";
 
 export default function Home({ setCurrentPage }) {
   const { performSnapScroll } = useScrollSnap();

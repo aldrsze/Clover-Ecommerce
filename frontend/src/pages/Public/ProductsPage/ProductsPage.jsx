@@ -1,7 +1,7 @@
 import React from "react";
 import { ProductSidebar } from "./components/ProductSidebar/ProductSidebar";
 import { CatalogHeader } from "./components/CatalogHeader/CatalogHeader";
-import ProductGrid from "./components/ProductSidebar/ProductGrid/ProductGrid";
+import ProductGrid from "./components/ProductGrid/ProductGrid";
 import { useProducts } from "../../../hooks/useProducts";
 import { PREF_LABEL } from "../../../constants/menuConstants";
 import {

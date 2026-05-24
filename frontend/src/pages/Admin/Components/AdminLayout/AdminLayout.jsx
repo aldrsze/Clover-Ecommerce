@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Dashboard from "./Dashboard";
-import Products from "./ManageProducts";
-import Orders from "./ManageOrders";
-import ManageCustomers from "./ManageCustomers";
-import Utilities from "./Utilities";
-import { AdminSidebar } from "./Components/AdminSidebar/AdminSidebar";
+import Dashboard from "../../Dashboard/Dashboard";
+import Products from "../../ManageProducts/ManageProducts";
+import Orders from "../../ManageOrders/ManageOrders";
+import ManageCustomers from "../../ManageCustomers/ManageCustomers";
+import Utilities from "../../Utilities/Utilities";
+import { AdminSidebar } from "../AdminSidebar/AdminSidebar";
 
 export default function AdminRoot() {
   const [activeTab, setActiveTab] = useState("Products"); // Default to Products for this task
