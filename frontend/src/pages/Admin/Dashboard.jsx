@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bell, LayoutDashboard } from 'lucide-react';
-import { Button } from '../../components/common/Button/Button';
+import { Button } from '../../components/common/Button';
 
 export default function Dashboard() {
   return (

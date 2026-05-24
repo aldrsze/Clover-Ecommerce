@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export const useCart = () => {
   const [cart, setCart] = useState([]);
@@ -13,10 +13,8 @@ export const useCart = () => {
       }
       return [...prevCart, { ...product, quantity: 1 }];
     });
-    alert(`${product.name} added to cart!`);
   };
 
-  // Calculate total items in the cart
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return { cart, addToCart, cartCount };

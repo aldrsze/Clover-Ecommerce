@@ -16,7 +16,7 @@ import {
 import { MENU_CATEGORIES, CATEGORY_LABEL } from '../../constants/menuConstants';
 import { apiClient }  from '../../api/apiClient';
 import { productsService } from '../../api/productService';
-import { Button } from '../../components/common/Button/Button';
+import { Button } from '../../components/common/Button';
 
 export default function Products() {
   const [products, setProducts] = useState([]);

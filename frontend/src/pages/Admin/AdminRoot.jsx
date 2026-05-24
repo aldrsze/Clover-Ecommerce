@@ -16,7 +16,7 @@ import './Admin.css';
 import Dashboard from './Dashboard';
 import Products from './Products';
 import Orders from './Orders';
-import { Button } from '../../components/common/Button/Button';
+import { Button } from '../../components/common/Button';
 
 export default function AdminRoot() {
   const [activeTab, setActiveTab] = useState('Products'); // Default to Products for this task

@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState, useEffect } from 'react';
-import Header from './components/common/Header/Header';
-import Footer from './components/common/Footer/Footer';
+import Header from './components/common/Header';
+import Footer from './components/common/Footer';
 import Home from './pages/Public/HomePage/HomePage';
 import Products from './pages/Public/ProductsPage/ProductsPage';
 import AdminRoot from './pages/Admin/AdminRoot'; 

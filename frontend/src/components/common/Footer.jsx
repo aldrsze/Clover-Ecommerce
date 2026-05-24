@@ -1,5 +1,5 @@
 import React from 'react';
-import { smoothScrollTo } from '../../../utils/scrollUtils';
+import { smoothScrollTo } from '../../utils/scrollUtils';
 
 export default function Footer({ setCurrentPage }) {
 
