@@ -6,11 +6,7 @@ export default function Orders() {
     <div className="view-container">
       <div className="sticky-header">
         <header className="page-header">
-          <div className="page-header-info">
-            <span className="page-path">Sales</span>
-            <h1>Orders</h1>
-            <p>Manage and track your customer orders.</p>
-          </div>
+          <h1>Orders</h1>
           <div className="page-header-actions">
             <Button variant="none" className="notification-trigger">
               <Bell size={18} />

@@ -6,11 +6,7 @@ export default function Dashboard() {
     <div className="view-container">
       <div className="sticky-header">
         <header className="page-header">
-          <div className="page-header-info">
-            <span className="page-path">Overview</span>
-            <h1>Dashboard</h1>
-            <p>Welcome to your Clover Admin dashboard.</p>
-          </div>
+          <h1>Dashboard</h1>
           <div className="page-header-actions">
             <Button variant="none" className="notification-trigger">
               <Bell size={18} />

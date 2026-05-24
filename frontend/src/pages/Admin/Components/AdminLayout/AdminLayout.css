@@ -105,23 +105,29 @@
 }
 
 .page-header {
-  min-height: var(--admin-header-height);
   display: flex;
-  justify-content: center;
   align-items: center;
+  padding: 16px 0;
   gap: 16px;
-  padding-top: 24px;
-  position: relative;
+  width: 100%;
+}
+
+.page-header h1 {
+  font-size: 22px;
+  margin: 0;
+  font-weight: 700;
+  margin-right: auto;
+  color: var(--admin-text);
+  line-height: 1;
 }
 
 .page-header-actions {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
   display: flex;
   align-items: center;
   gap: 12px;
+  padding-left: 16px;
+  border-left: 1px solid var(--admin-border);
+  margin-left: 8px;
 }
 
 /* ── VIEW CONTENT ─────────────────────────────────────────────────────────── */

@@ -1,5 +1,11 @@
 @import "./AddProductModal.css";
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   MANAGE PRODUCTS — Fluid scaling: laptop (1024px) → desktop (1440px)
+   Formula: clamp(MIN, calc(MIN + (100vw - 1024px) * COEFF), MAX)
+   where  COEFF = (MAX - MIN) / 416
+   ══════════════════════════════════════════════════════════════════════════════ */
+
 /* ── SECONDARY HEADER ROW ─────────────────────────────────────────────────── */
 
 .header-secondary-row {
@@ -14,29 +20,40 @@
   padding: 0;
 }
 
+/* ── SEARCH CONTAINER ────────────────────────────────────────────────────── */
+
 .search-container {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  background-color: var(--admin-surface);
+  /*
+    gap: 10px → 12px   COEFF ≈ 0.00481
+  */
+  gap: clamp(10px, calc(10px + (100vw - 1024px) * 0.00481), 12px);
+  /*
+    padding: 9px 14px → 11px 16px
+  */
+  padding: clamp(9px, calc(9px + (100vw - 1024px) * 0.00481), 11px)
+    clamp(14px, calc(14px + (100vw - 1024px) * 0.00481), 16px);
+  background-color: #fff;
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   flex: 1;
   max-width: clamp(320px, calc(320px + (100vw - 1024px) * 0.15), 420px);
-  transition: all 200ms ease;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .search-container:focus-within {
-  background-color: #fff;
   border-color: var(--admin-text);
-  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.06);
 }
 
 .search-container input {
   border: none;
   background: transparent;
-  font-size: 13px;
+  /*
+    font-size: 12px → 13px   COEFF ≈ 0.00240
+  */
+  font-size: clamp(12px, calc(12px + (100vw - 1024px) * 0.0024), 13px);
   font-weight: 500;
   width: 100%;
   outline: none;
@@ -45,30 +62,47 @@
 
 .search-container input::placeholder {
   color: var(--admin-muted);
+  font-weight: 400;
 }
 
 .search-container svg {
   color: var(--admin-muted);
   flex-shrink: 0;
+  opacity: 0.6;
 }
 
-/* ── QUICK STATS ──────────────────────────────────────────────────────────── */
+.search-container:focus-within svg {
+  opacity: 1;
+  color: var(--admin-text);
+}
+
+/* ── QUICK STATS — Lightweight & informational ───────────────────────────── */
 
 .quick-stats-bar {
   display: flex;
-  gap: 12px;
-  padding: 20px 0;
+  /*
+    gap: 8px → 12px   COEFF ≈ 0.00962
+  */
+  gap: clamp(8px, calc(8px + (100vw - 1024px) * 0.00962), 12px);
+  padding: 16px 0;
 }
 
 .stat-card {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
+  /*
+    gap: 8px → 12px   COEFF ≈ 0.00962
+  */
+  gap: clamp(8px, calc(8px + (100vw - 1024px) * 0.00962), 12px);
+  /*
+    padding: 6px 12px → 10px 16px
+  */
+  padding: clamp(6px, calc(6px + (100vw - 1024px) * 0.00962), 10px)
+    clamp(12px, calc(12px + (100vw - 1024px) * 0.00962), 16px);
   background-color: transparent;
   border: 1px solid transparent;
-  border-radius: 10px;
-  min-width: 120px;
+  border-radius: 8px;
+  min-width: 100px;
   transition: all 200ms ease;
 }
 
@@ -78,13 +112,14 @@
 }
 
 .stat-card .stat-icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   background-color: transparent;
   color: var(--admin-muted);
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0.7;
 }
 
 .stat-card .stat-info {
@@ -93,7 +128,10 @@
 }
 
 .stat-card .stat-value {
-  font-size: 16px;
+  /*
+    font-size: 14px → 16px   COEFF ≈ 0.00481
+  */
+  font-size: clamp(14px, calc(14px + (100vw - 1024px) * 0.00481), 16px);
   font-weight: 800;
   color: var(--admin-text);
   line-height: 1;
@@ -101,12 +139,15 @@
 }
 
 .stat-card .stat-label {
-  font-size: 11px;
-  font-weight: 600;
+  /*
+    font-size: 10px → 11px   COEFF ≈ 0.00240
+  */
+  font-size: clamp(10px, calc(10px + (100vw - 1024px) * 0.0024), 11px);
+  font-weight: 500;
   color: var(--admin-muted);
   text-transform: none;
   letter-spacing: 0;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .stat-card.warning .stat-icon {
@@ -116,10 +157,13 @@
   color: #dc2626;
 }
 
-/* ── TABLE SEARCH BAR ─────────────────────────────────────────────────────── */
+/* ── TABLE SEARCH BAR ────────────────────────────────────────────────────── */
 
 .table-search-bar {
-  padding-bottom: 20px;
+  /*
+    padding-bottom: 16px → 20px   COEFF ≈ 0.00962
+  */
+  padding-bottom: clamp(16px, calc(16px + (100vw - 1024px) * 0.00962), 20px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -130,42 +174,107 @@
   max-width: clamp(320px, calc(320px + (100vw - 1024px) * 0.15), 420px);
 }
 
-/* ── BUTTONS ──────────────────────────────────────────────────────────────── */
+/* ── ACTION BUTTONS ──────────────────────────────────────────────────────── */
 
 .action-buttons {
   display: flex;
   align-items: center;
-  gap: 8px;
+  /*
+    gap: 6px → 10px   COEFF ≈ 0.00962
+  */
+  gap: clamp(6px, calc(6px + (100vw - 1024px) * 0.00962), 10px);
   flex-shrink: 0;
 }
+
+/* "Add Product" button — strong emphasis */
+.action-buttons .btn-admin-primary {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+}
+
+.action-buttons .btn-admin-primary:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ── TABLE ROW ACTIONS — Visible, intentional CRUD buttons ───────────────── */
 
 .table-actions {
   display: flex;
   align-items: center;
-  gap: 4px;
+  /*
+    gap: 4px → 6px   COEFF ≈ 0.00481
+  */
+  gap: clamp(4px, calc(4px + (100vw - 1024px) * 0.00481), 6px);
+}
+
+.table-actions .btn-text {
+  /*
+    padding: 5px 8px → 6px 10px
+  */
+  padding: clamp(5px, calc(5px + (100vw - 1024px) * 0.0024), 6px)
+    clamp(8px, calc(8px + (100vw - 1024px) * 0.00481), 10px);
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 150ms ease;
+}
+
+/* Edit — distinct blue identity */
+.action-edit {
+  color: var(--admin-muted);
 }
 
 .action-edit:hover {
   color: #2563eb;
   background-color: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+/* Delete — distinct red identity */
+.action-delete {
+  color: var(--admin-muted);
 }
 
 .action-delete:hover {
   color: #dc2626;
   background-color: #fef2f2;
+  border-color: #fecaca;
 }
 
-/* ── TABLE ────────────────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════════════════
+   TABLE — The hero of the page
+   ══════════════════════════════════════════════════════════════════════════════ */
 
 .table-container {
   width: 100%;
   overflow: auto;
-  flex: 1; /* Allow container to grow and fill view-content */
-  min-height: 0; /* Important for flex child with overflow */
+  flex: 1;
+  min-height: 0;
   border: 1px solid var(--admin-border);
+  border-radius: 8px;
   background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   position: relative;
+  scrollbar-width: thin;
+}
+
+/* Custom scrollbar for webkit browsers */
+.table-container::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: var(--admin-border);
+  border-radius: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: var(--admin-muted);
 }
 
 .admin-table {
@@ -175,7 +284,7 @@
   text-align: left;
 }
 
-/* ── STICKY TABLE HEADER ─────────────────────────────────────────────────── */
+/* ── STICKY TABLE HEADER — Clean & scannable ─────────────────────────────── */
 
 .admin-table thead {
   position: -webkit-sticky;
@@ -183,33 +292,40 @@
   top: 0;
   z-index: 150;
 }
+
 .admin-table thead th {
-  padding: 14px 16px;
-  font-size: 11px;
+  /*
+    padding: 12px 16px → 14px 20px
+  */
+  padding: clamp(12px, calc(12px + (100vw - 1024px) * 0.00481), 14px)
+    clamp(16px, calc(16px + (100vw - 1024px) * 0.00962), 20px);
+  /*
+    font-size: 10px → 11px   COEFF ≈ 0.00240
+  */
+  font-size: clamp(10px, calc(10px + (100vw - 1024px) * 0.0024), 11px);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--admin-muted);
   white-space: nowrap;
 
   position: -webkit-sticky;
   position: sticky;
-  top: -1px; /* Hug the top border to prevent 1px bleed */
+  top: -1px;
   z-index: 151;
-  /* Solid background to ensure rows don't overlap or leak through */
   background-color: var(--admin-surface);
   border-bottom: none;
   box-shadow: inset 0 -1px 0 var(--admin-border);
 }
 
 .admin-table thead th:first-child {
-  border-top-left-radius: 0;
+  border-top-left-radius: 8px;
 }
 .admin-table thead th:last-child {
-  border-top-right-radius: 0;
+  border-top-right-radius: 8px;
 }
 
-/* 3. CRITICAL: Strip any leftover positioning from the rows */
+/* CRITICAL: Strip leftover positioning from rows */
 .admin-table tbody,
 .admin-table tbody tr,
 .admin-table tbody td {
@@ -217,12 +333,19 @@
   z-index: auto !important;
 }
 
+/* ── TABLE ROWS — Spacious & breathable ──────────────────────────────────── */
+
 .admin-table tbody td {
   /*
-    padding: 14/14px → 16/16px   COEFF ≈ 0.00481
+    padding: 16px → 20px   COEFF ≈ 0.00962
+    More vertical breathing room per row for scanability.
   */
-  padding: clamp(14px, calc(14px + (100vw - 1024px) * 0.00481), 16px);
-  font-size: 13px;
+  padding: clamp(16px, calc(16px + (100vw - 1024px) * 0.00962), 20px)
+    clamp(16px, calc(16px + (100vw - 1024px) * 0.00962), 20px);
+  /*
+    font-size: 12px → 13px   COEFF ≈ 0.00240
+  */
+  font-size: clamp(12px, calc(12px + (100vw - 1024px) * 0.0024), 13px);
   border-bottom: 1px solid var(--admin-border);
   vertical-align: middle;
 }
@@ -239,44 +362,50 @@
   background-color: #fafafa;
 }
 
-/* ── PRODUCT CELL ─────────────────────────────────────────────────────────── */
+/* ── PRODUCT CELL — Larger image with subtle shadow ──────────────────────── */
 
 .product-cell {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   /*
-    gap: 12px → 16px   COEFF ≈ 0.00962
+    gap: 14px → 18px   COEFF ≈ 0.00962
   */
-  gap: clamp(12px, calc(12px + (100vw - 1024px) * 0.00962), 16px);
-  padding: 4px 0;
+  gap: clamp(14px, calc(14px + (100vw - 1024px) * 0.00962), 18px);
+  padding: 2px 0;
 }
 
 .product-img {
   /*
-    size: 48px → 56px   COEFF ≈ 0.01923
+    size: 52px → 64px   COEFF ≈ 0.02885
+    Slightly larger than before for visual emphasis.
   */
-  width: clamp(48px, calc(48px + (100vw - 1024px) * 0.01923), 56px);
-  height: clamp(48px, calc(48px + (100vw - 1024px) * 0.01923), 56px);
-  border-radius: 6px;
+  width: clamp(52px, calc(52px + (100vw - 1024px) * 0.02885), 64px);
+  height: clamp(52px, calc(52px + (100vw - 1024px) * 0.02885), 64px);
+  border-radius: 8px;
   object-fit: cover;
   background-color: var(--admin-secondary);
   border: 1px solid var(--admin-border);
-  flex-shrink: 0; /* Alignment fix */
+  flex-shrink: 0;
+  /* Subtle depth */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .product-info {
-  /* Alignment fix: constrain so description text never overflows the cell */
   min-width: 0;
 }
 
 .product-info .name {
   font-weight: 600;
   display: block;
-  font-size: 14px;
+  /*
+    font-size: 13px → 14px   COEFF ≈ 0.00240
+  */
+  font-size: clamp(13px, calc(13px + (100vw - 1024px) * 0.0024), 14px);
   margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--admin-text);
 }
 
 .product-info .sku {
@@ -287,7 +416,10 @@
 }
 
 .product-info .description {
-  font-size: 12px;
+  /*
+    font-size: 11px → 12px   COEFF ≈ 0.00240
+  */
+  font-size: clamp(11px, calc(11px + (100vw - 1024px) * 0.0024), 12px);
   color: var(--admin-muted);
   line-height: 1.5;
   margin: 0;
@@ -298,35 +430,46 @@
   overflow: hidden;
   /*
     max-width: 380px → 450px   COEFF ≈ 0.16827
-    Alignment fix: description column widens proportionally with viewport
-    so it doesn't look pinched on laptop or blown-out on desktop.
   */
   max-width: clamp(380px, calc(380px + (100vw - 1024px) * 0.16827), 450px);
 }
 
-/* ── STATUS BADGE ─────────────────────────────────────────────────────────── */
+/* ── STATUS BADGE — Polished pill design ─────────────────────────────────── */
 
 .status-badge {
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  /*
+    padding: 3px 10px → 4px 12px
+  */
+  padding: clamp(3px, calc(3px + (100vw - 1024px) * 0.0024), 4px)
+    clamp(10px, calc(10px + (100vw - 1024px) * 0.00481), 12px);
+  border-radius: 999px;
+  /*
+    font-size: 10px → 11px   COEFF ≈ 0.00240
+  */
+  font-size: clamp(10px, calc(10px + (100vw - 1024px) * 0.0024), 11px);
   font-weight: 600;
+  letter-spacing: 0.01em;
   background-color: var(--admin-secondary);
   color: var(--admin-muted);
-  white-space: nowrap; /* Alignment fix */
+  white-space: nowrap;
+  border: 1px solid transparent;
 }
 
 .status-badge.active {
   background-color: #f0fdf4;
-  color: #166534;
-  border: 1px solid #bbf7d0;
+  color: #15803d;
+  border-color: #bbf7d0;
 }
 
 .status-badge.inactive {
   background-color: #fef2f2;
-  color: #991b1b;
-  border: 1px solid #fecaca;
+  color: #b91c1c;
+  border-color: #fecaca;
 }
+
+/* ── PREFERENCES TAGS ────────────────────────────────────────────────────── */
 
 .preferences-tags {
   display: flex;
@@ -336,9 +479,16 @@
 }
 
 .pref-tag {
-  font-size: 10px;
+  /*
+    font-size: 9px → 10px   COEFF ≈ 0.00240
+  */
+  font-size: clamp(9px, calc(9px + (100vw - 1024px) * 0.0024), 10px);
   font-weight: 600;
-  padding: 1px 6px;
+  /*
+    padding: 1px 5px → 2px 6px
+  */
+  padding: clamp(1px, calc(1px + (100vw - 1024px) * 0.0024), 2px)
+    clamp(5px, calc(5px + (100vw - 1024px) * 0.0024), 6px);
   background-color: var(--admin-secondary);
   color: var(--admin-accent);
   border-radius: 4px;

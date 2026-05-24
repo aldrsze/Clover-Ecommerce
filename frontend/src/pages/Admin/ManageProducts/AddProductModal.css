@@ -1,27 +1,127 @@
-/* ── MODAL ────────────────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════════════════
+   ADD PRODUCT MODAL — Fluid scaling: laptop (1024px) → desktop (1440px)
+   Formula: clamp(MIN, calc(MIN + (100vw - 1024px) * COEFF), MAX)
+   where  COEFF = (MAX - MIN) / 416
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── OVERLAY ─────────────────────────────────────────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+  overflow: hidden;
+  animation: fadeIn 200ms ease-out;
+}
+
+/* ── MODAL CONTENT ───────────────────────────────────────────────────────── */
+
+.modal-content {
+  background: var(--admin-bg);
+
+  /*
+    width: 560px → 680px   COEFF ≈ 0.28846
+    Wider than before to accommodate two-column layout without scrolling.
+  */
+  width: clamp(560px, calc(560px + (100vw - 1024px) * 0.28846), 680px);
+
+  /*
+    padding: 24px → 32px   COEFF ≈ 0.01923
+  */
+  padding: clamp(24px, calc(24px + (100vw - 1024px) * 0.01923), 32px);
+
+  border-radius: 12px;
+  border: 1px solid var(--admin-border);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: slideUp 250ms ease-out;
+
+  /* No scrolling — content must fit */
+  overflow: hidden;
+}
+
+/* ── MODAL HEADER ────────────────────────────────────────────────────────── */
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /*
+    margin-bottom: 16px → 24px   COEFF ≈ 0.01923
+  */
+  margin-bottom: clamp(16px, calc(16px + (100vw - 1024px) * 0.01923), 24px);
+  flex-shrink: 0;
+}
+
+.modal-header h2 {
+  margin: 0;
+  /*
+    font-size: 18px → 20px   COEFF ≈ 0.00481
+  */
+  font-size: clamp(18px, calc(18px + (100vw - 1024px) * 0.00481), 20px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--admin-text);
+}
+
+/* ── FORM BODY — Two-column grid ─────────────────────────────────────────── */
+
+.modal-form-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /*
+    gap: 12px → 20px   COEFF ≈ 0.01923
+  */
+  gap: clamp(12px, calc(12px + (100vw - 1024px) * 0.01923), 20px);
+}
+
+/* Full-width items span both columns */
+.modal-form-body .form-group-full {
+  grid-column: 1 / -1;
+}
+
+/* ── FORM GROUP ──────────────────────────────────────────────────────────── */
 
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 0; /* Grid gap handles spacing */
 }
 
 .form-group label {
   display: block;
-  font-size: 11px;
+  /*
+    font-size: 10px → 11px   COEFF ≈ 0.00240
+  */
+  font-size: clamp(10px, calc(10px + (100vw - 1024px) * 0.0024), 11px);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--admin-muted);
-  margin-bottom: 6px;
+  /*
+    margin-bottom: 4px → 6px   COEFF ≈ 0.00481
+  */
+  margin-bottom: clamp(4px, calc(4px + (100vw - 1024px) * 0.00481), 6px);
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
   width: 100%;
-  padding: 10px;
+  /*
+    padding: 8px → 10px   COEFF ≈ 0.00481
+  */
+  padding: clamp(8px, calc(8px + (100vw - 1024px) * 0.00481), 10px);
   border: 1px solid var(--admin-border);
   border-radius: 6px;
-  font-size: 13px;
+  /*
+    font-size: 12px → 13px   COEFF ≈ 0.00240
+  */
+  font-size: clamp(12px, calc(12px + (100vw - 1024px) * 0.0024), 13px);
   font-family: inherit;
   outline: none;
   box-sizing: border-box;
@@ -29,15 +129,31 @@
 }
 
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
   border-color: var(--admin-text);
   box-shadow: 0 0 0 2px rgba(23, 23, 23, 0.05);
 }
 
+/* Textarea — fluid height */
+.form-group textarea {
+  /*
+    Shrink rows on smaller screens via a fluid min-height
+    min-height: 48px → 72px   COEFF ≈ 0.05769
+  */
+  min-height: clamp(48px, calc(48px + (100vw - 1024px) * 0.05769), 72px);
+  resize: vertical;
+}
+
+/* ── IMAGE UPLOAD ────────────────────────────────────────────────────────── */
+
 .image-upload-area {
   border: 2px dashed var(--admin-border);
   border-radius: 8px;
-  padding: 24px;
+  /*
+    padding: 12px → 24px   COEFF ≈ 0.02885
+  */
+  padding: clamp(12px, calc(12px + (100vw - 1024px) * 0.02885), 24px);
   text-align: center;
   cursor: pointer;
   transition: all 150ms ease;
@@ -50,65 +166,43 @@
 }
 
 .image-upload-area .upload-icon {
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: var(--admin-muted);
+}
+
+.image-upload-area .upload-icon svg {
+  /*
+    size: 20px → 32px   COEFF ≈ 0.02885
+  */
+  width: clamp(20px, calc(20px + (100vw - 1024px) * 0.02885), 32px);
+  height: clamp(20px, calc(20px + (100vw - 1024px) * 0.02885), 32px);
 }
 
 .image-preview-large {
   width: 100%;
-  height: 160px;
+  /*
+    height: 80px → 140px   COEFF ≈ 0.14423
+  */
+  height: clamp(80px, calc(80px + (100vw - 1024px) * 0.14423), 140px);
   object-fit: contain;
-  margin-top: 12px;
   border-radius: 6px;
   border: 1px solid var(--admin-border);
 }
 
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-size: 20px;
-}
+/* ── MODAL FOOTER ────────────────────────────────────────────────────────── */
 
 .modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 32px;
+  /*
+    margin-top: 16px → 24px   COEFF ≈ 0.01923
+  */
+  margin-top: clamp(16px, calc(16px + (100vw - 1024px) * 0.01923), 24px);
+  flex-shrink: 0;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(2px);
-  animation: fadeIn 200ms ease-out;
-}
-
-.modal-content {
-  background: var(--admin-bg);
-  padding: 32px;
-  width: 100%;
-  max-width: 480px;
-  border-radius: 12px;
-  border: 1px solid var(--admin-border);
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  animation: slideUp 250ms ease-out;
-}
+/* ── ANIMATIONS ──────────────────────────────────────────────────────────── */
 
 @keyframes fadeIn {
   from {

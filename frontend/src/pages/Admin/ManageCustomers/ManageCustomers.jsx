@@ -6,11 +6,7 @@ export default function ManageCustomers() {
     <div className="view-container">
       <div className="sticky-header">
         <header className="page-header">
-          <div className="page-header-info">
-            <span className="page-path">CRM</span>
-            <h1>Customers</h1>
-            <p>Manage your customer database and relationships.</p>
-          </div>
+          <h1>Customers</h1>
           <div className="page-header-actions">
             <Button variant="none" className="notification-trigger">
               <Bell size={18} />

@@ -6,11 +6,7 @@ export default function Utilities() {
     <div className="view-container">
       <div className="sticky-header">
         <header className="page-header">
-          <div className="page-header-info">
-            <span className="page-path">System</span>
-            <h1>Utilities</h1>
-            <p>System configuration and maintenance tools.</p>
-          </div>
+          <h1>Utilities</h1>
           <div className="page-header-actions">
             <Button variant="none" className="notification-trigger">
               <Bell size={18} />

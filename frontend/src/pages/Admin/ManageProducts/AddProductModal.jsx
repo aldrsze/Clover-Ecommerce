@@ -23,36 +23,37 @@ export const AddProductModal = ({
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Product Name</label>
-            <input
-              type="text"
-              name="name"
-              value={newProduct.name}
-              onChange={handleInputChange}
-              placeholder="e.g. Classic Cinnamon Roll"
-              required
-            />
-          </div>
+          <div className="modal-form-body">
+            {/* ── Left Column: Core product info ── */}
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="name"
+                value={newProduct.name}
+                onChange={handleInputChange}
+                placeholder="e.g. Classic Cinnamon Roll"
+                required
+              />
+            </div>
 
-          <div className="form-group">
-            <label>Description</label>
-            <textarea
-              name="description"
-              value={newProduct.description}
-              onChange={handleInputChange}
-              rows="3"
-              placeholder="Product description..."
-            ></textarea>
-          </div>
+            <div className="form-group">
+              <label>Category</label>
+              <select
+                name="category"
+                value={newProduct.category}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Select Category</option>
+                {MENU_CATEGORIES.map((cat) => (
+                  <option key={cat.value} value={cat.value}>
+                    {cat.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "24px",
-            }}
-          >
             <div className="form-group">
               <label>Price</label>
               <input
@@ -65,6 +66,7 @@ export const AddProductModal = ({
                 required
               />
             </div>
+
             <div className="form-group">
               <label>Stock Quantity</label>
               <input
@@ -76,66 +78,57 @@ export const AddProductModal = ({
                 required
               />
             </div>
-          </div>
 
-          <div className="form-group">
-            <label>Category</label>
-            <select
-              name="category"
-              value={newProduct.category}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="">Select Category</option>
-              {MENU_CATEGORIES.map((cat) => (
-                <option key={cat.value} value={cat.value}>
-                  {cat.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>Preferences (comma separated)</label>
-            <input
-              type="text"
-              name="preferences"
-              value={newProduct.preferences}
-              onChange={handleInputChange}
-              placeholder="e.g. Sweet, Hot, Vegan"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Product Image</label>
-            <div
-              className="image-upload-area"
-              onClick={() => document.getElementById("imageInput").click()}
-            >
-              {imagePreview ? (
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="image-preview-large"
-                />
-              ) : (
-                <>
-                  <div className="upload-icon">
-                    <Upload size={32} />
-                  </div>
-                  <p className="caption">Click to upload or drag and drop</p>
-                  <p className="caption" style={{ marginTop: "4px" }}>
-                    SVG, PNG, JPG or GIF (max. 800x400px)
-                  </p>
-                </>
-              )}
+            <div className="form-group">
+              <label>Preferences</label>
               <input
-                id="imageInput"
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={handleImageChange}
+                type="text"
+                name="preferences"
+                value={newProduct.preferences}
+                onChange={handleInputChange}
+                placeholder="e.g. Sweet, Hot, Vegan"
               />
+            </div>
+
+            <div className="form-group">
+              <label>Product Image</label>
+              <div
+                className="image-upload-area"
+                onClick={() => document.getElementById("imageInput").click()}
+              >
+                {imagePreview ? (
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="image-preview-large"
+                  />
+                ) : (
+                  <>
+                    <div className="upload-icon">
+                      <Upload size={32} />
+                    </div>
+                    <p className="caption">Click or drag to upload</p>
+                  </>
+                )}
+                <input
+                  id="imageInput"
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              </div>
+            </div>
+
+            {/* ── Full-width: Description spans both columns ── */}
+            <div className="form-group form-group-full">
+              <label>Description</label>
+              <textarea
+                name="description"
+                value={newProduct.description}
+                onChange={handleInputChange}
+                placeholder="Product description..."
+              ></textarea>
             </div>
           </div>
 

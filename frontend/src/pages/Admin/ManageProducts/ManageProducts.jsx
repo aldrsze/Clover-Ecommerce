@@ -38,21 +38,9 @@ export default function Products() {
     <div className="view-container">
       <div className="sticky-header">
         <header className="page-header">
-          <div className="page-header-info">
-            <span className="page-path">Catalog</span>
-            <h1>Products</h1>
-            <p>Manage your product catalog and inventory.</p>
-          </div>
-          <div className="page-header-actions">
-            <Button variant="none" className="notification-trigger">
-              <Bell size={18} />
-              <span className="notification-dot"></span>
-            </Button>
-          </div>
-        </header>
+          <h1>Products</h1>
 
-        <div className="header-secondary-row">
-          <div className="quick-stats-bar">
+          <div className="quick-stats-bar" style={{ padding: 0 }}>
             <div className="stat-card">
               <div className="stat-icon">
                 <Package size={14} />
@@ -81,7 +69,14 @@ export default function Products() {
               </div>
             </div>
           </div>
-        </div>
+
+          <div className="page-header-actions">
+            <Button variant="none" className="notification-trigger">
+              <Bell size={18} />
+              <span className="notification-dot"></span>
+            </Button>
+          </div>
+        </header>
       </div>
 
       <div className="view-content">
