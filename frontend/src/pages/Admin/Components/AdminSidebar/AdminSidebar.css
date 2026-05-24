@@ -85,14 +85,12 @@
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+  min-height: 0;
+  scrollbar-width: none; /* Hide in Firefox */
 }
 
 .admin-sidebar-content::-webkit-scrollbar {
   display: none;
-}
-
-.admin-sidebar-content:hover {
-  scrollbar-width: thin;
 }
 
 /* ── admin-sidebar NAV ──────────────────────────────────────────────────────────── */
