@@ -1,7 +1,6 @@
-import React from "react";
 import { Button } from "../../common/Button/Button";
 
-export const ContactSection = ({ setCurrentPage }) => {
+export const ContactSection = () => {
     return (
         <section id="contact" className="contact-section snap-section">
         <div className="container">

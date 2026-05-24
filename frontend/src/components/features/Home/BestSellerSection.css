@@ -112,16 +112,3 @@
   display: block;
 }
 
-.featured-card .btn-secondary {
-  align-self: stretch;
-  width: 100%;
-  border-color: var(--border);
-}
-.featured-card:hover .btn-secondary {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-}
-

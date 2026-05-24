@@ -2,7 +2,7 @@
 /* =============================================================================
    BUTTONS
    ============================================================================= */
-.btn-primary, .btn-secondary, .product-card button, .contact-form button {
+.btn-primary, .btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -27,7 +27,7 @@
 }
 
 /* Shimmer sweep */
-.btn-primary::before, .product-card button::before, .contact-form button::before {
+.btn-primary::before {
   content: '';
   position: absolute;
   top: 0; left: -75%;
@@ -37,21 +37,21 @@
   transition: left 0.55s ease;
   pointer-events: none;
 }
-.btn-primary:hover::before, .product-card button:hover::before, .contact-form button:hover::before {
+.btn-primary:hover::before {
   left: 130%;
 }
 
-.btn-primary, .product-card button, .contact-form button {
+.btn-primary {
   background: var(--accent);
   color: white;
 }
-.btn-primary:hover, .product-card button:hover, .contact-form button:hover {
+.btn-primary:hover {
   background: #222;
   color: white;
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 10px 30px rgba(0,0,0,0.18);
 }
-.btn-primary:active, .product-card button:active, .contact-form button:active {
+.btn-primary:active {
   transform: translateY(-1px) scale(0.99);
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
@@ -72,5 +72,23 @@
 .btn-secondary:active {
   transform: translateY(-1px) scale(0.99);
   background: var(--bg-offset);
+}
+
+.btn-text {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  font-size: inherit;
+  font-weight: 600;
+  color: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-text:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 

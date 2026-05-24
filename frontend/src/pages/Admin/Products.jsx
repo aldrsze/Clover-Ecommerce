@@ -235,10 +235,10 @@ export default function Products() {
                   </td>
                   <td>
                     <div className="table-actions">
-                      <Button variant="none" className="btn-text action-edit" title="Edit product">
+                      <Button variant="text" className="action-edit" title="Edit product">
                         <Pencil size={16} />
                       </Button>
-                      <Button variant="none" className="btn-text action-delete" title="Delete product">
+                      <Button variant="text" className="action-delete" title="Delete product">
                         <Trash size={16} />
                       </Button>
                     </div>
@@ -255,7 +255,7 @@ export default function Products() {
           <div className="modal-content">
             <div className="modal-header">
               <h2>Add Product</h2>
-              <Button variant="none" className="btn-text" onClick={() => setIsModalOpen(false)}><X size={24} /></Button>
+              <Button variant="text" onClick={() => setIsModalOpen(false)}><X size={24} /></Button>
             </div>
             
             <form onSubmit={handleSubmit}>

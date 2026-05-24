@@ -165,10 +165,4 @@
   background: rgba(0, 0, 0, 0.025);
   padding: clamp(2.5rem, 3.5vw, var(--spacing-lg, 4rem))
            clamp(2.5rem, 4vw, 3.5rem);
-}
-
-/* CTA buttons get fluid vertical padding so they don't shrink awkwardly */
-.call-to-action .cta-actions .btn-primary,
-.call-to-action .cta-actions .btn-secondary {
-  padding: clamp(1rem, 1.2vw, 1.25rem) clamp(1.5rem, 2vw, 2.5rem);
-}
+           }
