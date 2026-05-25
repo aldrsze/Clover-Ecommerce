@@ -3,6 +3,7 @@
 # ==============================================================================
 GEMINI.md
 todolist.md
+clover_db.sql
 
 # ─── DEPENDENCY DIRECTORIES ───────────────────────────────────────────────────
 # Never commit third-party packages. They are restored using 'npm install'.
