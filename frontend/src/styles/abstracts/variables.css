@@ -18,7 +18,7 @@
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
   --shadow: 0 4px 6px rgba(0,0,0,0.02);
 
-  --container: 1800px;
+  --container: 112.5rem; /* 1800px at 16px base → scales with root */
 
   /* Spacing tokens — fluid from ~1024px (laptop) to ~1440px (desktop) */
   --spacing-xs: clamp(0.5rem, 0.8vw, 0.625rem);

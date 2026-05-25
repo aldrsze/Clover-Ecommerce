@@ -65,7 +65,7 @@ export const ProductSidebar = ({
         <div className="promo-badge">Specials</div>
         <div className="promo-img-wrap">
           <img
-            src="../../../../../../../public/images/products/Torched-Classic-Cheesecake-3-600x600.jpg"
+            src="/images/products/Torched-Classic-Cheesecake-3-600x600.jpg"
             alt="Torched Classic Cheesecake"
           />
         </div>

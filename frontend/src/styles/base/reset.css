@@ -7,7 +7,20 @@
   padding: 0;
 }
 
+/* ── Root Scaling ────────────────────────────────────────────────────────────
+   Proportional magnification: the UI at 1920px looks like a zoomed-in
+   version of the 1366px layout.
+
+   Formula:  font-size = 1.1715vw
+     → at 1366px viewport:  1rem ≈ 16.00px  (baseline, unchanged)
+     → at 1920px viewport:  1rem ≈ 22.49px  (×1.406, same ratio as 1920/1366)
+     → continues growing beyond 1920px for ultra-wide monitors.
+
+   The `max()` floor prevents text from shrinking below 16px on screens
+   between 1024px and 1366px (above the mobile lock-screen threshold).
+   ───────────────────────────────────────────────────────────────────────── */
 html {
+  font-size: max(16px, 1.1715vw);
   scroll-behavior: smooth;
   /* Offset scales with header height, which shrinks on laptops */
   scroll-padding-top: clamp(70px, 7vh, 90px);
@@ -41,11 +54,18 @@ body.has-snap-scroll {
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 87.5rem; /* 1400px at 16px base → scales proportionally */
   margin: 0 auto;
   width: 100%;
   /* Single source of truth for side gutters — all sections inherit this */
   padding-inline: 10vw;
 }
 
-
+/* ── Admin Override ──────────────────────────────────────────────────────────
+   Reset the root font-size for the admin dashboard so the admin panel
+   retains its own px-based sizing system and does not scale.
+   We use a fixed 16px base inside the admin wrapper.
+   ───────────────────────────────────────────────────────────────────────── */
+.admin-dashboard {
+  font-size: 16px;
+}
