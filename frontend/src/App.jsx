@@ -8,6 +8,7 @@ import AdminRoot from "./pages/Admin/Components/AdminLayout/AdminLayout";
 import FloatingCart from "./components/common/FloatingCart/FloatingCart";
 import MyOrdersModal from "./components/common/MyOrders/MyOrdersModal";
 import ProfileModal from "./components/common/Profile/ProfileModal";
+import AuthPromptModal from "./components/common/AuthPrompt/AuthPromptModal";
 import { useCart } from "./hooks/useCart";
 import { Toaster } from "react-hot-toast";
 
@@ -20,6 +21,7 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isOrdersModalOpen, setIsOrdersModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isAuthPromptOpen, setIsAuthPromptOpen] = useState(false);
   const { cart, addToCart, removeFromCart, updateQuantity, clearCart, cartCount } = useCart();
 
   useEffect(() => {
@@ -42,8 +44,16 @@ export default function App() {
       else setCurrentPage("home");
     };
 
+    const handleRequireAuth = () => {
+      setIsAuthPromptOpen(true);
+    };
+
     window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
+    window.addEventListener("require-auth", handleRequireAuth);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("require-auth", handleRequireAuth);
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -130,6 +140,12 @@ export default function App() {
           setUser={setUser}
         />
       )}
+
+      <AuthPromptModal 
+        isOpen={isAuthPromptOpen} 
+        onClose={() => setIsAuthPromptOpen(false)} 
+        setCurrentPage={setCurrentPage} 
+      />
     </div>
   );
 }
