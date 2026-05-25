@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ShoppingCart, X, Plus, Minus, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { Button } from "../Button/Button";
+import CheckoutModal from "./CheckoutModal";
 import "./FloatingCart.css";
 
 export default function FloatingCart({ 
@@ -11,14 +12,17 @@ export default function FloatingCart({
   updateQuantity, 
   clearCart,
   isCartOpen, 
-  setIsCartOpen 
+  setIsCartOpen
 }) {
   const totalPrice = cart.reduce((acc, item) => {
     const price = parseFloat(item.price) || 0;
     return acc + (price * item.quantity);
   }, 0);
 
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [checkoutItems, setCheckoutItems] = useState([]);
+  const [checkoutTotal, setCheckoutTotal] = useState(0);
+  const [checkoutSuccessCallback, setCheckoutSuccessCallback] = useState(() => {});
   const [shippingAddress, setShippingAddress] = useState(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
@@ -33,11 +37,31 @@ export default function FloatingCart({
   const handleOverlayClick = (e) => {
     if (e.target.classList.contains("cart-overlay")) {
       setIsCartOpen(false);
-      setIsCheckingOut(false);
     }
   };
 
-  const handleCheckout = async () => {
+  const handleOpenCheckoutAll = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please log in to complete your purchase.");
+      window.history.pushState({}, "", "/auth");
+      window.dispatchEvent(new Event("popstate"));
+      setIsCartOpen(false);
+      return;
+    }
+    
+    if (cart.length === 0) {
+      toast.error("Your cart is empty.");
+      return;
+    }
+    
+    setCheckoutItems(cart);
+    setCheckoutTotal(totalPrice);
+    setCheckoutSuccessCallback(() => clearCart);
+    setIsCheckoutModalOpen(true);
+  };
+
+  const handleBuySingle = (item) => {
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("Please log in to complete your purchase.");
@@ -47,35 +71,10 @@ export default function FloatingCart({
       return;
     }
 
-    try {
-      setIsSubmitting(true);
-      const response = await fetch("http://localhost:5000/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          cartItems: cart,
-          shippingAddress,
-          totalAmount: totalPrice
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to place order");
-      }
-
-      toast.success("Order placed successfully!");
-      clearCart();
-      setIsCheckingOut(false);
-      setIsCartOpen(false); // optionally close the cart since it's empty now
-    } catch (error) {
-      console.error(error);
-      toast.error("There was an error processing your order. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    setCheckoutItems([item]);
+    setCheckoutTotal((parseFloat(item.price) || 0) * item.quantity);
+    setCheckoutSuccessCallback(() => () => removeFromCart(item.id));
+    setIsCheckoutModalOpen(true);
   };
 
   // Lock body scroll when cart is open
@@ -107,10 +106,11 @@ export default function FloatingCart({
         aria-hidden="true"
       />
 
-      {/* ── OFF-CANVAS CART PANEL ── */}
       <div className={`cart-offcanvas ${isCartOpen ? "open" : ""}`}>
         <div className="cart-header">
-          <h2>Your Cart ({cartCount})</h2>
+          <div className="cart-header-left">
+            <h2>Your Cart ({cartCount})</h2>
+          </div>
           <button 
             className="cart-close-btn" 
             onClick={() => setIsCartOpen(false)}
@@ -168,13 +168,22 @@ export default function FloatingCart({
                           <Plus size={14} />
                         </button>
                       </div>
-                      <button 
-                        className="cart-item-remove"
-                        onClick={() => removeFromCart(item.id)}
-                        aria-label="Remove item"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <Button 
+                          variant="secondary" 
+                          style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                          onClick={() => handleBuySingle(item)}
+                        >
+                          Buy
+                        </Button>
+                        <button 
+                          className="cart-item-remove"
+                          onClick={() => removeFromCart(item.id)}
+                          aria-label="Remove item"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -190,48 +199,27 @@ export default function FloatingCart({
               <strong>${totalPrice.toFixed(2)}</strong>
             </div>
 
-            {isCheckingOut ? (
-              <div className="checkout-form" style={{ display: "flex", flexDirection: "column", gap: "12px", marginTop: "12px" }}>
-                <textarea 
-                  placeholder="Enter your shipping address..."
-                  value={shippingAddress}
-                  onChange={(e) => setShippingAddress(e.target.value)}
-                  style={{ padding: "12px", borderRadius: "8px", border: "1px solid var(--border)", minHeight: "80px", fontFamily: "inherit" }}
-                />
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <Button 
-                    variant="secondary"
-                    className="btn-block-sm"
-                    style={{ padding: "12px", flex: 1 }}
-                    onClick={() => setIsCheckingOut(false)}
-                    disabled={isSubmitting}
-                  >
-                    Cancel
-                  </Button>
-                  <Button 
-                    variant="primary"
-                    className="btn-block-sm"
-                    style={{ padding: "12px", flex: 1 }}
-                    onClick={handleCheckout}
-                    disabled={isSubmitting || !shippingAddress.trim()}
-                  >
-                    {isSubmitting ? "Processing..." : "Confirm Order"}
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <Button 
-                variant="primary"
-                className="btn-block-sm"
-                style={{ padding: "16px", fontSize: "1.05rem" }}
-                onClick={() => setIsCheckingOut(true)}
-              >
-                Checkout
-              </Button>
-            )}
+            <Button 
+              variant="primary"
+              className="btn-block-sm"
+              style={{ padding: "16px", fontSize: "1.05rem" }}
+              onClick={handleOpenCheckoutAll}
+              disabled={cart.length === 0}
+            >
+              Checkout All
+            </Button>
           </div>
         )}
       </div>
+
+      <CheckoutModal
+        isOpen={isCheckoutModalOpen}
+        onClose={() => setIsCheckoutModalOpen(false)}
+        checkoutItems={checkoutItems}
+        totalAmount={checkoutTotal}
+        onSuccess={checkoutSuccessCallback}
+        setIsCartOpen={setIsCartOpen}
+      />
     </>
   );
 }

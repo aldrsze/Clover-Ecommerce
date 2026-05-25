@@ -6,23 +6,23 @@ exports.createOrder = async (req, res) => {
   
   try {
     const customerId = req.user.customerId;
-    const { cartItems, shippingAddress, totalAmount } = req.body;
+    const { cartItems, shippingAddress, shippingName, shippingPhone, totalAmount } = req.body;
 
     if (!cartItems || cartItems.length === 0) {
       return res.status(400).json({ error: 'Cart is empty' });
     }
 
-    if (!shippingAddress) {
-      return res.status(400).json({ error: 'Shipping address is required' });
+    if (!shippingAddress || !shippingName || !shippingPhone) {
+      return res.status(400).json({ error: 'Shipping address, name, and phone are required' });
     }
 
     await client.query('BEGIN'); // Start transaction
 
     // 1. Insert into orders table
     const orderResult = await client.query(
-      `INSERT INTO orders (customer_id, total_amount, shipping_address, status) 
-       VALUES ($1, $2, $3, $4) RETURNING order_id, created_at`,
-      [customerId, totalAmount, shippingAddress, 'Pending']
+      `INSERT INTO orders (customer_id, total_amount, shipping_address, shipping_name, shipping_phone, status) 
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING order_id, created_at`,
+      [customerId, totalAmount, shippingAddress, shippingName, shippingPhone, 'Pending']
     );
     
     const newOrderId = orderResult.rows[0].order_id;

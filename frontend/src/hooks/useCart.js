@@ -37,5 +37,12 @@ export const useCart = () => {
 
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  return { cart, addToCart, removeFromCart, updateQuantity, clearCart, cartCount };
+  return { 
+    cart, 
+    addToCart, 
+    removeFromCart, 
+    updateQuantity, 
+    clearCart, 
+    cartCount
+  };
 };
