@@ -1,6 +1,6 @@
 // src/api/apiClient.js
 
-const BASE_URL = 'http://localhost:5000/api';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const buildHeaders = (extraHeaders = {}, isFormData = false) => {
   const headers = { ...extraHeaders };

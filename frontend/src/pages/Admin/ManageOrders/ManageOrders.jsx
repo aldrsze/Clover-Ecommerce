@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Button } from "../../../components/common/Button/Button";
 import { orderService } from "../../../api/orderService";
+import toast from "react-hot-toast";
 import "./ManageOrders.css";
 
 const STATUS_OPTIONS = ["Pending", "Processing", "Shipped", "Completed", "Cancelled"];
@@ -122,7 +123,7 @@ function OrderDetailModal({ order, onClose, onEdit }) {
                   <img
                     src={
                       item.image_path?.startsWith("uploads/")
-                        ? `http://localhost:5000/${item.image_path}`
+                        ? `${import.meta.env.VITE_SERVER_URL}/${item.image_path}`
                         : item.image_path
                           ? `/${item.image_path}`
                           : "/images/placeholder.jpg"
@@ -263,7 +264,6 @@ export default function ManageOrders() {
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [error, setError] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [editingOrder, setEditingOrder] = useState(null);
   const [deletingOrder, setDeletingOrder] = useState(null);
@@ -276,11 +276,10 @@ export default function ManageOrders() {
       if (showSpinner) setIsLoading(true);
       else setIsRefreshing(true);
 
-      setError("");
       const data = await orderService.getOrders();
       setOrders(Array.isArray(data) ? data : []);
     } catch (err) {
-      setError(err?.message || "Failed to load orders.");
+      toast.error(err?.message || "Failed to load orders.");
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -372,7 +371,6 @@ export default function ManageOrders() {
 
     try {
       setIsSaving(true);
-      setError("");
 
       const response = await orderService.updateOrder(editingOrder.order_id, formData);
       const updatedOrder = response?.order || {
@@ -394,8 +392,9 @@ export default function ManageOrders() {
       }
 
       setEditingOrder(null);
+      toast.success("Order updated successfully.");
     } catch (err) {
-      setError(err?.message || "Failed to update order.");
+      toast.error(err?.message || "Failed to update order.");
     } finally {
       setIsSaving(false);
     }
@@ -406,15 +405,15 @@ export default function ManageOrders() {
 
     try {
       setIsDeleting(true);
-      setError("");
       await orderService.deleteOrder(deletingOrder.order_id);
       setOrders((prev) => prev.filter((order) => order.order_id !== deletingOrder.order_id));
       if (selectedOrder?.order_id === deletingOrder.order_id) {
         setSelectedOrder(null);
       }
       setDeletingOrder(null);
+      toast.success("Order deleted successfully.");
     } catch (err) {
-      setError(err?.message || "Failed to delete order.");
+      toast.error(err?.message || "Failed to delete order.");
     } finally {
       setIsDeleting(false);
     }
@@ -559,8 +558,6 @@ export default function ManageOrders() {
             </div>
           </div>
         )}
-
-        {error && <div className="admin-alert error">{error}</div>}
 
         <div className="table-container">
           <table className="admin-table orders-table">

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function LoginForm({ onSwitchView, onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +26,7 @@ export default function LoginForm({ onSwitchView, onLoginSuccess }) {
     }
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -37,7 +38,7 @@ export default function LoginForm({ onSwitchView, onLoginSuccess }) {
       const data = await response.json();
 
       if (!response.ok) {
-        setErrors({ email: data.error || "Login failed" });
+        toast.error(data.error || "Login failed");
         setIsLoading(false);
         return;
       }
@@ -47,11 +48,12 @@ export default function LoginForm({ onSwitchView, onLoginSuccess }) {
       localStorage.setItem("user", JSON.stringify(data.user));
 
       setIsLoading(false);
+      toast.success("Welcome back!");
       onLoginSuccess(data.user);
 
     } catch (err) {
       console.error("Login Error:", err);
-      setErrors({ email: "Server error. Please try again later." });
+      toast.error("Server error. Please try again later.");
       setIsLoading(false);
     }
   };

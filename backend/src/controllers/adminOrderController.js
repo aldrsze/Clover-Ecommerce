@@ -35,7 +35,11 @@ const getOrderItems = async (orderIds) => {
   return itemsResult.rows;
 };
 
-// GET /api/admin/orders
+/**
+ * Retrieve all orders for the admin dashboard.
+ * @param {Object} _req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.getOrders = async (_req, res) => {
   try {
     const ordersResult = await db.query(
@@ -74,7 +78,11 @@ exports.getOrders = async (_req, res) => {
   }
 };
 
-// GET /api/admin/orders/:id
+/**
+ * Retrieve a specific order by ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.getOrderById = async (req, res) => {
   try {
     const orderId = Number(req.params.id);
@@ -122,7 +130,11 @@ exports.getOrderById = async (req, res) => {
   }
 };
 
-// PUT /api/admin/orders/:id
+/**
+ * Update the status or shipping address of an order.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.updateOrder = async (req, res) => {
   try {
     const orderId = Number(req.params.id);
@@ -176,7 +188,11 @@ exports.updateOrder = async (req, res) => {
   }
 };
 
-// DELETE /api/admin/orders/:id
+/**
+ * Delete an order by ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.deleteOrder = async (req, res) => {
   const client = await db.connect();
 

@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "name": "Iced White Chocolate Mocha",
+    "description": "Rich espresso combined with sweet white chocolate sauce and milk over ice.",
+    "price": "450.00",
+    "stock_quantity": 50,
+    "image": "uploads/ICED-WHITE-CHOCOLATE-MOCHA-removebg.png",
+    "category": "cold-beverages",
+    "preferences": [
+      "sweet"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Javachip Javakula",
+    "description": "Blended icy coffee beverage mixed with rich chocolate chips and gourmet syrup.",
+    "price": "460.00",
+    "stock_quantity": 50,
+    "image": "uploads/JAVACHIP-JAVAKULA-removebg.png",
+    "category": "cold-beverages",
+    "preferences": [
+      "sweet"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Strawberry Milkshake",
+    "description": "Thick, creamy, and indulgent classic milkshake bursting with real strawberry flavor.",
+    "price": "365.00",
+    "stock_quantity": 50,
+    "image": "uploads/Strawberry-Milkshake-600x600-removebg.png",
+    "category": "cold-beverages",
+    "preferences": [
+      "sweet"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "The Big Breakfast",
+    "description": "A hearty platter featuring farm-fresh eggs, premium breakfast meat, and artisanal toast.",
+    "price": "295.00",
+    "stock_quantity": 50,
+    "image": "uploads/BIG-BREAKFAST-3.jpg",
+    "category": "breakfast",
+    "preferences": [
+      "savory",
+      "meat"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Ham & Cheese Omelette",
+    "description": "Fluffy folded egg omelette loaded with diced savory ham and melted premium cheese.",
+    "price": "260.00",
+    "stock_quantity": 50,
+    "image": "uploads/Ham-Cheese-Omelette-600x600.jpg",
+    "category": "breakfast",
+    "preferences": [
+      "savory",
+      "meat"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Classic Pancakes",
+    "description": "Stack of warm, beautifully fluffy golden pancakes served with real sweet syrup.",
+    "price": "245.00",
+    "stock_quantity": 50,
+    "image": "uploads/PANCAKES-600x600.jpg",
+    "category": "breakfast",
+    "preferences": [
+      "sweet"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Smoked Salmon Sandwich",
+    "description": "Premium delicate smoked salmon slices layered with fresh greens on artisan bread.",
+    "price": "375.00",
+    "stock_quantity": 50,
+    "image": "uploads/SALMON.jpg",
+    "category": "sandwiches",
+    "preferences": [
+      "savory",
+      "seafood"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Margherita Flatbread",
+    "description": "Crisp baked flatbread crust topped with tomato sauce, fresh mozzarella, and aromatic basil.",
+    "price": "320.00",
+    "stock_quantity": 50,
+    "image": "uploads/Margherita-Flatbread-600x600.jpg",
+    "category": "sandwiches",
+    "preferences": [
+      "savory"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Quattro Flatbread",
+    "description": "Savory artisan flatbread packed with an indulgent four-cheese blend and gourmet meat toppings.",
+    "price": "350.00",
+    "stock_quantity": 50,
+    "image": "uploads/QUATTRO.jpg",
+    "category": "sandwiches",
+    "preferences": [
+      "savory",
+      "meat"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Blueberry Cheesecake",
+    "description": "Velvety smooth NY-style cheesecake topped with a sweet, vibrant mountain blueberry compote.",
+    "price": "230.00",
+    "stock_quantity": 50,
+    "image": "uploads/Blueberry-Cheesecake-600x600.jpg",
+    "category": "pastries",
+    "preferences": [
+      "sweet"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Nutella Croissant",
+    "description": "Flaky, buttery golden layered croissant filled with rich, creamy chocolate hazelnut spread.",
+    "price": "190.00",
+    "stock_quantity": 50,
+    "image": "uploads/Nutella-Croissant-600x600.jpg",
+    "category": "pastries",
+    "preferences": [
+      "sweet"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Classic Cinnamon Roll",
+    "description": "Soft, sweet golden pastry dough swirled with rich cinnamon sugar and a smooth sugar glaze.",
+    "price": "175.00",
+    "stock_quantity": 50,
+    "image": "uploads/CLASSIC-CINNAMON-ROLL.jpg",
+    "category": "pastries",
+    "preferences": [
+      "sweet"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Torched Classic Cheesecake",
+    "description": "Rich baked classic cheesecake featuring an elegant, caramelized, beautifully torched top surface.",
+    "price": "255.00",
+    "stock_quantity": 50,
+    "image": "uploads/Torched-Classic-Cheesecake-3-600x600.jpg",
+    "category": "pastries",
+    "preferences": [
+      "sweet"
+    ]
+  }
+]

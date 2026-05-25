@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "../../../components/common/Button/Button";
 import { customerService } from "../../../api/customerService";
+import toast from "react-hot-toast";
 import "./ManageCustomers.css";
 
 const emptyForm = {
@@ -161,7 +162,6 @@ export default function ManageCustomers() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [error, setError] = useState("");
   const [editingCustomer, setEditingCustomer] = useState(null);
   const [deletingCustomer, setDeletingCustomer] = useState(null);
   const [formData, setFormData] = useState(emptyForm);
@@ -173,11 +173,10 @@ export default function ManageCustomers() {
       if (showSpinner) setIsLoading(true);
       else setIsRefreshing(true);
 
-      setError("");
       const data = await customerService.getCustomers();
       setCustomers(Array.isArray(data) ? data : []);
     } catch (err) {
-      setError(err?.message || "Failed to load customers.");
+      toast.error(err?.message || "Failed to load customers.");
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -230,7 +229,6 @@ export default function ManageCustomers() {
 
     try {
       setIsSaving(true);
-      setError("");
 
       const response = await customerService.updateCustomer(editingCustomer.customer_id, formData);
       const updatedCustomer = response?.customer || {
@@ -249,8 +247,9 @@ export default function ManageCustomers() {
         ),
       );
       setEditingCustomer(null);
+      toast.success("Customer updated successfully.");
     } catch (err) {
-      setError(err?.message || "Failed to update customer.");
+      toast.error(err?.message || "Failed to update customer.");
     } finally {
       setIsSaving(false);
     }
@@ -261,12 +260,12 @@ export default function ManageCustomers() {
 
     try {
       setIsDeleting(true);
-      setError("");
       await customerService.deleteCustomer(deletingCustomer.customer_id);
       setCustomers((prev) => prev.filter((customer) => customer.customer_id !== deletingCustomer.customer_id));
       setDeletingCustomer(null);
+      toast.success("Customer deleted successfully.");
     } catch (err) {
-      setError(err?.message || "Failed to delete customer.");
+      toast.error(err?.message || "Failed to delete customer.");
     } finally {
       setIsDeleting(false);
     }
@@ -330,8 +329,6 @@ export default function ManageCustomers() {
             />
           </div>
         </div>
-
-        {error && <div className="admin-alert error">{error}</div>}
 
         <div className="table-container">
           <table className="admin-table customers-table">

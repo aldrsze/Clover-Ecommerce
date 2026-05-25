@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { productsService } from "../api/productService";
+import toast from "react-hot-toast";
 
 export const useManageProducts = () => {
   const [products, setProducts] = useState([]);
@@ -34,6 +35,7 @@ export const useManageProducts = () => {
       setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
+      toast.error("Failed to load products.");
     }
   };
 
@@ -114,7 +116,7 @@ export const useManageProducts = () => {
     // Set the existing image as preview
     if (product.image) {
       const imageUrl = product.image.startsWith("uploads/")
-        ? `http://localhost:5000/${product.image}`
+        ? `${import.meta.env.VITE_SERVER_URL}/${product.image}`
         : `/${product.image}`;
       setImagePreview(imageUrl);
     } else {
@@ -162,9 +164,13 @@ export const useManageProducts = () => {
         clearForm();
         setEditingProduct(null);
         fetchProducts();
+        toast.success("Product saved successfully.");
+      } else {
+        toast.error("Failed to save product.");
       }
     } catch (error) {
       console.error("Error saving product:", error);
+      toast.error(error?.message || "Failed to save product.");
     }
   };
 
@@ -175,9 +181,13 @@ export const useManageProducts = () => {
       if (response.ok) {
         setDeletingProduct(null);
         fetchProducts();
+        toast.success("Product deleted successfully.");
+      } else {
+        toast.error("Failed to delete product.");
       }
     } catch (error) {
       console.error("Error deleting product:", error);
+      toast.error(error?.message || "Failed to delete product.");
     }
   };
 

@@ -17,7 +17,7 @@ export default function MyOrdersModal({ isOpen, onClose, user }) {
     try {
       setIsLoading(true);
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/orders", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/orders`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       if (res.ok) {
@@ -70,7 +70,7 @@ export default function MyOrdersModal({ isOpen, onClose, user }) {
                         <img 
                           src={
                             item.image_path?.startsWith("uploads/") 
-                              ? `http://localhost:5000/${item.image_path}` 
+                              ? `${import.meta.env.VITE_SERVER_URL}/${item.image_path}` 
                               : item.image_path ? `/${item.image_path}` : "/images/placeholder.jpg"
                           } 
                           alt={item.name} 

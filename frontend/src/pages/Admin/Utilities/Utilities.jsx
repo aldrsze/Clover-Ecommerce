@@ -16,6 +16,7 @@ import { Button } from "../../../components/common/Button/Button";
 import { productsService } from "../../../api/productService";
 import { orderService } from "../../../api/orderService";
 import { customerService } from "../../../api/customerService";
+import toast from "react-hot-toast";
 import "./Utilities.css";
 
 const currencyFormatter = new Intl.NumberFormat("en-PH", {
@@ -68,15 +69,12 @@ export default function Utilities() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isClearingCart, setIsClearingCart] = useState(false);
-  const [error, setError] = useState("");
   const [statusMessage, setStatusMessage] = useState("Ready to run maintenance actions.");
 
   const loadSnapshot = async (showSpinner = true) => {
     try {
       if (showSpinner) setIsLoading(true);
       else setIsRefreshing(true);
-
-      setError("");
 
       const [productsResult, ordersResult, customersResult] = await Promise.allSettled([
         productsService.getProducts(),
@@ -92,12 +90,15 @@ export default function Utilities() {
 
       const failures = [productsResult, ordersResult, customersResult].filter((result) => result.status === "rejected");
       if (failures.length > 0) {
-        setError("Some source data could not be loaded. The snapshot shows whatever was available.");
+        toast.error("Some source data could not be loaded. The snapshot shows whatever was available.");
       }
 
       setStatusMessage("System snapshot refreshed.");
+      if (!showSpinner) {
+        toast.success("System snapshot refreshed.");
+      }
     } catch (err) {
-      setError(err?.message || "Failed to load utilities snapshot.");
+      toast.error(err?.message || "Failed to load utilities snapshot.");
       setSnapshot(null);
       setStatusMessage("Unable to refresh snapshot.");
     } finally {
@@ -159,6 +160,7 @@ export default function Utilities() {
       URL.revokeObjectURL(url);
 
       setStatusMessage("Snapshot downloaded.");
+      toast.success("Snapshot downloaded.");
     } finally {
       setIsDownloading(false);
     }
@@ -169,6 +171,7 @@ export default function Utilities() {
     try {
       localStorage.removeItem("clover_cart");
       setStatusMessage("Saved cart cache cleared from this browser.");
+      toast.success("Cart cache cleared.");
     } finally {
       setIsClearingCart(false);
     }
@@ -217,13 +220,6 @@ export default function Utilities() {
               </span>
             </div>
           </div>
-
-          {error && (
-            <div className="utilities-inline-alert">
-              <AlertTriangle size={16} />
-              <span>{error}</span>
-            </div>
-          )}
 
           <div className="utilities-metrics-grid">
             {summaryCards.map((card) => {

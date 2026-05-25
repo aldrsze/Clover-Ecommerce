@@ -1,6 +1,10 @@
 const db = require('../config/db');
 
-// POST /api/orders
+/**
+ * Create a new order.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.createOrder = async (req, res) => {
   const client = await db.connect();
   
@@ -52,7 +56,11 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-// GET /api/orders
+/**
+ * Get all orders for the current user.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.getUserOrders = async (req, res) => {
   try {
     const customerId = req.user.customerId;

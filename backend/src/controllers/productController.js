@@ -1,5 +1,10 @@
 const Product = require('../models/productModel');
 
+/**
+ * Get all products or filter by preferences.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.getProducts = async (req, res) => {
     try {
         const { preferences } = req.query;
@@ -16,10 +21,15 @@ exports.getProducts = async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Failed to fetch products.' });
     }
 };
 
+/**
+ * Create a new product.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.createProduct = async (req, res) => {
     let { name, description, price, stock_quantity, category, preferences } = req.body;
     
@@ -40,10 +50,15 @@ exports.createProduct = async (req, res) => {
         res.status(201).json(newProduct);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Failed to create product.' });
     }
 };
 
+/**
+ * Update an existing product by ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.updateProduct = async (req, res) => {
     const { id } = req.params;
     let { name, description, price, stock_quantity, category, preferences } = req.body;
@@ -82,10 +97,15 @@ exports.updateProduct = async (req, res) => {
         res.json(updatedProduct);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Failed to update product.' });
     }
 };
 
+/**
+ * Delete a product by ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.deleteProduct = async (req, res) => {
     const { id } = req.params;
 
@@ -97,6 +117,6 @@ exports.deleteProduct = async (req, res) => {
         res.json({ message: 'Product deleted successfully', id: deletedProduct.id });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Failed to delete product.' });
     }
 };

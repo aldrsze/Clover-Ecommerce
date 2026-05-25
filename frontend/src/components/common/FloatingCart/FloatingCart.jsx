@@ -127,7 +127,7 @@ export default function FloatingCart({
                     <img 
                       src={
                         item.image?.startsWith("uploads/")
-                          ? `http://localhost:5000/${item.image}`
+                          ? `${import.meta.env.VITE_SERVER_URL}/${item.image}`
                           : item.image 
                             ? `/${item.image}` 
                             : "/images/placeholder.jpg"

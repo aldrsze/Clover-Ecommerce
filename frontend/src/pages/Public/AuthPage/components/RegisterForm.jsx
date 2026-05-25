@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
+import toast from "react-hot-toast";
 
 /* Password strength: 0-4 */
 function getStrength(password) {
@@ -49,7 +50,7 @@ export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
     }
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -63,7 +64,7 @@ export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
       const data = await response.json();
 
       if (!response.ok) {
-        setErrors({ email: data.error || "Registration failed" });
+        toast.error(data.error || "Registration failed");
         setIsLoading(false);
         return;
       }
@@ -75,11 +76,12 @@ export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
       // We could update a global state here if provided via context or props,
       // but for now, we'll just trigger the success callback which usually re-routes or reloads.
       setIsLoading(false);
+      toast.success("Account created successfully!");
       onRegisterSuccess(data.user);
 
     } catch (err) {
       console.error("Register Error:", err);
-      setErrors({ email: "Server error. Please try again later." });
+      toast.error("Server error. Please try again later.");
       setIsLoading(false);
     }
   };

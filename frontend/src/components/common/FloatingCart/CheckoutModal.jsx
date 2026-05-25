@@ -52,9 +52,14 @@ export default function CheckoutModal({
       return;
     }
 
+    if (!shippingName.trim() || !shippingPhone.trim() || !shippingAddress.trim()) {
+      toast.error("Please fill in all shipping details");
+      return;
+    }
+
     try {
       setIsSubmitting(true);
-      const response = await fetch("http://localhost:5000/api/orders", {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -160,7 +165,7 @@ export default function CheckoutModal({
           <Button 
             variant="primary" 
             onClick={handleCheckout}
-            disabled={isSubmitting || !shippingAddress.trim() || !shippingName.trim() || !shippingPhone.trim()}
+            disabled={isSubmitting}
           >
             {isSubmitting ? "Processing..." : (
               <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

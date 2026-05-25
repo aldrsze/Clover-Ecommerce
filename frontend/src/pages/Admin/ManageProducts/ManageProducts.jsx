@@ -210,7 +210,7 @@ export default function Products() {
                       <img
                         src={
                           product.image?.startsWith("uploads/")
-                            ? `http://localhost:5000/${product.image}`
+                            ? `${import.meta.env.VITE_SERVER_URL}/${product.image}`
                             : `/${product.image}`
                         }
                         alt={product.name}

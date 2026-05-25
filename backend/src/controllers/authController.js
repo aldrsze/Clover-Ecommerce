@@ -2,7 +2,11 @@ const db = require('../config/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// Register a new customer
+/**
+ * Register a new customer.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
@@ -48,7 +52,11 @@ exports.register = async (req, res) => {
   }
 };
 
-// Login customer
+/**
+ * Login a customer.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -96,7 +104,11 @@ exports.login = async (req, res) => {
   }
 };
 
-// Update Profile
+/**
+ * Update the profile of the current customer.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.updateProfile = async (req, res) => {
   try {
     const customerId = req.user.customerId;

@@ -1,5 +1,10 @@
 const db = require('../config/db');
 
+/**
+ * Retrieve all customers along with their order stats.
+ * @param {Object} _req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.getCustomers = async (_req, res) => {
   try {
     const result = await db.query(`
@@ -31,6 +36,11 @@ exports.getCustomers = async (_req, res) => {
   }
 };
 
+/**
+ * Update an existing customer.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.updateCustomer = async (req, res) => {
   try {
     const customerId = Number(req.params.id);
@@ -78,6 +88,11 @@ exports.updateCustomer = async (req, res) => {
   }
 };
 
+/**
+ * Delete a customer by ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.deleteCustomer = async (req, res) => {
   try {
     const customerId = Number(req.params.id);
