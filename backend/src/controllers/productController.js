@@ -43,3 +43,60 @@ exports.createProduct = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.updateProduct = async (req, res) => {
+    const { id } = req.params;
+    let { name, description, price, stock_quantity, category, preferences } = req.body;
+
+    // Build the fields object for the dynamic update
+    const fields = {};
+    if (name !== undefined) fields.name = name;
+    if (description !== undefined) fields.description = description;
+    if (price !== undefined) fields.price = price;
+    if (stock_quantity !== undefined) fields.stock_quantity = stock_quantity;
+    if (category !== undefined) fields.category = category;
+
+    // Handle image — only update if a new file was uploaded
+    if (req.file) {
+        fields.image_path = `uploads/${req.file.filename}`;
+    }
+
+    // If preferences is a string (from FormData), parse it
+    if (preferences !== undefined) {
+        if (typeof preferences === 'string') {
+            try {
+                fields.preferences = JSON.parse(preferences);
+            } catch (e) {
+                fields.preferences = preferences.split(',').map(p => p.trim());
+            }
+        } else {
+            fields.preferences = preferences;
+        }
+    }
+
+    try {
+        const updatedProduct = await Product.update(id, fields);
+        if (!updatedProduct) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        res.json(updatedProduct);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.deleteProduct = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedProduct = await Product.delete(id);
+        if (!deletedProduct) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        res.json({ message: 'Product deleted successfully', id: deletedProduct.id });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+};

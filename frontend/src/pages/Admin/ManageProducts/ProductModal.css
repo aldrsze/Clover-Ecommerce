@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════════════════
-   ADD PRODUCT MODAL — Fluid scaling: laptop (1024px) → desktop (1440px)
+   PRODUCT MODAL — Fluid scaling: laptop (1024px) → desktop (1440px)
    Formula: clamp(MIN, calc(MIN + (100vw - 1024px) * COEFF), MAX)
    where  COEFF = (MAX - MIN) / 416
    ══════════════════════════════════════════════════════════════════════════════ */
@@ -239,3 +239,46 @@
     transform: translateY(0);
   }
 }
+
+/* ── DELETE CONFIRMATION MODAL ───────────────────────────────────────────── */
+
+.delete-confirm-modal {
+  width: clamp(360px, calc(360px + (100vw - 1024px) * 0.14423), 420px);
+  text-align: center;
+}
+
+.delete-confirm-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: #dc2626;
+}
+
+.delete-confirm-modal h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--admin-text);
+}
+
+.delete-confirm-text {
+  font-size: 13px;
+  color: var(--admin-muted);
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.delete-confirm-footer {
+  justify-content: center;
+}
+
+.btn-danger {
+  background-color: #dc2626 !important;
+  border-color: #dc2626 !important;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c !important;
+  border-color: #b91c1c !important;
+}
+

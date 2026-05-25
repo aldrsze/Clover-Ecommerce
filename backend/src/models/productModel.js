@@ -75,6 +75,75 @@ const Product = {
             console.error('Error creating product:', error);
             throw error;
         }
+    },
+
+    update: async (id, fields) => {
+        try {
+            // Build SET clause dynamically from provided fields
+            const allowedColumns = {
+                name: 'name',
+                description: 'description',
+                price: 'price',
+                stock_quantity: 'stock_quantity',
+                image_path: 'image_path',
+                category: 'category',
+                preferences: 'preferences'
+            };
+
+            const setClauses = [];
+            const values = [];
+            let paramIndex = 1;
+
+            for (const [key, column] of Object.entries(allowedColumns)) {
+                if (fields[key] !== undefined) {
+                    setClauses.push(`${column} = $${paramIndex}`);
+                    values.push(fields[key]);
+                    paramIndex++;
+                }
+            }
+
+            if (setClauses.length === 0) {
+                throw new Error('No valid fields provided for update');
+            }
+
+            values.push(id);
+
+            const query = `
+                UPDATE products
+                SET ${setClauses.join(', ')}
+                WHERE product_id = $${paramIndex}
+                RETURNING 
+                    product_id AS id, 
+                    name, 
+                    description, 
+                    price, 
+                    stock_quantity, 
+                    image_path AS image, 
+                    category, 
+                    preferences;
+            `;
+
+            const { rows } = await db.query(query, values);
+            return rows[0];
+        } catch (error) {
+            console.error('Error updating product:', error);
+            throw error;
+        }
+    },
+
+    delete: async (id) => {
+        try {
+            const query = `
+                DELETE FROM products
+                WHERE product_id = $1
+                RETURNING product_id AS id;
+            `;
+            const { rows } = await db.query(query, [id]);
+            return rows[0];
+        } catch (error) {
+            console.error('Error deleting product:', error);
+            throw error;
+        }
     }
 };
 

@@ -14,13 +14,15 @@ import {
 } from "lucide-react";
 import { CATEGORY_LABEL } from "../../../constants/menuConstants";
 import { Button } from "../../../components/common/Button/Button";
-import { AddProductModal } from "./AddProductModal";
+import { ProductModal } from "./ProductModal";
+import { DeleteConfirmModal } from "./DeleteConfirmModal";
 import { useManageProducts } from "../../../hooks/useManageProducts";
 
 export default function Products() {
   const {
     isModalOpen,
     setIsModalOpen,
+    modalMode,
     searchQuery,
     setSearchQuery,
     newProduct,
@@ -28,6 +30,12 @@ export default function Products() {
     handleInputChange,
     handleImageChange,
     handleSubmit,
+    clearForm,
+    openAddModal,
+    openEditModal,
+    deletingProduct,
+    setDeletingProduct,
+    handleDelete,
     filteredProducts,
     totalProducts,
     lowStockProducts,
@@ -102,7 +110,7 @@ export default function Products() {
             </Button>
             <Button
               variant="admin-primary"
-              onClick={() => setIsModalOpen(true)}
+              onClick={openAddModal}
             >
               <Plus size={16} />
               <span>Add Product</span>
@@ -194,6 +202,7 @@ export default function Products() {
                         variant="text"
                         className="action-edit"
                         title="Edit product"
+                        onClick={() => openEditModal(product)}
                       >
                         <Pencil size={16} />
                       </Button>
@@ -201,6 +210,7 @@ export default function Products() {
                         variant="text"
                         className="action-delete"
                         title="Delete product"
+                        onClick={() => setDeletingProduct(product)}
                       >
                         <Trash size={16} />
                       </Button>
@@ -214,13 +224,23 @@ export default function Products() {
       </div>
 
       {isModalOpen && (
-        <AddProductModal
+        <ProductModal
+          mode={modalMode}
           setIsModalOpen={setIsModalOpen}
           handleSubmit={handleSubmit}
           newProduct={newProduct}
           handleInputChange={handleInputChange}
           imagePreview={imagePreview}
           handleImageChange={handleImageChange}
+          clearForm={clearForm}
+        />
+      )}
+
+      {deletingProduct && (
+        <DeleteConfirmModal
+          product={deletingProduct}
+          onConfirm={handleDelete}
+          onCancel={() => setDeletingProduct(null)}
         />
       )}
     </div>

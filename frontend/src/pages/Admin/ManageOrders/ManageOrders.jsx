@@ -17,12 +17,7 @@ export default function Orders() {
       </div>
 
       <div className="view-content">
-        <div
-          className="empty-state"
-          style={{ textAlign: "center", padding: "64px 0" }}
-        >
           <p className="caption">No orders found.</p>
-        </div>
       </div>
     </div>
   );

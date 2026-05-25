@@ -31,5 +31,37 @@ export const apiClient = {
       throw new Error(`API Error: ${response.statusText}`);
     }
     return response;
+  },
+
+  // Generic PUT request
+  put: async (endpoint, body, isFormData = false) => {
+    const headers = {};
+
+    if (!isFormData) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+      method: 'PUT',
+      headers,
+      body: isFormData ? body : JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.statusText}`);
+    }
+    return response;
+  },
+
+  // Generic DELETE request
+  del: async (endpoint) => {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.statusText}`);
+    }
+    return response;
   }
 };

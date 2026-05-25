@@ -4,6 +4,9 @@ import { productsService } from "../api/productService";
 export const useManageProducts = () => {
   const [products, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [deletingProduct, setDeletingProduct] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [newProduct, setNewProduct] = useState({
     name: "",
@@ -46,6 +49,69 @@ export const useManageProducts = () => {
     }
   };
 
+  const clearForm = () => {
+    setNewProduct({
+      name: "",
+      description: "",
+      price: "",
+      stock_quantity: "",
+      category: "",
+      preferences: "",
+    });
+    setImageFile(null);
+    setImagePreview(null);
+  };
+
+  // ── Open modal for adding a new product ──
+  const openAddModal = () => {
+    clearForm();
+    setModalMode("add");
+    setEditingProduct(null);
+    setIsModalOpen(true);
+  };
+
+  // ── Open modal for editing an existing product ──
+  const openEditModal = (product) => {
+    setModalMode("edit");
+    setEditingProduct(product);
+
+    // Pre-populate form with existing product data
+    const preferencesStr = Array.isArray(product.preferences)
+      ? product.preferences.join(", ")
+      : typeof product.preferences === "string"
+        ? (() => {
+            try {
+              return JSON.parse(product.preferences).join(", ");
+            } catch {
+              return product.preferences;
+            }
+          })()
+        : "";
+
+    setNewProduct({
+      name: product.name || "",
+      description: product.description || "",
+      price: product.price || "",
+      stock_quantity: product.stock_quantity || "",
+      category: product.category || "",
+      preferences: preferencesStr,
+    });
+
+    // Set the existing image as preview
+    if (product.image) {
+      const imageUrl = product.image.startsWith("uploads/")
+        ? `http://localhost:5000/${product.image}`
+        : `/${product.image}`;
+      setImagePreview(imageUrl);
+    } else {
+      setImagePreview(null);
+    }
+    setImageFile(null);
+
+    setIsModalOpen(true);
+  };
+
+  // ── Handle form submission for both add and edit ──
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -54,6 +120,7 @@ export const useManageProducts = () => {
     formData.append("price", newProduct.price);
     formData.append("stock_quantity", newProduct.stock_quantity);
     formData.append("category", newProduct.category);
+
     // Convert comma-separated preferences to array
     const prefsArray = newProduct.preferences
       .split(",")
@@ -66,24 +133,37 @@ export const useManageProducts = () => {
     }
 
     try {
-      const response = await productsService.createProduct(formData);
+      let response;
+      if (modalMode === "edit" && editingProduct) {
+        response = await productsService.updateProduct(
+          editingProduct.id,
+          formData,
+        );
+      } else {
+        response = await productsService.createProduct(formData);
+      }
 
       if (response.ok) {
         setIsModalOpen(false);
-        setNewProduct({
-          name: "",
-          description: "",
-          price: "",
-          stock_quantity: "",
-          category: "",
-          preferences: "",
-        });
-        setImageFile(null);
-        setImagePreview(null);
+        clearForm();
+        setEditingProduct(null);
         fetchProducts();
       }
     } catch (error) {
-      console.error("Error creating product:", error);
+      console.error("Error saving product:", error);
+    }
+  };
+
+  // ── Handle product deletion ──
+  const handleDelete = async (id) => {
+    try {
+      const response = await productsService.deleteProduct(id);
+      if (response.ok) {
+        setDeletingProduct(null);
+        fetchProducts();
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
     }
   };
 
@@ -104,6 +184,7 @@ export const useManageProducts = () => {
   return {
     isModalOpen,
     setIsModalOpen,
+    modalMode,
     searchQuery,
     setSearchQuery,
     newProduct,
@@ -111,6 +192,13 @@ export const useManageProducts = () => {
     handleInputChange,
     handleImageChange,
     handleSubmit,
+    clearForm,
+    openAddModal,
+    openEditModal,
+    editingProduct,
+    deletingProduct,
+    setDeletingProduct,
+    handleDelete,
     filteredProducts,
     totalProducts,
     lowStockProducts,

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { X, Upload } from "lucide-react";
 import { MENU_CATEGORIES } from "../../../constants/menuConstants";
 import { Button } from "../../../components/common/Button/Button";
-import "./AddProductModal.css";
+import "./ProductModal.css";
 
-export const AddProductModal = ({
+export const ProductModal = ({
+  mode = "add",
   setIsModalOpen,
   handleSubmit,
   newProduct,
@@ -14,12 +15,13 @@ export const AddProductModal = ({
   clearForm,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
+  const isEdit = mode === "edit";
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         <div className="modal-header">
-          <h2>Add Product</h2>
+          <h2>{isEdit ? "Edit Product" : "Add Product"}</h2>
           <Button variant="text" onClick={() => setIsModalOpen(false)}>
             <X size={24} />
           </Button>
@@ -152,13 +154,15 @@ export const AddProductModal = ({
           </div>
 
           <div className="modal-footer">
-            <Button
-              type="button"
-              variant="admin-secondary"
-              onClick={clearForm}
-            >
-              Clear Form
-            </Button>
+            {!isEdit && (
+              <Button
+                type="button"
+                variant="admin-secondary"
+                onClick={clearForm}
+              >
+                Clear Form
+              </Button>
+            )}
             <Button
               type="button"
               variant="admin-secondary"
@@ -167,7 +171,7 @@ export const AddProductModal = ({
               Cancel
             </Button>
             <Button variant="admin-primary" type="submit">
-              Add Product
+              {isEdit ? "Save Changes" : "Add Product"}
             </Button>
           </div>
         </form>

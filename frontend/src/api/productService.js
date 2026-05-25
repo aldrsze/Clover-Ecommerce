@@ -26,5 +26,29 @@ export const productsService = {
       console.error("productsService.createProduct Error:", error);
       throw error;
     }
+  },
+
+  /**
+   * Update an existing product.
+   */
+  updateProduct: async (id, formData) => {
+    try {
+      return await apiClient.put(`/products/${id}`, formData, true);
+    } catch (error) {
+      console.error("productsService.updateProduct Error:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * Delete a product by ID.
+   */
+  deleteProduct: async (id) => {
+    try {
+      return await apiClient.del(`/products/${id}`);
+    } catch (error) {
+      console.error("productsService.deleteProduct Error:", error);
+      throw error;
+    }
   }
 };
