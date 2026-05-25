@@ -51,7 +51,7 @@ export default function Header({ currentPage, setCurrentPage, cartCount, user, s
   };
 
   return (
-    <header>
+    <header className="main-header">
       <div className="container header-grid">
         <div className="header-left">
           <div

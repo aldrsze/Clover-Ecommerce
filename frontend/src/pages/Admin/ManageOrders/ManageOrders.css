@@ -164,6 +164,16 @@
 .order-detail-modal,
 .order-edit-modal {
   width: min(900px, 100%);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-detail-modal .admin-modal-body,
+.order-edit-modal .admin-modal-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .order-detail-body {
@@ -174,6 +184,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .order-detail-panel {
@@ -210,6 +221,7 @@
   border-radius: 14px;
   background: #fff;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .order-items-list-header {

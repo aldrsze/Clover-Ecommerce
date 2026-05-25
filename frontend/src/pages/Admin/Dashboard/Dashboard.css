@@ -1,8 +1,292 @@
-/* ── UI ELEMENTS ──────────────────────────────────────────────────────────── */
+/* =============================================================================
+   DASHBOARD - Single Window Layout (No scroll)
+   ============================================================================= */
 
-.divider {
-  height: 1px;
-  background-color: var(--admin-border);
-  margin: 24px 0;
-  border: none;
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* Prevent scrolling, fill available height */
+  min-height: 0; 
+  height: 100%;
+  padding: 16px var(--admin-content-pad);
+  overflow: hidden;
+}
+
+/* ── METRICS GRID ────────────────────────────────────────────────────────── */
+
+.dashboard-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.dashboard-metric-card {
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+}
+
+.metric-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.metric-icon-wrap.revenue {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.metric-icon-wrap.orders {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.metric-icon-wrap.customers {
+  background: #fdf4ff;
+  color: #d946ef;
+}
+
+.metric-icon-wrap.alerts {
+  background: #fffbeb;
+  color: #f59e0b;
+}
+
+.metric-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--admin-muted);
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--admin-text);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.metric-sub {
+  font-size: 11px;
+  color: var(--admin-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── CHARTS & ACTIVITY ROW ────────────────────────────────────────────────── */
+
+.dashboard-main-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+}
+
+.dashboard-panel {
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.panel-header h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--admin-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-header h2 svg {
+  color: var(--admin-muted);
+}
+
+.panel-content {
+  flex: 1;
+  padding: 16px;
+  min-height: 0;
+  position: relative;
+}
+
+/* ── RECENT ORDERS LIST ───────────────────────────────────────────────────── */
+
+.recent-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  height: 100%;
+  padding-right: 4px;
+}
+
+.recent-orders-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.recent-orders-list::-webkit-scrollbar-thumb {
+  background: var(--admin-border);
+  border-radius: 4px;
+}
+
+.recent-order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--admin-border);
+  background: #fafafa;
+  transition: background 0.2s ease;
+}
+
+.recent-order-item:hover {
+  background: #f4f4f5;
+}
+
+.roi-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.roi-icon {
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--admin-muted);
+}
+
+.roi-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.roi-id {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--admin-text);
+}
+
+.roi-customer {
+  font-size: 11px;
+  color: var(--admin-muted);
+}
+
+.roi-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.roi-amount {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--admin-text);
+}
+
+.roi-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.roi-status.pending {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.roi-status.completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* Custom Recharts Tooltip */
+.custom-tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.custom-tooltip .label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--admin-muted);
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.custom-tooltip .value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--admin-text);
+  margin: 0;
+}
+
+@media (max-width: 1280px) {
+  .dashboard-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dashboard-main-row {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-content {
+    overflow-y: auto; /* Allow scroll on smaller screens */
+  }
 }

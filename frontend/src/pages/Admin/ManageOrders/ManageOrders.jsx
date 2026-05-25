@@ -194,7 +194,8 @@ function EditOrderModal({ order, formData, setFormData, onClose, onSave, isSavin
             <textarea
               rows="4"
               value={formData.shippingAddress}
-              onChange={(e) => setFormData((prev) => ({ ...prev, shippingAddress: e.target.value }))}
+              readOnly
+              style={{ cursor: "not-allowed", backgroundColor: "var(--admin-secondary)" }}
               placeholder="Shipping address"
             />
           </label>
