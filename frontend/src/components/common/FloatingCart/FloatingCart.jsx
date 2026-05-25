@@ -34,10 +34,8 @@ export default function FloatingCart({
   const handleOpenCheckoutAll = () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      toast.error("Please log in to complete your purchase.");
-      window.history.pushState({}, "", "/auth");
-      window.dispatchEvent(new Event("popstate"));
       setIsCartOpen(false);
+      window.dispatchEvent(new Event("require-auth"));
       return;
     }
     
@@ -55,10 +53,8 @@ export default function FloatingCart({
   const handleBuySingle = (item) => {
     const token = localStorage.getItem("token");
     if (!token) {
-      toast.error("Please log in to complete your purchase.");
-      window.history.pushState({}, "", "/auth");
-      window.dispatchEvent(new Event("popstate"));
       setIsCartOpen(false);
+      window.dispatchEvent(new Event("require-auth"));
       return;
     }
 

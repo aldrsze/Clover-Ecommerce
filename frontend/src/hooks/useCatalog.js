@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useLayoutEffect } from "react";
+import toast from "react-hot-toast";
 
 // ── SCROLL RESET ────────────────────────────────────────────────────────
 export const useScrollReset = () => {
@@ -88,6 +89,12 @@ export const useCartFeedback = (addToCart) => {
   const [addedCards, setAddedCards] = useState({});
 
   const handleAddToCart = (product) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.dispatchEvent(new Event("require-auth"));
+      return;
+    }
+
     addToCart(product);
     setAddedCards((prev) => ({ ...prev, [product.id]: true }));
     setTimeout(

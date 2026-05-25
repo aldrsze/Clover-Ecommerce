@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import "./AuthPage.css";
@@ -92,6 +93,10 @@ export default function AuthPage({ setCurrentPage, setUser }) {
 
       {/* ── FORM PANEL ─────────────────────────────────────────────────── */}
       <div className="auth-form-panel">
+        <button className="auth-back-btn" onClick={() => goHome()} aria-label="Back to Home">
+          <ArrowLeft size={16} />
+          <span>Back to Home</span>
+        </button>
         <div className="auth-form-container">
           {view === "login" ? (
             <LoginForm

@@ -1,4 +1,5 @@
 import React from "react";
+import toast from "react-hot-toast";
 import { ProductSidebar } from "./components/ProductSidebar/ProductSidebar";
 import { CatalogHeader } from "./components/CatalogHeader/CatalogHeader";
 import ProductGrid from "./components/ProductGrid/ProductGrid";
@@ -25,6 +26,12 @@ export default function Products({ addToCart, setIsCartOpen }) {
   const { addedCards, handleAddToCart } = useCartFeedback(addToCart);
 
   const handleBuyNow = (product) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.dispatchEvent(new Event("require-auth"));
+      return;
+    }
+
     addToCart(product);
     setIsCartOpen(true);
   };
