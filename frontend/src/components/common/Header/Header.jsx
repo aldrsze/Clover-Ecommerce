@@ -133,7 +133,10 @@ export default function Header({ currentPage, setCurrentPage, cartCount }) {
           <Button
             variant="none"
             className="icon-btn user-btn"
-            onClick={() => alert("Customer account functionality coming soon!")}
+            onClick={() => {
+              window.history.pushState({}, "", "/auth");
+              setCurrentPage("auth");
+            }}
             aria-label="User"
           >
             <User size={20} />

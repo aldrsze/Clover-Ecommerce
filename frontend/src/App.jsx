@@ -3,6 +3,7 @@ import Header from "./components/common/Header/Header";
 import Footer from "./components/common/Footer/Footer";
 import Home from "./pages/Public/HomePage/HomePage";
 import Products from "./pages/Public/ProductsPage/ProductsPage";
+import AuthPage from "./pages/Public/AuthPage/AuthPage";
 import AdminRoot from "./pages/Admin/Components/AdminLayout/AdminLayout";
 import { useCart } from "./hooks/useCart";
 
@@ -16,6 +17,8 @@ export default function App() {
       setCurrentPage("home");
     } else if (path === "/admin") {
       setCurrentPage("admin");
+    } else if (path === "/auth") {
+      setCurrentPage("auth");
     } else {
       setCurrentPage("home");
     }
@@ -23,6 +26,7 @@ export default function App() {
     const handlePopState = () => {
       const currentPath = window.location.pathname;
       if (currentPath === "/admin") setCurrentPage("admin");
+      else if (currentPath === "/auth") setCurrentPage("auth");
       else if (currentPath === "/products") setCurrentPage("products");
       else setCurrentPage("home");
     };
@@ -58,7 +62,7 @@ export default function App() {
 
   return (
     <div className={`app-wrapper ${isAdmin ? "admin-mode" : ""}`}>
-      {!isAdmin && (
+      {!isAdmin && currentPage !== "auth" && (
         <Header
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
@@ -67,6 +71,8 @@ export default function App() {
       )}
       {isAdmin ? (
         <AdminRoot />
+      ) : currentPage === "auth" ? (
+        <AuthPage setCurrentPage={setCurrentPage} />
       ) : (
         <div key={currentPage} className="page-transition">
           {currentPage === "home" ? (
@@ -77,7 +83,7 @@ export default function App() {
         </div>
       )}
 
-      {!isAdmin && <Footer setCurrentPage={setCurrentPage} />}
+      {!isAdmin && currentPage !== "auth" && <Footer setCurrentPage={setCurrentPage} />}
     </div>
   );
 }
