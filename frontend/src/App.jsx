@@ -6,7 +6,10 @@ import Products from "./pages/Public/ProductsPage/ProductsPage";
 import AuthPage from "./pages/Public/AuthPage/AuthPage";
 import AdminRoot from "./pages/Admin/Components/AdminLayout/AdminLayout";
 import FloatingCart from "./components/common/FloatingCart/FloatingCart";
+import MyOrdersModal from "./components/common/MyOrders/MyOrdersModal";
+import ProfileModal from "./components/common/Profile/ProfileModal";
 import { useCart } from "./hooks/useCart";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -15,7 +18,9 @@ export default function App() {
     return savedUser ? JSON.parse(savedUser) : null;
   });
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { cart, addToCart, removeFromCart, updateQuantity, cartCount } = useCart();
+  const [isOrdersModalOpen, setIsOrdersModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const { cart, addToCart, removeFromCart, updateQuantity, clearCart, cartCount } = useCart();
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -68,6 +73,7 @@ export default function App() {
 
   return (
     <div className={`app-wrapper ${isAdmin ? "admin-mode" : ""}`}>
+      <Toaster position="top-center" />
       {!isAdmin && currentPage !== "auth" && (
         <Header
           currentPage={currentPage}
@@ -76,6 +82,8 @@ export default function App() {
           user={user}
           setUser={setUser}
           setIsCartOpen={setIsCartOpen}
+          setIsOrdersModalOpen={setIsOrdersModalOpen}
+          setIsProfileModalOpen={setIsProfileModalOpen}
         />
       )}
       {isAdmin ? (
@@ -94,14 +102,32 @@ export default function App() {
 
       {!isAdmin && currentPage !== "auth" && <Footer setCurrentPage={setCurrentPage} />}
 
-      {!isAdmin && currentPage !== "auth" && (
+      {currentPage === "products" && (
         <FloatingCart 
           cart={cart}
           cartCount={cartCount}
           removeFromCart={removeFromCart}
           updateQuantity={updateQuantity}
+          clearCart={clearCart}
           isCartOpen={isCartOpen}
           setIsCartOpen={setIsCartOpen}
+        />
+      )}
+
+      {user && (
+        <MyOrdersModal
+          isOpen={isOrdersModalOpen}
+          onClose={() => setIsOrdersModalOpen(false)}
+          user={user}
+        />
+      )}
+
+      {user && (
+        <ProfileModal
+          isOpen={isProfileModalOpen}
+          onClose={() => setIsProfileModalOpen(false)}
+          user={user}
+          setUser={setUser}
         />
       )}
     </div>

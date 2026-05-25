@@ -4,7 +4,7 @@ import { smoothScrollTo } from "../../../utils/scrollUtils";
 import { useScrollSpy } from "../../../hooks/useScrollSpy";
 import { Button } from "../Button/Button";
 
-export default function Header({ currentPage, setCurrentPage, cartCount, user, setUser, setIsCartOpen }) {
+export default function Header({ currentPage, setCurrentPage, cartCount, user, setUser, setIsCartOpen, setIsOrdersModalOpen, setIsProfileModalOpen }) {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [clickedSection, setClickedSection] = useState(null);
@@ -172,7 +172,16 @@ export default function Header({ currentPage, setCurrentPage, cartCount, user, s
                   </div>
                 </div>
                 <div className="user-dropdown-body">
-                  <button className="user-dropdown-item" onClick={() => setIsUserMenuOpen(false)}>
+                  <button className="user-dropdown-item" onClick={() => {
+                    setIsProfileModalOpen(true);
+                    setIsUserMenuOpen(false);
+                  }}>
+                    My Profile
+                  </button>
+                  <button className="user-dropdown-item" onClick={() => {
+                    setIsOrdersModalOpen(true);
+                    setIsUserMenuOpen(false);
+                  }}>
                     My Orders
                   </button>
                   <div className="user-dropdown-divider"></div>
@@ -193,15 +202,17 @@ export default function Header({ currentPage, setCurrentPage, cartCount, user, s
             )}
           </div>
 
-          <Button
-            variant="none"
-            className="icon-btn cart-btn"
-            onClick={() => setIsCartOpen(true)}
-            aria-label="Cart"
-          >
-            <ShoppingCart size={20} />
-            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-          </Button>
+          {currentPage === "products" && (
+            <Button
+              variant="none"
+              className="icon-btn cart-btn"
+              onClick={() => setIsCartOpen(true)}
+              aria-label="Cart"
+            >
+              <ShoppingCart size={20} />
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            </Button>
+          )}
         </div>
       </div>
     </header>

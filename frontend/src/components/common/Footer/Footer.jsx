@@ -115,12 +115,13 @@ export default function Footer({ setCurrentPage }) {
                 <img src="/icons/instagram.svg" alt="Instagram" />
               </a>
               <a
-                href="#"
-                className="icon x-twitter"
-                onClick={(e) => e.preventDefault()}
-                aria-label="X (Twitter)"
+                href="https://github.com/aldrsze"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="icon github"
+                aria-label="GitHub"
               >
-                <img src="/icons/x.svg" alt="X" />
+                <img src="/icons/github.svg" alt="GitHub" />
               </a>
             </div>
           </div>
