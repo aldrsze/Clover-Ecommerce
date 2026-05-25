@@ -1,86 +1,129 @@
 import React, { useState } from "react";
-import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, AlertCircle } from "lucide-react";
 
 export default function LoginForm({ onSwitchView, onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const validate = () => {
+    const next = {};
+    if (!formData.email)    next.email    = "Email is required";
+    if (!formData.password) next.password = "Password is required";
+    return next;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.email || !formData.password) {
-      setError(true);
-      setTimeout(() => setError(false), 400); // reset shake animation
+    const next = validate();
+    if (Object.keys(next).length) {
+      setErrors(next);
+      // Clear shake after animation
+      setTimeout(() => setErrors((prev) => ({ ...prev })), 500);
       return;
     }
-    // TODO: Implement actual login logic via API
+    setIsLoading(true);
+    // TODO: replace with actual API call
+    await new Promise((r) => setTimeout(r, 900));
     console.log("Login with:", formData);
+    setIsLoading(false);
     onLoginSuccess();
+  };
+
+  const setField = (field) => (e) => {
+    setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: null }));
   };
 
   return (
     <>
       <div className="auth-form-header">
-        <h2>Sign in to your account</h2>
-        <p>Welcome back! Please enter your details.</p>
+        <span className="auth-form-eyebrow">Welcome back</span>
+        <h2>
+          Sign in
+          <em> to your account</em>
+        </h2>
+        <p>Enter your credentials to continue ordering.</p>
       </div>
 
-      <form className="auth-form" onSubmit={handleSubmit}>
+      <form className="auth-form" onSubmit={handleSubmit} noValidate>
+        {/* Email */}
         <div className="auth-input-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="login-email">Email address</label>
           <div className="auth-input-wrapper">
             <input
-              id="email"
+              id="login-email"
               type="email"
-              className={`auth-input ${error && !formData.email ? 'has-error' : ''}`}
-              placeholder="Enter your email"
+              className={`auth-input${errors.email ? " has-error" : ""}`}
+              placeholder="you@example.com"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={setField("email")}
+              autoComplete="email"
             />
           </div>
-          {error && !formData.email && (
+          {errors.email && (
             <div className="auth-input-error" role="alert" aria-live="assertive">
-              <AlertCircle size={14} /> Email is required
+              <AlertCircle size={12} />
+              {errors.email}
             </div>
           )}
         </div>
 
+        {/* Password */}
         <div className="auth-input-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="login-password">Password</label>
           <div className="auth-input-wrapper">
             <input
-              id="password"
+              id="login-password"
               type={showPassword ? "text" : "password"}
-              className={`auth-input ${error && !formData.password ? 'has-error' : ''}`}
-              placeholder="Enter your password"
+              className={`auth-input${errors.password ? " has-error" : ""}`}
+              placeholder="Your password"
               value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              onChange={setField("password")}
+              autoComplete="current-password"
+              style={{ paddingRight: "48px" }}
             />
             <button
               type="button"
-              className={`auth-password-toggle ${showPassword ? 'is-visible' : ''}`}
-              onClick={() => setShowPassword(!showPassword)}
+              className="auth-password-toggle"
+              onClick={() => setShowPassword((s) => !s)}
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
-          {error && !formData.password && (
+          {errors.password && (
             <div className="auth-input-error" role="alert" aria-live="assertive">
-              <AlertCircle size={14} /> Password is required
+              <AlertCircle size={12} />
+              {errors.password}
             </div>
           )}
         </div>
 
-        <button type="submit" className="auth-btn-primary">
-          Sign In
+        {/* Forgot link */}
+        <div style={{ textAlign: "right", marginTop: "-8px", marginBottom: "8px" }}>
+          <button type="button" className="auth-link" style={{ fontSize: "12px" }}>
+            Forgot password?
+          </button>
+        </div>
+
+        {/* Submit */}
+        <button
+          type="submit"
+          className={`auth-btn-primary${isLoading ? " is-loading" : ""}`}
+          disabled={isLoading}
+        >
+          {isLoading && <span className="auth-btn-spinner" aria-hidden="true" />}
+          {isLoading ? "Signing in…" : "Sign In"}
         </button>
       </form>
 
+      {/* Switch view */}
       <div className="auth-footer">
         Don't have an account?{" "}
         <button type="button" className="auth-link" onClick={onSwitchView}>
-          Sign up
+          Create one
         </button>
       </div>
     </>

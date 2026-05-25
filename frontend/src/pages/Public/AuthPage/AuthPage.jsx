@@ -4,11 +4,8 @@ import RegisterForm from "./components/RegisterForm";
 import "./AuthPage.css";
 
 export default function AuthPage({ setCurrentPage }) {
-  const [view, setView] = useState("login"); // "login" or "register"
+  const [view, setView] = useState("login");
 
-  // If the user lands here, we probably don't want the regular header/footer
-  // Our App.jsx handles layout based on currentPage. 
-  // However, we need a way to go back home.
   const goHome = () => {
     window.history.pushState({}, "", "/");
     setCurrentPage("home");
@@ -16,41 +13,91 @@ export default function AuthPage({ setCurrentPage }) {
 
   return (
     <div className="auth-page">
-      {/* Mobile-only header (hidden on lg+) */}
-      <div className="auth-mobile-header" onClick={goHome} style={{ cursor: 'pointer' }}>
+      {/* Mobile-only header — visible below lg */}
+      <div
+        className="auth-mobile-header"
+        onClick={goHome}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === "Enter" && goHome()}
+        aria-label="Go to Clover homepage"
+      >
         <img src="/images/brand/clover-logo.png" alt="Clover" />
-        <span style={{ fontWeight: 700, fontSize: '18px' }}>Clover</span>
+        <span>Clover</span>
       </div>
 
-      {/* Brand Panel (left side on lg+) */}
+      {/* ── BRAND PANEL ────────────────────────────────────────────────── */}
       <div className="auth-brand-panel">
-        <div className="auth-brand-header" onClick={goHome} style={{ cursor: 'pointer' }}>
+        <div
+          className="auth-brand-header"
+          onClick={goHome}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && goHome()}
+          aria-label="Go to Clover homepage"
+        >
           <img src="/images/brand/clover-logo.png" alt="Clover Logo" />
           <h1>Clover</h1>
         </div>
-        <div className="auth-brand-content">
-          <h2>Fresh pastries, delivered to your door.</h2>
-          <p>
-            Join Clover to order our signature cinnamon rolls and artisanal treats. 
-            Experience quality in every bite.
-          </p>
+
+        {/* ── FLOATING BRAND LOGO BACKGROUND EFFECT ── */}
+        <div className="auth-floating-bg" aria-hidden="true">
+          <div className="auth-bg-clover item-1">
+            <img src="/images/brand/clover-logo.png" alt="" />
+          </div>
+          <div className="auth-bg-clover item-2">
+            <img src="/images/brand/clover-logo.png" alt="" />
+          </div>
+          <div className="auth-bg-clover item-3">
+            <img src="/images/brand/clover-logo.png" alt="" />
+          </div>
+          <div className="auth-bg-clover item-4">
+            <img src="/images/brand/clover-logo.png" alt="" />
+          </div>
+          <div className="auth-bg-clover item-5">
+            <img src="/images/brand/clover-logo.png" alt="" />
+          </div>
         </div>
-        <div className="auth-brand-footer" style={{ fontSize: '13px', opacity: 0.6 }}>
-          © {new Date().getFullYear()} Clover Bakery. All rights reserved.
+
+        <div className="auth-brand-content">
+          <span className="auth-brand-eyebrow">Artisan Bakery &amp; Coffee</span>
+          <h2>
+            Fresh pastries,
+            <em>delivered.</em>
+          </h2>
+          <p>
+            Join Clover to order our signature cinnamon rolls and artisanal
+            treats. Experience quality in every bite, every time.
+          </p>
+
+          <div className="auth-brand-badges">
+            <div className="auth-badge">
+              <span className="auth-badge-dot"></span>
+              <span>Open Daily</span>
+            </div>
+            <div className="auth-badge">
+              <span className="auth-badge-dot"></span>
+              <span>Free Delivery</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="auth-brand-footer">
+          © {new Date().getFullYear()} Clover
         </div>
       </div>
 
-      {/* Form Panel (right side on lg+, full width on sm/md) */}
+      {/* ── FORM PANEL ─────────────────────────────────────────────────── */}
       <div className="auth-form-panel">
         <div className="auth-form-container">
           {view === "login" ? (
-            <LoginForm 
-              onSwitchView={() => setView("register")} 
+            <LoginForm
+              onSwitchView={() => setView("register")}
               onLoginSuccess={goHome}
             />
           ) : (
-            <RegisterForm 
-              onSwitchView={() => setView("login")} 
+            <RegisterForm
+              onSwitchView={() => setView("login")}
               onRegisterSuccess={goHome}
             />
           )}
