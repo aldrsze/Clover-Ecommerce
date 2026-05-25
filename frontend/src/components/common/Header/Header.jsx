@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Search, ShoppingCart } from "lucide-react";
+import { Search, ShoppingCart, User } from "lucide-react";
 import { smoothScrollTo } from "../../../utils/scrollUtils";
 import { useScrollSpy } from "../../../hooks/useScrollSpy";
 import { Button } from "../Button/Button";
@@ -129,6 +129,15 @@ export default function Header({ currentPage, setCurrentPage, cartCount }) {
               autoFocus={isSearchActive}
             />
           </div>
+
+          <Button
+            variant="none"
+            className="icon-btn user-btn"
+            onClick={() => alert("Customer account functionality coming soon!")}
+            aria-label="User"
+          >
+            <User size={20} />
+          </Button>
 
           <Button
             variant="none"
