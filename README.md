@@ -1,55 +1,121 @@
 # Clover | Full-Stack E-Commerce
 
-A modern, high-end e-commerce platform built with the **PERN stack**. This project features a responsive artisan catalog and a robust administrative dashboard for inventory management.
+A PERN stack e-commerce app with a public storefront and an admin dashboard.
 
----
+## Tech Stack
 
-## 🛠️ Tech Stack
+- Frontend: React 19, Vite
+- Backend: Node.js, Express
+- Database: PostgreSQL
 
-- **Frontend:** React 19, Vite, CSS3 (Grid & Flexbox), Lucide React
-- **Backend:** Node.js, Express, Multer
-- **Database:** PostgreSQL
-- **Tools:** Git, NPM
+## What You Need
 
-## ✨ Key Features
+- Node.js LTS
+- npm
+- PostgreSQL running locally
 
-- **Fluid Product Catalog:** Responsive grid layout with 5-6 cards per row on desktop.
-- **Dynamic Filtering:** Category and preference-based filtering powered by PostgreSQL.
-- **Admin Dashboard:** Full product management interface with image upload capabilities.
-- **Scroll-Spy Navigation:** Seamless category browsing using Intersection Observer.
-- **Premium Aesthetics:** Custom animations and high-density visual design.
+## Local Setup
 
-## 🚀 Local Setup
+### 1. Clone the repo
 
-### Prerequisites
-- Node.js (LTS)
-- PostgreSQL
+```bash
+git clone https://github.com/aldrsze/Clover-Ecommerce.git
+cd Clover-Ecommerce
+```
 
-### 1. Clone the repository
-  ```cmd
-    git clone https://github.com/aldrsze/Clover-Ecommerce.git
-  ```
+### 2. Create the database
 
-### 2. Backend Configuration
-- Navigate to `/backend`
-- Run `npm install`
-- Create a `.env` file in the `/backend` directory:
-  ```env
-  PORT=5000
-  DB_USER=your_postgres_user
-  DB_HOST=localhost
-  DB_DATABASE=your_database_name
-  DB_PASSWORD=your_postgres_password
-  DB_PORT=5432
-  ```
-- Start server: `npm run dev`
+Create a PostgreSQL database named `clover_db`, then import the schema/data from `clover_db.sql`.
 
-### 3. Frontend Configuration
-- Navigate to `/frontend`
-- Run `npm install`
-- Start client: `npm run dev`
+Example with `psql`:
 
----
+```bash
+psql -U postgres -d clover_db -f clover_db.sql
+```
 
-**Developed by aldrsze**  
-*Showcasing full-stack fundamentals and modern web design.*
+If you use pgAdmin or another GUI, restore the same SQL file into the `clover_db` database.
+
+### 3. Set up the backend
+
+```bash
+cd backend
+npm install
+```
+
+Copy `backend/.env.example` to `backend/.env` and update the values for your local machine:
+
+```env
+NODE_ENV=development
+PORT=5000
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=clover_db
+DB_PASSWORD=yourpassword
+DB_PORT=5432
+JWT_SECRET=your_local_secret
+CORS_ALLOWED_ORIGINS=http://localhost:5173
+```
+
+Start the backend:
+
+```bash
+npm run dev
+```
+
+### 4. Set up the frontend
+
+Open a new terminal:
+
+```bash
+cd frontend
+npm install
+```
+
+Copy `frontend/.env.example` to `frontend/.env` and keep these values for local development:
+
+```env
+VITE_SERVER_URL=http://localhost:5000
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+Start the frontend:
+
+```bash
+npm run dev
+```
+
+### 5. Open the app
+
+- Frontend: `http://localhost:5173`
+- Backend API: `http://localhost:5000`
+- Health check: `http://localhost:5000/health`
+
+## Useful Scripts
+
+Backend:
+
+```bash
+cd backend
+npm run dev
+```
+
+Frontend:
+
+```bash
+cd frontend
+npm run dev
+```
+
+Build frontend:
+
+```bash
+cd frontend
+npm run build
+```
+
+## Notes
+
+- Keep your `.env` files out of version control.
+- If you change the backend port, update `VITE_API_BASE_URL` and `CORS_ALLOWED_ORIGINS`.
+- The app uses local PostgreSQL and does not require deployment configuration.
+

@@ -38,7 +38,10 @@ if (allowedOriginsEnv.trim()) {
 }
 
 // Apply security headers
-app.use(helmet());
+// Disable Helmet's default CORP so browser-loaded images from the Vite dev server can render.
+app.use(helmet({
+	crossOriginResourcePolicy: false
+}));
 
 // Rate limiter: basic global limits suitable as a default for production
 const limiter = rateLimit({
@@ -50,7 +53,11 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads'), {
+	setHeaders: (res) => {
+		res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+	}
+}));
 
 // Routes
 const productRoutes = require('./routes/productRoutes');
