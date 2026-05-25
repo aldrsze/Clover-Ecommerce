@@ -6,6 +6,7 @@ const ProductGrid = ({
   filteredProducts,
   addedCards,
   handleAddToCart,
+  handleBuyNow,
   loading,
   totalVisible,
 }) => {
@@ -51,6 +52,7 @@ const ProductGrid = ({
                     product={product}
                     isAdded={isAdded}
                     handleAddToCart={handleAddToCart}
+                    handleBuyNow={handleBuyNow}
                   />
                 );
               })}

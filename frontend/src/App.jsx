@@ -5,11 +5,17 @@ import Home from "./pages/Public/HomePage/HomePage";
 import Products from "./pages/Public/ProductsPage/ProductsPage";
 import AuthPage from "./pages/Public/AuthPage/AuthPage";
 import AdminRoot from "./pages/Admin/Components/AdminLayout/AdminLayout";
+import FloatingCart from "./components/common/FloatingCart/FloatingCart";
 import { useCart } from "./hooks/useCart";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
-  const { addToCart, cartCount } = useCart();
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { cart, addToCart, removeFromCart, updateQuantity, cartCount } = useCart();
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -67,23 +73,37 @@ export default function App() {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           cartCount={cartCount}
+          user={user}
+          setUser={setUser}
+          setIsCartOpen={setIsCartOpen}
         />
       )}
       {isAdmin ? (
         <AdminRoot />
       ) : currentPage === "auth" ? (
-        <AuthPage setCurrentPage={setCurrentPage} />
+        <AuthPage setCurrentPage={setCurrentPage} setUser={setUser} />
       ) : (
         <div key={currentPage} className="page-transition">
           {currentPage === "home" ? (
             <Home setCurrentPage={setCurrentPage} />
           ) : (
-            <Products addToCart={addToCart} />
+            <Products addToCart={addToCart} setIsCartOpen={setIsCartOpen} />
           )}
         </div>
       )}
 
       {!isAdmin && currentPage !== "auth" && <Footer setCurrentPage={setCurrentPage} />}
+
+      {!isAdmin && currentPage !== "auth" && (
+        <FloatingCart 
+          cart={cart}
+          cartCount={cartCount}
+          removeFromCart={removeFromCart}
+          updateQuantity={updateQuantity}
+          isCartOpen={isCartOpen}
+          setIsCartOpen={setIsCartOpen}
+        />
+      )}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { Button } from "../../../../../components/common/Button/Button";
 import { PREF_LABEL, TAG_STYLES } from "../../../../../constants/menuConstants";
 import "./ProductCard.css";
 
-const ProductCard = ({ product, isAdded, handleAddToCart }) => {
+const ProductCard = ({ product, isAdded, handleAddToCart, handleBuyNow }) => {
   const tags = (product.preferences || []).slice(0, 2);
 
   return (
@@ -21,9 +21,9 @@ const ProductCard = ({ product, isAdded, handleAddToCart }) => {
           variant="primary"
           className="quick-add-overlay"
           onClick={() => handleAddToCart(product)}
-          aria-label={`Quick add ${product.name} to cart`}
+          aria-label={`Add ${product.name} to cart`}
         >
-          {isAdded ? "✓ Added" : "+ Quick Add"}
+          {isAdded ? "✓ Added" : "Add to Cart"}
         </Button>
       </div>
       <div className="card-body">
@@ -52,19 +52,14 @@ const ProductCard = ({ product, isAdded, handleAddToCart }) => {
         {product.description && (
           <p className="description">{product.description}</p>
         )}
-        <div className="card-footer">
-          {/* Safely handle the numeric type parsing */}
-          <span className="price">₱{Number(product.price).toFixed(2)}</span>
-          <Button
-            variant="none"
-            className="add-btn"
-            onClick={() => handleAddToCart(product)}
-            aria-label={`Add ${product.name} to cart`}
-            title="Add to cart"
-          >
-            {isAdded ? "✓" : "+"}
-          </Button>
-        </div>
+        <span className="price">₱{Number(product.price).toFixed(2)}</span>
+        <Button
+          variant="secondary"
+          className="btn-block-xs"
+          onClick={() => handleBuyNow(product)}
+        >
+          Buy Now
+        </Button>
       </div>
     </article>
   );

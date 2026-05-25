@@ -3,10 +3,13 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import "./AuthPage.css";
 
-export default function AuthPage({ setCurrentPage }) {
+export default function AuthPage({ setCurrentPage, setUser }) {
   const [view, setView] = useState("login");
 
-  const goHome = () => {
+  const goHome = (userObj) => {
+    if (userObj && setUser) {
+      setUser(userObj);
+    }
     window.history.pushState({}, "", "/");
     setCurrentPage("home");
   };

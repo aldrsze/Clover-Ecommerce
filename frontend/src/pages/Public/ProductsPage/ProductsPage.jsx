@@ -11,7 +11,7 @@ import {
   useCartFeedback,
 } from "../../../hooks/useCatalog";
 
-export default function Products({ addToCart }) {
+export default function Products({ addToCart, setIsCartOpen }) {
   const { selectedPrefs, togglePref, removePref } = useProductFilters();
 
   const queryString =
@@ -23,6 +23,11 @@ export default function Products({ addToCart }) {
     [selectedPrefs],
   );
   const { addedCards, handleAddToCart } = useCartFeedback(addToCart);
+
+  const handleBuyNow = (product) => {
+    addToCart(product);
+    setIsCartOpen(true);
+  };
 
   useScrollReset();
 
@@ -73,6 +78,7 @@ export default function Products({ addToCart }) {
               filteredProducts={filteredProducts}
               addedCards={addedCards}
               handleAddToCart={handleAddToCart}
+              handleBuyNow={handleBuyNow}
               loading={loading}
               totalVisible={totalVisible}
             />

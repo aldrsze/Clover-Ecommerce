@@ -4,8 +4,9 @@ import { smoothScrollTo } from "../../../utils/scrollUtils";
 import { useScrollSpy } from "../../../hooks/useScrollSpy";
 import { Button } from "../Button/Button";
 
-export default function Header({ currentPage, setCurrentPage, cartCount }) {
+export default function Header({ currentPage, setCurrentPage, cartCount, user, setUser, setIsCartOpen }) {
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [clickedSection, setClickedSection] = useState(null);
   const activeSection = useScrollSpy(["home", "about", "contact"]);
 
@@ -130,22 +131,72 @@ export default function Header({ currentPage, setCurrentPage, cartCount }) {
             />
           </div>
 
-          <Button
-            variant="none"
-            className="icon-btn user-btn"
-            onClick={() => {
-              window.history.pushState({}, "", "/auth");
-              setCurrentPage("auth");
-            }}
-            aria-label="User"
-          >
-            <User size={20} />
-          </Button>
+          <div className="user-menu-wrapper" style={{ position: "relative" }}>
+            <Button
+              variant="none"
+              className="icon-btn user-btn"
+              onClick={() => {
+                if (user) {
+                  setIsUserMenuOpen(!isUserMenuOpen);
+                } else {
+                  window.history.pushState({}, "", "/auth");
+                  setCurrentPage("auth");
+                }
+              }}
+              aria-label="User"
+            >
+              {user ? (
+                <div className="user-avatar" style={{ 
+                  width: 24, height: 24, borderRadius: '50%', backgroundColor: 'var(--text)', color: 'var(--bg)', 
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 'bold' 
+                }}>
+                  {user.first_name[0]}{user.last_name[0]}
+                </div>
+              ) : (
+                <User size={20} />
+              )}
+            </Button>
+
+            {user && isUserMenuOpen && (
+              <div className="user-dropdown">
+                <div className="user-dropdown-header" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <div className="user-avatar-large" style={{ 
+                    width: 36, height: 36, borderRadius: '50%', backgroundColor: 'var(--text)', color: 'var(--bg)', 
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 'bold', flexShrink: 0
+                  }}>
+                    {user.first_name[0]}{user.last_name[0]}
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                    <strong>{user.first_name} {user.last_name}</strong>
+                    <span>{user.email}</span>
+                  </div>
+                </div>
+                <div className="user-dropdown-body">
+                  <button className="user-dropdown-item" onClick={() => setIsUserMenuOpen(false)}>
+                    My Orders
+                  </button>
+                  <div className="user-dropdown-divider"></div>
+                  <button 
+                    className="user-dropdown-item text-danger"
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("user");
+                      setUser(null);
+                      setIsUserMenuOpen(false);
+                      setCurrentPage("home");
+                    }}
+                  >
+                    Log out
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
 
           <Button
             variant="none"
             className="icon-btn cart-btn"
-            onClick={() => setCurrentPage("products")}
+            onClick={() => setIsCartOpen(true)}
             aria-label="Cart"
           >
             <ShoppingCart size={20} />

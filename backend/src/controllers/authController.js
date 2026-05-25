@@ -1,0 +1,95 @@
+const db = require('../config/db');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+// Register a new customer
+exports.register = async (req, res) => {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(400).json({ error: 'All fields are required.' });
+    }
+
+    // Check if customer already exists
+    const existingCustomer = await db.query('SELECT * FROM customers WHERE email = $1', [email]);
+    if (existingCustomer.rows.length > 0) {
+      return res.status(409).json({ error: 'Email is already registered.' });
+    }
+
+    // Hash the password
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
+    // Insert new customer
+    const newCustomer = await db.query(
+      `INSERT INTO customers (first_name, last_name, email, password_hash) 
+       VALUES ($1, $2, $3, $4) RETURNING customer_id, first_name, last_name, email`,
+      [firstName, lastName, email, passwordHash]
+    );
+
+    const user = newCustomer.rows[0];
+
+    // Generate JWT
+    const token = jwt.sign(
+      { customerId: user.customer_id, email: user.email },
+      process.env.JWT_SECRET || 'fallback_secret_key',
+      { expiresIn: '7d' }
+    );
+
+    res.status(201).json({
+      message: 'Account created successfully',
+      token,
+      user
+    });
+  } catch (err) {
+    console.error('Registration error:', err);
+    res.status(500).json({ error: 'Server error during registration.' });
+  }
+};
+
+// Login customer
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required.' });
+    }
+
+    // Check if customer exists
+    const customer = await db.query('SELECT * FROM customers WHERE email = $1', [email]);
+    if (customer.rows.length === 0) {
+      return res.status(401).json({ error: 'Invalid email or password.' });
+    }
+
+    const user = customer.rows[0];
+
+    // Verify password
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid email or password.' });
+    }
+
+    // Generate JWT
+    const token = jwt.sign(
+      { customerId: user.customer_id, email: user.email },
+      process.env.JWT_SECRET || 'fallback_secret_key',
+      { expiresIn: '7d' }
+    );
+
+    res.status(200).json({
+      message: 'Logged in successfully',
+      token,
+      user: {
+        customer_id: user.customer_id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email
+      }
+    });
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).json({ error: 'Server error during login.' });
+  }
+};

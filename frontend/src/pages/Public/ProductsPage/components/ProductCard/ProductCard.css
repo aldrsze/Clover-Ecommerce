@@ -65,7 +65,7 @@
   color: white;
   text-align: center;
   padding: 0.8rem;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -79,6 +79,8 @@
 .product-card:hover .quick-add-overlay {
   transform: translateY(0);
 }
+
+
 
 /* ── CARD BODY ────────────────────────────────────────────────────────────── */
 
@@ -139,79 +141,15 @@
   font-size: clamp(0.75rem, calc(0.75rem + (100vw - 1024px) * 0.000240), 0.85rem);
   color: var(--text-muted);
   line-height: 1.5;
-  margin: 0;
+  margin: 0 0 clamp(0.8rem, 1.8vw, 1rem) 0;
   min-height: 2.25em;
-}
-
-.product-card .card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: auto;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--border);
-  gap: 0.75rem;
+  flex-grow: 1;
 }
 
 .product-card .price {
-  /*
-    font-size : 0.95rem → 1.15rem
-  */
-  font-size: clamp(0.95rem, calc(0.95rem + (100vw - 1024px) * 0.000481), 1.15rem);
-  font-weight: 300;
+  font-size: clamp(1rem, 1.1vw, 1.15rem);
+  font-weight: 400;
   color: var(--text);
-  letter-spacing: 0.02em;
-  margin: 0;
-  flex-shrink: 0;
-}
-
-.product-card .add-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  /*
-    size : 30px → 34px
-  */
-  width: clamp(30px, calc(30px + (100vw - 1024px) * 0.009615), 34px);
-  height: clamp(30px, calc(30px + (100vw - 1024px) * 0.009615), 34px);
-  border-radius: 3px;
-  border: 1.5px solid var(--accent);
-  background: var(--accent);
-  color: white;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.25s ease,
-              background 0.2s ease;
-  font-size: 1rem;
-  line-height: 1;
-  position: relative;
-  overflow: hidden;
-}
-
-.product-card .add-btn::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -75%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.28), transparent);
-  transform: skewX(-20deg);
-  transition: left 0.45s ease;
-  pointer-events: none;
-}
-
-.product-card .add-btn:hover::before {
-  left: 130%;
-}
-
-.product-card .add-btn:hover {
-  background: #222;
-  border-color: #222;
-  transform: scale(1.08) rotate(1deg);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-}
-
-.product-card .add-btn:active {
-  transform: scale(0.96);
+  margin-bottom: clamp(0.8rem, 1.8vw, 1rem);
+  display: block;
 }

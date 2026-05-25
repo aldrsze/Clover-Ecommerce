@@ -100,6 +100,14 @@
   margin-top: auto;
 }
 
+/* Modifier: Extra small full-width button (Product Catalog) */
+.btn-block-xs {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 0.75rem;
+  margin-top: auto;
+}
+
 /* =============================================================================
    ADMIN BUTTONS
    ============================================================================= */

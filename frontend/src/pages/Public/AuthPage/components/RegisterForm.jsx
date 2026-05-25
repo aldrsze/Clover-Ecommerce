@@ -19,7 +19,6 @@ const STRENGTH_CLASSES = ["", "active-weak", "active-fair", "active-good", "acti
 export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading]       = useState(false);
-  const [agreed, setAgreed]             = useState(false);
   const [formData, setFormData]         = useState({
     firstName: "",
     lastName: "",
@@ -37,7 +36,6 @@ export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
     if (!formData.email)                  next.email     = "Email is required";
     if (!formData.password)               next.password  = "Password is required";
     else if (formData.password.length < 8) next.password = "At least 8 characters";
-    if (!agreed)                          next.agreed    = "Please accept the terms";
     return next;
   };
 
@@ -50,11 +48,40 @@ export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
       return;
     }
     setIsLoading(true);
-    // TODO: replace with actual API call
-    await new Promise((r) => setTimeout(r, 1100));
-    console.log("Register with:", formData);
-    setIsLoading(false);
-    onRegisterSuccess();
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrors({ email: data.error || "Registration failed" });
+        setIsLoading(false);
+        return;
+      }
+
+      // Success
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      
+      // We could update a global state here if provided via context or props,
+      // but for now, we'll just trigger the success callback which usually re-routes or reloads.
+      setIsLoading(false);
+      onRegisterSuccess(data.user);
+
+    } catch (err) {
+      console.error("Register Error:", err);
+      setErrors({ email: "Server error. Please try again later." });
+      setIsLoading(false);
+    }
   };
 
   const setField = (field) => (e) => {
@@ -83,7 +110,7 @@ export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
                 id="reg-first"
                 type="text"
                 className={`auth-input${errors.firstName ? " has-error" : ""}`}
-                placeholder="Jane"
+                placeholder="Enter your first name"
                 value={formData.firstName}
                 onChange={setField("firstName")}
                 autoComplete="given-name"
@@ -104,7 +131,7 @@ export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
                 id="reg-last"
                 type="text"
                 className={`auth-input${errors.lastName ? " has-error" : ""}`}
-                placeholder="Doe"
+                placeholder="Enter your last name"
                 value={formData.lastName}
                 onChange={setField("lastName")}
                 autoComplete="family-name"
@@ -192,32 +219,10 @@ export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
           )}
         </div>
 
-        {/* Terms */}
-        <div className="auth-input-group" style={{ marginBottom: "24px" }}>
-          <label className="auth-checkbox-group" style={{ cursor: "pointer" }}>
-            <input
-              type="checkbox"
-              className="auth-checkbox"
-              checked={agreed}
-              onChange={(e) => {
-                setAgreed(e.target.checked);
-                if (errors.agreed) setErrors((prev) => ({ ...prev, agreed: null }));
-              }}
-              id="reg-terms"
-            />
-            <span className="auth-checkbox-label" style={{ fontWeight: "normal", fontSize: "12px" }}>
-              I agree to the{" "}
-              <a href="#" onClick={(e) => e.preventDefault()}>Terms of Service</a>
-              {" "}and{" "}
-              <a href="#" onClick={(e) => e.preventDefault()}>Privacy Policy</a>
-            </span>
-          </label>
-          {errors.agreed && (
-            <div className="auth-input-error" role="alert" aria-live="assertive">
-              <AlertCircle size={12} />
-              {errors.agreed}
-            </div>
-          )}
+        {/* Presentation Notice */}
+        <div className="auth-presentation-notice" style={{ marginBottom: "24px", fontSize: "12px", color: "var(--text-muted)", lineHeight: "1.5" }}>
+          <AlertCircle size={14} style={{ display: "inline", verticalAlign: "middle", marginRight: "6px" }} />
+          This website is for presentation purposes only, developed by <strong> aldrsze</strong>.
         </div>
 
         {/* Submit */}

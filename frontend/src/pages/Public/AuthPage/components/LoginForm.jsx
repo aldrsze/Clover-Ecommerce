@@ -24,11 +24,36 @@ export default function LoginForm({ onSwitchView, onLoginSuccess }) {
       return;
     }
     setIsLoading(true);
-    // TODO: replace with actual API call
-    await new Promise((r) => setTimeout(r, 900));
-    console.log("Login with:", formData);
-    setIsLoading(false);
-    onLoginSuccess();
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrors({ email: data.error || "Login failed" });
+        setIsLoading(false);
+        return;
+      }
+
+      // Success
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      setIsLoading(false);
+      onLoginSuccess(data.user);
+
+    } catch (err) {
+      console.error("Login Error:", err);
+      setErrors({ email: "Server error. Please try again later." });
+      setIsLoading(false);
+    }
   };
 
   const setField = (field) => (e) => {
@@ -101,12 +126,7 @@ export default function LoginForm({ onSwitchView, onLoginSuccess }) {
           )}
         </div>
 
-        {/* Forgot link */}
-        <div style={{ textAlign: "right", marginTop: "-8px", marginBottom: "8px" }}>
-          <button type="button" className="auth-link" style={{ fontSize: "12px" }}>
-            Forgot password?
-          </button>
-        </div>
+
 
         {/* Submit */}
         <button
