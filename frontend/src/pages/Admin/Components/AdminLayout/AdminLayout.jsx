@@ -3,6 +3,7 @@ import Dashboard from "../../Dashboard/Dashboard";
 import Products from "../../ManageProducts/ManageProducts";
 import Orders from "../../ManageOrders/ManageOrders";
 import ManageCustomers from "../../ManageCustomers/ManageCustomers";
+import ManageMessages from "../../ManageMessages/ManageMessages";
 import Utilities from "../../Utilities/Utilities";
 import { AdminSidebar } from "../AdminSidebar/AdminSidebar";
 
@@ -18,6 +19,7 @@ export default function AdminRoot() {
         {activeTab === "Products" && <Products />}
         {activeTab === "Orders" && <Orders />}
         {activeTab === "Customers" && <ManageCustomers />}
+        {activeTab === "Messages" && <ManageMessages />}
         {activeTab === "Utilities" && <Utilities />}
       </main>
     </div>

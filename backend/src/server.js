@@ -15,12 +15,16 @@ const authRoutes = require('./routes/authRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const adminOrderRoutes = require('./routes/adminOrderRoutes');
+const contactRoutes = require('./routes/contactRoutes');
+const adminContactRoutes = require('./routes/adminContactRoutes');
 
 app.use('/api/products', productRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin/customers', customerRoutes);
 app.use('/api/admin/orders', adminOrderRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/admin/contact', adminContactRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Backend API running on port ${PORT}`));

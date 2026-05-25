@@ -9,6 +9,7 @@ import {
   HelpCircle,
   X,
   ExternalLink,
+  Mail,
 } from "lucide-react";
 import { Button } from "../../../../components/common/Button/Button";
 import { useMemo, useState, useEffect } from "react";
@@ -81,6 +82,7 @@ export const AdminSidebar = ({ setActiveTab, activeTab }) => {
     { name: "Products", icon: Package },
     { name: "Orders", icon: ShoppingCart },
     { name: "Customers", icon: Users },
+    { name: "Messages", icon: Mail },
     { name: "Utilities", icon: Wrench },
   ];
 
