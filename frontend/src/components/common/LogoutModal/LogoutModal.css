@@ -1,0 +1,125 @@
+/* LogoutModal.css */
+.logout-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: logoutFadeIn 0.2s ease-out forwards;
+}
+
+.logout-modal {
+  background: var(--bg);
+  width: 100%;
+  max-width: 420px;
+  border-radius: var(--radius);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--border);
+  position: relative;
+  overflow: hidden;
+  animation: logoutSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.logout-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.logout-close-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text);
+}
+
+.logout-content {
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logout-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.logout-content h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.logout-content p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 320px;
+}
+
+.logout-actions {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  background: var(--bg-offset);
+  border-top: 1px solid var(--border);
+}
+
+.logout-actions button {
+  flex: 1;
+  justify-content: center;
+}
+
+.logout-cancel {
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.logout-cancel:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.logout-confirm {
+  color: #fff;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.logout-confirm:hover {
+  background-color: #dc2626 !important;
+  border-color: #dc2626 !important;
+}
+
+@keyframes logoutFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes logoutSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}

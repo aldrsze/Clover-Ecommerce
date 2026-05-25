@@ -16,10 +16,17 @@ export const useScrollSpy = (sectionIds, offset = 150) => {
           }
         }
       }
+
+      // If we have scrolled to the absolute bottom of the page, always highlight the last section
+      const isAtBottom = window.innerHeight + Math.round(window.scrollY) >= document.body.offsetHeight - 10;
+      if (isAtBottom) {
+        current = sectionIds[sectionIds.length - 1];
+      }
+
       setActiveSection(current);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initialize on mount
     return () => window.removeEventListener('scroll', handleScroll);
   }, [sectionIds, offset]);

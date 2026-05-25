@@ -109,7 +109,7 @@ export default function LoginForm({ onSwitchView, onLoginSuccess }) {
               value={formData.password}
               onChange={setField("password")}
               autoComplete="current-password"
-              style={{ paddingRight: "48px" }}
+              style={{ paddingRight: "3rem" }}
             />
             <button
               type="button"

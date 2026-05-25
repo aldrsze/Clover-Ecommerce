@@ -182,7 +182,7 @@ export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
               value={formData.password}
               onChange={setField("password")}
               autoComplete="new-password"
-              style={{ paddingRight: "48px" }}
+              style={{ paddingRight: "3rem" }}
             />
             <button
               type="button"
@@ -222,8 +222,8 @@ export default function RegisterForm({ onSwitchView, onRegisterSuccess }) {
         </div>
 
         {/* Presentation Notice */}
-        <div className="auth-presentation-notice" style={{ marginBottom: "24px", fontSize: "12px", color: "var(--text-muted)", lineHeight: "1.5" }}>
-          <AlertCircle size={14} style={{ display: "inline", verticalAlign: "middle", marginRight: "6px" }} />
+        <div className="auth-presentation-notice" style={{ marginBottom: "1.5rem", fontSize: "0.75rem", color: "var(--text-muted)", lineHeight: "1.5" }}>
+          <AlertCircle size={14} style={{ display: "inline", verticalAlign: "middle", marginRight: "0.375rem" }} />
           This website is for presentation purposes only, developed by <strong> aldrsze</strong>.
         </div>
 
