@@ -91,6 +91,7 @@ export default function App() {
           cartCount={cartCount}
           user={user}
           setUser={setUser}
+          clearCart={clearCart}
           setIsCartOpen={setIsCartOpen}
           setIsOrdersModalOpen={setIsOrdersModalOpen}
           setIsProfileModalOpen={setIsProfileModalOpen}

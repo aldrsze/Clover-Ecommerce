@@ -2,10 +2,27 @@
 
 const BASE_URL = 'http://localhost:5000/api';
 
+const buildHeaders = (extraHeaders = {}, isFormData = false) => {
+  const headers = { ...extraHeaders };
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  if (!isFormData && !headers['Content-Type']) {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  return headers;
+};
+
 export const apiClient = {
   // Generic GET request
-  get: async (endpoint) => {
-    const response = await fetch(`${BASE_URL}${endpoint}`);
+  get: async (endpoint, headers = {}) => {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+      headers: buildHeaders(headers),
+    });
     if (!response.ok) {
       throw new Error(`API Error: ${response.statusText}`);
     }
@@ -13,17 +30,10 @@ export const apiClient = {
   },
 
   // Generic POST request
-  post: async (endpoint, body, isFormData = false) => {
-    const headers = {};
-    
-    // If we are NOT sending a file (FormData), tell the server we are sending JSON
-    if (!isFormData) {
-      headers['Content-Type'] = 'application/json';
-    }
-
+  post: async (endpoint, body, isFormData = false, headers = {}) => {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
-      headers,
+      headers: buildHeaders(headers, isFormData),
       body: isFormData ? body : JSON.stringify(body),
     });
     
@@ -34,16 +44,10 @@ export const apiClient = {
   },
 
   // Generic PUT request
-  put: async (endpoint, body, isFormData = false) => {
-    const headers = {};
-
-    if (!isFormData) {
-      headers['Content-Type'] = 'application/json';
-    }
-
+  put: async (endpoint, body, isFormData = false, headers = {}) => {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       method: 'PUT',
-      headers,
+      headers: buildHeaders(headers, isFormData),
       body: isFormData ? body : JSON.stringify(body),
     });
 
@@ -54,9 +58,10 @@ export const apiClient = {
   },
 
   // Generic DELETE request
-  del: async (endpoint) => {
+  del: async (endpoint, headers = {}) => {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       method: 'DELETE',
+      headers: buildHeaders(headers),
     });
 
     if (!response.ok) {

@@ -4,7 +4,7 @@ import { smoothScrollTo } from "../../../utils/scrollUtils";
 import { useScrollSpy } from "../../../hooks/useScrollSpy";
 import { Button } from "../Button/Button";
 
-export default function Header({ currentPage, setCurrentPage, cartCount, user, setUser, setIsCartOpen, setIsOrdersModalOpen, setIsProfileModalOpen }) {
+export default function Header({ currentPage, setCurrentPage, cartCount, user, setUser, clearCart, setIsCartOpen, setIsOrdersModalOpen, setIsProfileModalOpen }) {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [clickedSection, setClickedSection] = useState(null);
@@ -190,6 +190,7 @@ export default function Header({ currentPage, setCurrentPage, cartCount, user, s
                     onClick={() => {
                       localStorage.removeItem("token");
                       localStorage.removeItem("user");
+                      clearCart();
                       setUser(null);
                       setIsUserMenuOpen(false);
                       setCurrentPage("home");

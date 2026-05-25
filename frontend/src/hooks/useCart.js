@@ -2,8 +2,21 @@ import { useState, useEffect } from "react";
 
 export const useCart = () => {
   const [cart, setCart] = useState(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      localStorage.removeItem("clover_cart");
+      return [];
+    }
+
     const saved = localStorage.getItem("clover_cart");
-    return saved ? JSON.parse(saved) : [];
+    if (!saved) return [];
+
+    try {
+      return JSON.parse(saved);
+    } catch {
+      localStorage.removeItem("clover_cart");
+      return [];
+    }
   });
 
   useEffect(() => {
