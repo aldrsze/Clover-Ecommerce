@@ -25,3 +25,21 @@ Developed by **aldrsze**.
 ## Setup
 
 Local setup instructions have been moved to [setup.md](setup.md).
+
+## Screenshots & Demo
+
+Browse the UI screenshots in the `screenshots/` folder. Quick previews:
+
+[![Hero thumbnail](screenshots/thumb-012814.png)](screenshots/Screenshot%202026-05-26%20012814.png)
+[![Bestseller Page thumbnail](screenshots/thumb-012822.png)](screenshots/Screenshot%202026-05-26%20012822.png)
+[![Cta thumbnail](screenshots/thumb-012925.png)](screenshots/Screenshot%202026-05-26%20012925.png)
+[![product page thumbnail](screenshots/thumb-012848.png)](screenshots/Screenshot%202026-05-26%20012848.png)
+[![login thumbnail](screenshots/thumb-012907.png)](screenshots/Screenshot%202026-05-26%20012907.png)
+[![signup thumbnail](screenshots/thumb-012915.png)](screenshots/Screenshot%202026-05-26%20012915.png)
+
+Preview GIF:
+
+![Preview GIF](screenshots/preview.gif)
+
+A short demo recording is included at `screenshots/Clover.mp4` — click to download/play the walkthrough video.
+

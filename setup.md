@@ -77,10 +77,20 @@ npm run dev
 ```
 
 ## 5. Open the app
+Open `http://localhost:5173` in your browser after both servers are running.
 
-- Frontend: `http://localhost:5173`
-- Backend API: `http://localhost:5000`
+## Pre-created admin account
 
+For convenience a local admin account is already present in the database:
+
+- **Username:** admin
+- **Password:** admin1234
+
+Use these credentials to sign in via the admin/login UI. If the account is missing you can either register via the app.
+
+## Demo assets
+
+The repository includes a `screenshots/` folder with UI screenshots and a `Clover.mp4` recording demonstrating the app. Open `screenshots/` to review visuals or play the video for a quick walkthrough.
 ## Useful Commands
 
 Backend:
