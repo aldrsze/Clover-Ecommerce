@@ -115,9 +115,11 @@ export const useManageProducts = () => {
 
     // Set the existing image as preview
     if (product.image) {
-      const imageUrl = product.image.startsWith("uploads/")
-        ? `${import.meta.env.VITE_SERVER_URL}/${product.image}`
-        : `/${product.image}`;
+      const imageUrl = product.image.startsWith("data:image")
+        ? product.image
+        : product.image.startsWith("uploads/")
+          ? `${import.meta.env.VITE_SERVER_URL}/${product.image}`
+          : `/${product.image}`;
       setImagePreview(imageUrl);
     } else {
       setImagePreview(null);
@@ -130,22 +132,25 @@ export const useManageProducts = () => {
   // ── Handle form submission for both add and edit ──
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", newProduct.name);
-    formData.append("description", newProduct.description);
-    formData.append("price", newProduct.price);
-    formData.append("stock_quantity", newProduct.stock_quantity);
-    formData.append("category", newProduct.category);
 
     // Convert comma-separated preferences to array
     const prefsArray = newProduct.preferences
       .split(",")
       .map((p) => p.trim())
       .filter((p) => p !== "");
-    formData.append("preferences", JSON.stringify(prefsArray));
 
-    if (imageFile) {
-      formData.append("image", imageFile);
+    const payload = {
+      name: newProduct.name,
+      description: newProduct.description,
+      price: newProduct.price,
+      stock_quantity: newProduct.stock_quantity,
+      category: newProduct.category,
+      preferences: prefsArray,
+    };
+
+    if (imageFile && imagePreview) {
+      // imagePreview contains the Base64 string from FileReader
+      payload.image = imagePreview;
     }
 
     try {
@@ -153,10 +158,10 @@ export const useManageProducts = () => {
       if (modalMode === "edit" && editingProduct) {
         response = await productsService.updateProduct(
           editingProduct.id,
-          formData,
+          payload,
         );
       } else {
-        response = await productsService.createProduct(formData);
+        response = await productsService.createProduct(payload);
       }
 
       if (response.ok) {

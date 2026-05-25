@@ -18,10 +18,10 @@ export const productsService = {
   /**
    * Create a new product.
    */
-  createProduct: async (formData) => {
+  createProduct: async (payload) => {
     try {
-      // Uses the generic POST method, flagging it as FormData (true)
-      return await apiClient.post('/products', formData, true);
+      // Uses the generic POST method (isFormData = false)
+      return await apiClient.post('/products', payload, false);
     } catch (error) {
       console.error("productsService.createProduct Error:", error);
       throw error;
@@ -31,9 +31,9 @@ export const productsService = {
   /**
    * Update an existing product.
    */
-  updateProduct: async (id, formData) => {
+  updateProduct: async (id, payload) => {
     try {
-      return await apiClient.put(`/products/${id}`, formData, true);
+      return await apiClient.put(`/products/${id}`, payload, false);
     } catch (error) {
       console.error("productsService.updateProduct Error:", error);
       throw error;

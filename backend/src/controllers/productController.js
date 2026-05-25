@@ -31,19 +31,10 @@ exports.getProducts = async (req, res) => {
  * @param {Object} res - Express response object.
  */
 exports.createProduct = async (req, res) => {
-    let { name, description, price, stock_quantity, category, preferences } = req.body;
+    let { name, description, price, stock_quantity, category, preferences, image } = req.body;
     
-    // imagePath should be the relative path to the uploaded file
-    const imagePath = req.file ? `uploads/${req.file.filename}` : (req.body.image || null);
-
-    // If preferences is a string (from FormData), parse it
-    if (typeof preferences === 'string') {
-        try {
-            preferences = JSON.parse(preferences);
-        } catch (e) {
-            preferences = preferences.split(',').map(p => p.trim());
-        }
-    }
+    // imagePath is now directly the base64 string from frontend
+    const imagePath = image || null;
 
     try {
         const newProduct = await Product.create(name, description, price, stock_quantity, imagePath, category, preferences);
@@ -61,7 +52,7 @@ exports.createProduct = async (req, res) => {
  */
 exports.updateProduct = async (req, res) => {
     const { id } = req.params;
-    let { name, description, price, stock_quantity, category, preferences } = req.body;
+    let { name, description, price, stock_quantity, category, preferences, image } = req.body;
 
     // Build the fields object for the dynamic update
     const fields = {};
@@ -70,23 +61,11 @@ exports.updateProduct = async (req, res) => {
     if (price !== undefined) fields.price = price;
     if (stock_quantity !== undefined) fields.stock_quantity = stock_quantity;
     if (category !== undefined) fields.category = category;
+    if (preferences !== undefined) fields.preferences = preferences;
 
-    // Handle image — only update if a new file was uploaded
-    if (req.file) {
-        fields.image_path = `uploads/${req.file.filename}`;
-    }
-
-    // If preferences is a string (from FormData), parse it
-    if (preferences !== undefined) {
-        if (typeof preferences === 'string') {
-            try {
-                fields.preferences = JSON.parse(preferences);
-            } catch (e) {
-                fields.preferences = preferences.split(',').map(p => p.trim());
-            }
-        } else {
-            fields.preferences = preferences;
-        }
+    // Handle image — if provided as base64 string
+    if (image !== undefined) {
+        fields.image_path = image;
     }
 
     try {

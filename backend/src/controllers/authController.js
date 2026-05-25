@@ -34,10 +34,10 @@ exports.register = async (req, res) => {
 
     const user = newCustomer.rows[0];
 
-    // Generate JWT
+    // Generate JWT (requires JWT_SECRET to be set)
     const token = jwt.sign(
       { customerId: user.customer_id, email: user.email },
-      process.env.JWT_SECRET || 'fallback_secret_key',
+      process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -79,10 +79,10 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password.' });
     }
 
-    // Generate JWT
+    // Generate JWT (requires JWT_SECRET to be set)
     const token = jwt.sign(
       { customerId: user.customer_id, email: user.email },
-      process.env.JWT_SECRET || 'fallback_secret_key',
+      process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
